@@ -35,6 +35,12 @@
   --sidebar-w: 256px;
   --topbar-h:  56px;
   --radius:    6px;
+
+  /* Gender colors */
+  --male: #0b5fff;
+  --female: #ff2d87;
+  --male-bg: rgba(11,95,255,0.08);
+  --female-bg: rgba(255,45,135,0.08);
 }
 
 /* ── RESET ── */
@@ -42,15 +48,41 @@
 html, body {
   height: 100%;
   font-family: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text);
-  background: var(--gray-1);
+  background: transparent;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+body.app-mode {
+  background: var(--gray-1);
+}
+
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--gray-2); }
 ::-webkit-scrollbar-thumb { background: var(--gray-3); border-radius: 4px; }
+
+/* Gender labels */
+.gender{
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:6px;
+  display:inline-block;
+  font-size:13px;
+  letter-spacing:0.3px;
+  border:1.5px solid;
+  white-space:nowrap;
+}
+.gender.male{
+  color:var(--male);
+  background:var(--male-bg);
+  border-color:var(--male);
+}
+.gender.female{
+  color:var(--female);
+  background:var(--female-bg);
+  border-color:var(--female);
+}
 
 /* ══════════════════════════════════════
    LOADING
@@ -71,7 +103,7 @@ html, body {
 }
 .loading-overlay h2 {
   font-family: 'Source Serif 4', serif;
-  font-size: 22px; font-weight: 700; color: var(--navy);
+  font-size: 24px; font-weight: 700; color: var(--navy);
   letter-spacing: 1px;
 }
 .ld-spinner {
@@ -90,7 +122,7 @@ html, body {
   position: fixed; bottom: 24px; right: 24px;
   background: var(--green); color: var(--white);
   padding: 12px 20px; border-radius: var(--radius);
-  font-weight: 600; font-size: 13px; z-index: 9998;
+  font-weight: 600; font-size: 15px; z-index: 9998;
   box-shadow: var(--shadow-lg);
   transform: translateY(80px); opacity: 0;
   transition: all .35s cubic-bezier(.22,1,.36,1);
@@ -105,7 +137,20 @@ html, body {
 #login-page {
   min-height: 100vh;
   display: flex;
-  background: var(--white);
+  position: relative;
+  background: url('bg.png') center center / cover no-repeat;
+}
+#login-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  z-index: 0;
+}
+#login-page > * {
+  position: relative;
+  z-index: 1;
 }
 .login-left {
   width: 420px; flex-shrink: 0;
@@ -122,17 +167,20 @@ html, body {
   background: linear-gradient(90deg, var(--red) 50%, var(--gold) 50%);
 }
 .login-left .gov-emblem {
-  font-size: 64px; margin-bottom: 24px;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
+  width: 240px; margin: 18px auto 26px;
+}
+.login-left .gov-emblem img {
+  width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.2));
 }
 .login-left h1 {
   font-family: 'Source Serif 4', serif;
-  font-size: 28px; font-weight: 700; color: var(--white);
+  font-size: 30px; font-weight: 700; color: var(--white);
   letter-spacing: 2px; text-align: center; line-height: 1.2;
   margin-bottom: 8px;
 }
 .login-left .login-sub {
-  font-size: 11px; font-weight: 600; color: rgba(255,255,255,.55);
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,.55);
   letter-spacing: 2.5px; text-transform: uppercase; text-align: center;
   line-height: 1.6;
 }
@@ -142,13 +190,13 @@ html, body {
   margin: 20px auto;
 }
 .login-left .login-instansi {
-  font-size: 12px; color: rgba(255,255,255,.7);
+  font-size: 14px; color: rgba(255,255,255,.7);
   text-align: center; line-height: 1.6;
 }
 .login-right {
   flex: 1; display: flex; align-items: center; justify-content: center;
   padding: 48px 40px;
-  background: var(--gray-1);
+  background: transparent;
 }
 .login-form-box {
   width: 100%; max-width: 420px;
@@ -162,11 +210,11 @@ html, body {
 @keyframes loginIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform:translateY(0); } }
 .login-form-box .form-title {
   font-family: 'Source Serif 4', serif;
-  font-size: 20px; font-weight: 700; color: var(--navy);
+  font-size: 22px; font-weight: 700; color: var(--navy);
   margin-bottom: 4px;
 }
 .login-form-box .form-title-sub {
-  font-size: 13px; color: var(--text-sub); margin-bottom: 24px;
+  font-size: 15px; color: var(--text-sub); margin-bottom: 24px;
 }
 
 /* Role tabs */
@@ -178,13 +226,13 @@ html, body {
 .role-tab {
   flex: 1; padding: 9px 6px;
   border: none; background: var(--white);
-  font-family: inherit; font-size: 12px; font-weight: 600;
+  font-family: inherit; font-size: 14px; font-weight: 600;
   color: var(--text-sub); cursor: pointer;
   transition: all .2s; text-align: center;
   border-right: 1px solid var(--border); letter-spacing: .3px;
 }
 .role-tab:last-child { border-right: none; }
-.role-tab .rt-ico { display: block; font-size: 16px; margin-bottom: 3px; }
+.role-tab .rt-ico { display: block; font-size: 18px; margin-bottom: 3px; }
 .role-tab:hover { background: var(--gray-1); color: var(--text); }
 .role-tab.active { background: var(--navy); color: var(--white); }
 .role-tab.active.admin-role { background: var(--red); }
@@ -193,7 +241,7 @@ html, body {
 /* Form fields */
 .form-group { margin-bottom: 14px; }
 .form-group label {
-  display: block; font-size: 12px; font-weight: 600;
+  display: block; font-size: 14px; font-weight: 600;
   color: var(--text-sub); margin-bottom: 5px;
   letter-spacing: .3px; text-transform: uppercase;
 }
@@ -201,7 +249,7 @@ html, body {
   width: 100%;
   background: var(--white); border: 1.5px solid var(--border);
   border-radius: var(--radius); padding: 10px 12px;
-  color: var(--text); font-family: inherit; font-size: 14px;
+  color: var(--text); font-family: inherit; font-size: 16px;
   transition: all .2s; outline: none;
 }
 .form-group input:focus {
@@ -212,7 +260,7 @@ html, body {
 .captcha-box {
   background: var(--gray-2); border: 1.5px solid var(--border);
   border-radius: var(--radius); padding: 10px 14px;
-  font-weight: 700; font-size: 16px; letter-spacing: 5px;
+  font-weight: 700; font-size: 18px; letter-spacing: 5px;
   color: var(--navy); user-select: none; white-space: nowrap;
   font-family: monospace; text-decoration: line-through;
   cursor: pointer; display: flex; align-items: center;
@@ -222,7 +270,7 @@ html, body {
 .btn-login {
   width: 100%; padding: 11px;
   background: var(--navy); border: none; border-radius: var(--radius);
-  color: var(--white); font-family: inherit; font-size: 14px;
+  color: var(--white); font-family: inherit; font-size: 16px;
   font-weight: 700; cursor: pointer; margin-top: 8px;
   transition: all .2s; letter-spacing: .3px;
 }
@@ -234,21 +282,21 @@ html, body {
 
 .error-msg {
   background: var(--red-lt); border: 1px solid rgba(204,0,0,.2);
-  color: var(--red); font-size: 12px; font-weight: 600;
+  color: var(--red); font-size: 14px; font-weight: 600;
   padding: 8px 12px; border-radius: var(--radius);
   margin-top: 8px; display: none;
 }
 .login-links { display: flex; justify-content: center; margin-top: 14px; }
 .link-btn {
   background: none; border: none; color: var(--navy);
-  cursor: pointer; font-size: 12px; font-family: inherit;
+  cursor: pointer; font-size: 14px; font-family: inherit;
   padding: 4px 8px; border-radius: 4px;
   text-decoration: underline; font-weight: 600;
 }
 .link-btn:hover { background: var(--navy-lt); }
 
 .role-hint {
-  font-size: 12px; color: var(--text-sub); margin-bottom: 16px;
+  font-size: 14px; color: var(--text-sub); margin-bottom: 16px;
   padding: 10px 12px; background: var(--gray-1);
   border-left: 3px solid var(--navy); border-radius: 0 4px 4px 0;
 }
@@ -286,11 +334,11 @@ html, body {
 }
 .topbar-brand h1 {
   font-family: 'Source Serif 4', serif;
-  font-size: 15px; font-weight: 700;
+  font-size: 17px; font-weight: 700;
   color: var(--white); letter-spacing: 1px;
 }
 .topbar-brand span {
-  font-size: 9px; color: rgba(255,255,255,.5);
+  font-size: 11px; color: rgba(255,255,255,.5);
   font-weight: 600; letter-spacing: 1.5px; display: block;
   text-transform: uppercase;
 }
@@ -298,7 +346,7 @@ html, body {
   background: rgba(255,255,255,.1);
   border: 1px solid rgba(255,255,255,.2);
   border-radius: 4px; padding: 5px 12px;
-  font-size: 12px; color: rgba(255,255,255,.9);
+  font-size: 14px; color: rgba(255,255,255,.9);
   font-weight: 600; max-width: 280px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
@@ -307,7 +355,7 @@ html, body {
 }
 .firebase-status {
   display: flex; align-items: center; gap: 5px;
-  font-size: 11px; color: rgba(255,255,255,.55);
+  font-size: 13px; color: rgba(255,255,255,.55);
   padding: 4px 10px;
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.1);
@@ -322,7 +370,7 @@ html, body {
 
 .role-badge {
   padding: 3px 10px; border-radius: 3px;
-  font-size: 10px; font-weight: 800;
+  font-size: 12px; font-weight: 800;
   letter-spacing: 1.5px; text-transform: uppercase;
 }
 .role-badge.operator { background: rgba(244,160,28,.2); color: var(--gold); border: 1px solid rgba(244,160,28,.3); }
@@ -331,25 +379,26 @@ html, body {
 
 .user-pill {
   display: flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 20px; padding: 4px 12px 4px 4px;
+  background: none; /* remove card background */
+  border: none;
+  border-radius: 0; padding: 0; margin-left:12px;
 }
 .user-pill .avatar {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--red), var(--gold));
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--navy); /* solid color by default */
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: var(--white);
+  font-size: 14px; font-weight: 700; color: var(--white);
 }
-.user-pill .avatar.admin-av    { background: linear-gradient(135deg, #CC0000, #FF6B6B); }
-.user-pill .avatar.pengawas-av { background: linear-gradient(135deg, #5B21B6, #8B5CF6); }
-.user-pill .name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); }
+.user-pill .avatar.admin-av    { background: var(--red); }
+.user-pill .avatar.pengawas-av { background: #5B21B6; }
+.user-pill .avatar.operator-av { background: var(--navy); }
+.user-pill .name { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.95); }
 
 .btn-logout {
   background: rgba(204,0,0,.15);
   border: 1px solid rgba(204,0,0,.3);
   color: #FCA5A5; font-family: inherit;
-  font-size: 11px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   padding: 6px 12px; border-radius: 4px;
   cursor: pointer; transition: all .2s;
   letter-spacing: .3px; text-transform: uppercase;
@@ -368,8 +417,22 @@ html, body {
   flex-shrink: 0; overflow-y: auto;
   padding: 16px 0 24px;
 }
+.sidebar-footer {
+  margin-top: auto; padding: 14px 18px; border-top: 1px solid var(--border); background: var(--gray-1);
+}
+.sidebar-user { display:flex; gap:12px; align-items:center; }
+.sidebar-user .avatar { width:44px; height:44px; border-radius:50%; font-weight:700; display:flex; align-items:center; justify-content:center; background: var(--navy); color:var(--white); font-size:14px; flex-shrink:0; }
+.sidebar-user .avatar.operator-av { background: var(--navy); }
+.sidebar-user .avatar.pengawas-av { background: #5B21B6; }
+.sidebar-user .avatar.admin-av { background: var(--red); }
+.sidebar-user-info { display:flex; flex-direction:column; overflow:hidden; }
+.sidebar-user-name { font-weight:700; color:var(--text); font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
+.sidebar-user-role { font-size:12px; margin-top:4px; display:inline-block; padding:4px 8px; border-radius:6px; }
+.sidebar-footer .btn-outline { width:100%; padding:10px 12px; font-size:14px; border-radius:8px; display:block; text-align:center; }
+.sidebar-footer .btn-danger { width:100%; padding:10px 12px; font-size:14px; border-radius:8px; display:block; margin-top:8px; background:var(--red); color:#fff; border:none; }
+.sidebar-footer .btn-danger:hover { background:#b30000; }
 .nav-section-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
   text-transform: uppercase; color: var(--gray-4);
   padding: 14px 18px 5px;
 }
@@ -381,10 +444,10 @@ html, body {
   margin: 1px 0;
 }
 .nav-item .ico {
-  font-size: 15px; width: 20px; text-align: center; flex-shrink: 0;
+  font-size: 17px; width: 20px; text-align: center; flex-shrink: 0;
 }
 .nav-item .label {
-  font-size: 13px; font-weight: 500; color: var(--text-sub);
+  font-size: 15px; font-weight: 500; color: var(--text-sub);
   transition: color .15s; white-space: nowrap;
 }
 .nav-item:hover { background: var(--gray-1); }
@@ -405,7 +468,7 @@ html, body {
 
 .page-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .page-header .breadcrumb {
-  font-size: 12px; color: var(--text-sub); margin-bottom: 6px;
+  font-size: 14px; color: var(--text-sub); margin-bottom: 6px;
   display: flex; align-items: center; gap: 6px;
 }
 .page-header .breadcrumb::before {
@@ -415,9 +478,9 @@ html, body {
 }
 .page-header h2 {
   font-family: 'Source Serif 4', serif;
-  font-size: 22px; font-weight: 700; color: var(--navy);
+  font-size: 24px; font-weight: 700; color: var(--navy);
 }
-.page-header .subtitle { font-size: 13px; color: var(--text-sub); margin-top: 3px; }
+.page-header .subtitle { font-size: 15px; color: var(--text-sub); margin-top: 3px; }
 
 .section { display: none; animation: fadeIn .25s ease; }
 .section.active { display: block; }
@@ -433,7 +496,7 @@ html, body {
   box-shadow: var(--shadow-sm);
 }
 .card-title {
-  font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+  font-size: 13px; font-weight: 800; letter-spacing: 1.5px;
   text-transform: uppercase; color: var(--text-sub);
   margin-bottom: 16px;
   display: flex; align-items: center; gap: 8px;
@@ -462,12 +525,12 @@ html, body {
 .stat-card.amber::before { background: var(--gold); }
 .stat-card.green::before { background: var(--green); }
 .stat-card.red::before   { background: var(--red); }
-.stat-card .stat-ico { font-size: 22px; margin-bottom: 8px; display: block; }
+.stat-card .stat-ico { font-size: 24px; margin-bottom: 8px; display: block; }
 .stat-card .stat-val {
   font-family: 'Source Serif 4', serif;
-  font-size: 26px; color: var(--navy); font-weight: 700; line-height: 1;
+  font-size: 28px; color: var(--navy); font-weight: 700; line-height: 1;
 }
-.stat-card .stat-label { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+.stat-card .stat-label { font-size: 14px; color: var(--text-sub); margin-top: 4px; }
 
 /* ─── WELCOME BANNER ─── */
 .welcome-banner {
@@ -482,15 +545,15 @@ html, body {
 }
 .welcome-banner h3 {
   font-family: 'Source Serif 4', serif;
-  font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px;
+  font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 4px;
 }
-.welcome-banner p { font-size: 12px; color: var(--text-sub); }
+.welcome-banner p { font-size: 14px; color: var(--text-sub); }
 .npsn-tag {
   display: inline-block;
   background: var(--navy-lt); color: var(--navy);
   border: 1px solid rgba(0,51,102,.2);
   padding: 3px 12px; border-radius: 3px;
-  font-size: 11px; font-weight: 700; margin-top: 10px;
+  font-size: 13px; font-weight: 700; margin-top: 10px;
   letter-spacing: .5px;
 }
 
@@ -503,13 +566,13 @@ html, body {
 
 .field { display: flex; flex-direction: column; gap: 5px; }
 .field label {
-  font-size: 11px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   letter-spacing: .5px; text-transform: uppercase; color: var(--text-sub);
 }
 .field input, .field select, .field textarea {
   background: var(--white); border: 1.5px solid var(--border);
   border-radius: var(--radius); padding: 9px 12px;
-  color: var(--text); font-family: inherit; font-size: 13px;
+  color: var(--text); font-family: inherit; font-size: 15px;
   transition: all .2s; outline: none;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
@@ -519,14 +582,14 @@ html, body {
 .field input[readonly] { background: var(--gray-1); color: var(--text-sub); cursor: default; }
 .field select option { background: var(--white); }
 .field textarea { resize: vertical; min-height: 80px; }
-.field .hint { font-size: 11px; color: var(--gray-4); }
+.field .hint { font-size: 13px; color: var(--gray-4); }
 
 .radio-group { display: flex; gap: 8px; }
 .radio-btn {
   flex: 1; display: flex; align-items: center; justify-content: center;
   gap: 7px; padding: 9px; background: var(--white);
   border: 1.5px solid var(--border); border-radius: var(--radius);
-  cursor: pointer; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-size: 15px; font-weight: 600;
   color: var(--text-sub); transition: all .15s; user-select: none;
 }
 .radio-btn:has(input:checked) {
@@ -540,7 +603,7 @@ html, body {
   margin: 20px 0 14px;
 }
 .section-divider span {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; color: var(--navy); white-space: nowrap;
 }
 .section-divider::before, .section-divider::after {
@@ -550,7 +613,7 @@ html, body {
 /* ─── BUTTONS ─── */
 .btn-save {
   background: var(--navy); border: none; border-radius: var(--radius);
-  color: var(--white); font-family: inherit; font-size: 13px; font-weight: 700;
+  color: var(--white); font-family: inherit; font-size: 15px; font-weight: 700;
   padding: 10px 24px; cursor: pointer; transition: all .2s;
   display: inline-flex; align-items: center; gap: 7px;
   letter-spacing: .3px;
@@ -560,31 +623,31 @@ html, body {
 .btn-outline {
   background: var(--white); border: 1.5px solid var(--border);
   border-radius: var(--radius); color: var(--text-sub);
-  font-family: inherit; font-size: 13px; font-weight: 600;
+  font-family: inherit; font-size: 15px; font-weight: 600;
   padding: 10px 20px; cursor: pointer; transition: all .2s;
 }
 .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
 .btn-danger {
   background: var(--red-lt); border: 1px solid rgba(204,0,0,.2);
   border-radius: 4px; color: var(--red); font-family: inherit;
-  font-size: 12px; font-weight: 600; padding: 5px 12px;
+  font-size: 14px; font-weight: 600; padding: 5px 12px;
   cursor: pointer; transition: all .2s;
 }
 .btn-danger:hover { background: rgba(204,0,0,.15); }
-.btn-sm { font-size: 12px; padding: 7px 14px; }
+.btn-sm { font-size: 14px; padding: 7px 14px; }
 
 /* ─── TABLE ─── */
-.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .data-table thead tr th {
-  padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700;
+  padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 700;
   letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub);
   background: var(--gray-1); border-bottom: 2px solid var(--border);
 }
 .data-table tbody tr td { padding: 12px 14px; border-bottom: 1px solid var(--gray-2); color: var(--text); }
 .data-table tbody tr:hover td { background: var(--navy-lt); }
-.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .admin-table thead tr th {
-  padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700;
+  padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 700;
   letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub);
   background: var(--gray-1); border-bottom: 2px solid var(--border);
 }
@@ -596,7 +659,7 @@ html, body {
 .badge {
   display: inline-flex; align-items: center;
   padding: 2px 9px; border-radius: 3px;
-  font-size: 11px; font-weight: 700; letter-spacing: .3px;
+  font-size: 13px; font-weight: 700; letter-spacing: .3px;
 }
 .badge-green  { background: var(--green-lt); color: var(--green); border: 1px solid rgba(26,122,62,.2); }
 .badge-red    { background: var(--red-lt); color: var(--red); border: 1px solid rgba(204,0,0,.2); }
@@ -614,41 +677,41 @@ html, body {
   border-left: 3px solid var(--gold);
   border-radius: var(--radius); padding: 14px 16px; margin-top: 12px;
 }
-.notif-box .notif-title { font-size: 12px; font-weight: 700; color: #92400E; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.notif-box .notif-item { font-size: 12px; color: #78350F; margin-bottom: 5px; padding-left: 12px; position: relative; }
+.notif-box .notif-title { font-size: 14px; font-weight: 700; color: #92400E; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.notif-box .notif-item { font-size: 14px; color: #78350F; margin-bottom: 5px; padding-left: 12px; position: relative; }
 .notif-box .notif-item::before { content: '•'; position: absolute; left: 0; color: var(--gold); }
 .notif-box strong { color: var(--text); }
 
 .kib-summary { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
 .kib-stat { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
-.kib-stat .kib-val { font-family: 'Source Serif 4', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
-.kib-stat .kib-lbl { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+.kib-stat .kib-val { font-family: 'Source Serif 4', serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+.kib-stat .kib-lbl { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
 
 .sub-card { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; }
-.sub-card .sub-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub); margin-bottom: 12px; }
+.sub-card .sub-title { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub); margin-bottom: 12px; }
 
 .map-placeholder {
   background: var(--gray-1); border: 1.5px dashed var(--border);
   border-radius: var(--radius); height: 200px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 8px; color: var(--text-sub); font-size: 13px; cursor: pointer; transition: all .2s;
+  gap: 8px; color: var(--text-sub); font-size: 15px; cursor: pointer; transition: all .2s;
 }
 .map-placeholder:hover { border-color: var(--navy); color: var(--navy); background: var(--navy-lt); }
-.map-placeholder span.ico { font-size: 32px; }
+.map-placeholder span.ico { font-size: 34px; }
 #gmap-iframe { width: 100%; height: 200px; border-radius: var(--radius); border: 1px solid var(--border); display: none; }
 
 .input-unit { position: relative; }
 .input-unit input { padding-right: 44px; }
-.input-unit .unit { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); font-weight: 700; pointer-events: none; }
+.input-unit .unit { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--text-sub); font-weight: 700; pointer-events: none; }
 
 .pegawai-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
 .pegawai-item { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
-.pegawai-item .pi-title { font-size: 11px; font-weight: 700; color: var(--text-sub); letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+.pegawai-item .pi-title { font-size: 13px; font-weight: 700; color: var(--text-sub); letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
 .gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .abk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
 .abk-item { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
-.abk-item .abk-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.abk-item .abk-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 
 /* ─── SEKOLAH GRID ─── */
 .sekolah-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
@@ -660,8 +723,8 @@ html, body {
   box-shadow: var(--shadow-sm);
 }
 .sekolah-card:hover { border-left-color: var(--navy); box-shadow: var(--shadow); transform: translateY(-1px); }
-.sekolah-card .sk-name { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
-.sekolah-card .sk-npsn { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+.sekolah-card .sk-name { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.sekolah-card .sk-npsn { font-size: 13px; color: var(--text-sub); font-weight: 600; }
 .sekolah-card .sk-stats { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
 
 /* ─── READONLY ─── */
@@ -670,7 +733,7 @@ html, body {
   background: rgba(91,33,182,.06); border: 1px solid rgba(91,33,182,.2);
   border-left: 3px solid #5B21B6;
   border-radius: var(--radius); padding: 9px 14px; margin-bottom: 14px;
-  font-size: 12px; color: #5B21B6; font-weight: 600;
+  font-size: 14px; color: #5B21B6; font-weight: 600;
   display: flex; align-items: center; gap: 8px;
 }
 
@@ -689,17 +752,17 @@ html, body {
   animation: loginIn .3s cubic-bezier(.22,1,.36,1);
   position: relative;
 }
-.modal-box h3 { font-family: 'Source Serif 4', serif; font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-.modal-box .modal-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
-.modal-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: var(--text-sub); font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
+.modal-box h3 { font-family: 'Source Serif 4', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.modal-box .modal-sub { font-size: 15px; color: var(--text-sub); margin-bottom: 20px; }
+.modal-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: var(--text-sub); font-size: 20px; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
 .modal-close:hover { background: var(--gray-2); }
 .modal-box .btn-row { margin-top: 18px; }
 .modal-box .form-group { margin-bottom: 14px; }
-.modal-box .form-group label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-sub); display: block; margin-bottom: 5px; }
+.modal-box .form-group label { font-size: 13px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-sub); display: block; margin-bottom: 5px; }
 .modal-box .form-group input {
   width: 100%; background: var(--white); border: 1.5px solid var(--border);
   border-radius: var(--radius); padding: 9px 12px; color: var(--text);
-  font-family: inherit; font-size: 14px; transition: all .2s; outline: none;
+  font-family: inherit; font-size: 16px; transition: all .2s; outline: none;
 }
 .modal-box .form-group input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(0,51,102,.08); }
 .modal-box .error-msg { display: none; margin-top: 8px; }
@@ -721,6 +784,101 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
 .role-tab svg { display: block; margin: 0 auto 4px; }
 .stat-ico svg { display: block; }
 .rt-ico { display: flex; align-items: center; justify-content: center; height: 24px; }
+
+/* ── Detail tabs (pengawas view) ── */
+.detail-tab {
+  padding: 11px 18px;
+  border: none; background: none;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  color: var(--text-sub); cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .15s; white-space: nowrap;
+  letter-spacing: .3px;
+}
+.detail-tab:hover { color: var(--text); background: var(--gray-1); }
+.detail-tab.active { color: #5B21B6; border-bottom-color: #5B21B6; background: rgba(91,33,182,.04); }
+
+/* ── Readonly field display ── */
+.ro-field { display: flex; flex-direction: column; gap: 4px; }
+.ro-field label {
+  font-size: 12px; font-weight: 700; letter-spacing: .5px;
+  text-transform: uppercase; color: var(--text-sub);
+}
+.ro-field .gender {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1.5px solid;
+  white-space: nowrap;
+  display: inline-block;
+}
+.ro-val {
+  background: var(--gray-1); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 9px 12px;
+  color: var(--text); font-size: 15px; min-height: 38px;
+  word-break: break-word;
+}
+.ro-val.empty { color: var(--gray-4); font-style: italic; }
+.ro-val.textarea { min-height: 72px; white-space: pre-wrap; }
+
+/* ── Search input focus ── */
+#sekolah-search:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(0,51,102,.08); }
+#sekolah-filter-status:focus { border-color: var(--navy); }
+
+/* ──────────────────────────────────────
+   DASHBOARD PENGAWAS — GRAFIK & CHARTS
+──────────────────────────────────────── */
+
+/* Bar Horizontal — Kelengkapan Data */
+.chart-bars-horizontal { display: flex; flex-direction: column; gap: 12px; }
+.chart-bar-row { display: flex; align-items: center; gap: 10px; }
+.chart-bar-label { min-width: 140px; font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chart-bar-container { flex: 1; background: var(--gray-2); border-radius: 20px; height: 24px; position: relative; overflow: hidden; }
+.chart-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold), var(--green)); border-radius: 20px; transition: width .3s; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+.chart-bar-pct { font-size: 11px; font-weight: 700; color: var(--white); }
+
+/* Bar Vertikal — Jumlah Siswa */
+.chart-bars-vertical { display: flex; align-items: flex-end; gap: 8px; height: 200px; }
+.chart-bar-v { flex: 1; background: linear-gradient(180deg, var(--navy), var(--blue)); border-radius: 4px 4px 0 0; position: relative; min-height: 20px; display: flex; align-items: flex-end; justify-content: center; cursor: pointer; transition: all .2s; }
+.chart-bar-v:hover { filter: brightness(1.1); }
+.chart-bar-v-label { position: absolute; bottom: -24px; font-size: 11px; font-weight: 600; color: var(--text-sub); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chart-bar-v-val { position: absolute; top: -20px; font-size: 12px; font-weight: 700; color: var(--navy); }
+
+/* Grouped Bar — Guru + Siswa */
+.chart-grouped-bars { display: flex; flex-direction: column; gap: 14px; }
+.chart-grouped-row { display: flex; align-items: center; gap: 10px; }
+.chart-grouped-label { min-width: 140px; font-size: 13px; font-weight: 600; color: var(--text); }
+.chart-grouped-bars-inner { flex: 1; display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+.chart-grouped-bar { flex: 1; background: var(--gray-3); border-radius: 2px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; }
+.chart-grouped-bar.guru { background: var(--gold); }
+.chart-grouped-bar.siswa { background: var(--navy); }
+.chart-grouped-bar-val { position: absolute; top: -20px; font-size: 11px; font-weight: 700; color: var(--text); }
+.chart-grouped-ratio { margin-left: 10px; font-size: 12px; font-weight: 700; color: var(--text-sub); min-width: 60px; }
+
+/* Donut Chart — Komposisi Pegawai */
+.chart-donut-container { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; }
+.chart-donut-svg { width: 180px; height: 180px; }
+.chart-donut-legend { display: flex; flex-direction: column; gap: 10px; }
+.chart-donut-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.chart-donut-color { width: 12px; height: 12px; border-radius: 2px; }
+
+/* Stacked Bar — Kondisi Aset */
+.chart-stacked-bars { display: flex; flex-direction: column; gap: 10px; }
+.chart-stacked-row { display: flex; align-items: center; gap: 10px; }
+.chart-stacked-label { min-width: 140px; font-size: 13px; font-weight: 600; color: var(--text); }
+.chart-stacked-bar { flex: 1; display: flex; height: 24px; border-radius: 4px; overflow: hidden; }
+.chart-stacked-segment { height: 100%; transition: width .3s; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--white); }
+.chart-stacked-segment.baik { background: var(--green); }
+.chart-stacked-segment.rusak { background: var(--red); }
+
+/* Dashboard Pengawas Containers */
+.dashboard-pengawas-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 16px; }
+.dashboard-pengawas-alert { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 12px; margin-bottom: 16px; }
+.alert-card { background: var(--red-lt); border-left: 4px solid var(--red); border-radius: var(--radius); padding: 14px; }
+.alert-card-title { font-size: 13px; font-weight: 700; color: var(--red); margin-bottom: 8px; }
+.alert-card-school { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.alert-card-pct { font-size: 12px; color: var(--text-sub); margin-bottom: 8px; }
+
 </style>
 </head>
 <body>
@@ -741,8 +899,8 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
 ════════════════════════════════════ -->
 <div id="login-page">
   <div class="login-left">
-    <div class="gov-emblem"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 12 2 21 11"/><rect x="3" y="11" width="18" height="11"/><path d="M9 22v-7h6v7"/><line x1="12" y1="2" x2="12" y2="6"/></svg></div>
     <h1>SIDAS-JT1</h1>
+    <div class="gov-emblem"><img src="logo/5-sudindik.png" alt="SUDINDIK Jakarta Timur I"></div>
     <div class="login-divline"></div>
     <p class="login-sub">Sistem Informasi Data Sekolah<br>Jakarta Timur Wilayah I</p>
     <p class="login-instansi" style="margin-top:20px">Dinas Pendidikan<br>Provinsi DKI Jakarta</p>
@@ -751,7 +909,7 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
   <div class="login-right">
     <div class="login-form-box">
       <div class="form-title">Portal Masuk</div>
-      <div class="form-title-sub">Sistem Informasi Data Sekolah — Jakbar Timur Wilayah 1</div>
+      <div class="form-title-sub">Sistem Informasi Data Sekolah — Jakarta Timur 1</div>
 
       <div class="role-tabs" id="role-selector">
         <button class="role-tab operator-role active" onclick="selectRole('operator',this)">
@@ -820,12 +978,13 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
         <div class="firebase-dot" id="firebase-dot"></div>
         <span id="firebase-label">Firebase</span>
       </div>
-      <span class="role-badge" id="topbar-role-badge">-</span>
-      <div class="user-pill">
-        <div class="avatar" id="user-avatar">S</div>
-        <div class="name" id="user-name">-</div>
+      <div class="user-pill" id="topbar-user" style="margin-left:12px; display:flex; align-items:center; gap:8px;">
+        <div class="avatar" id="topbar-avatar">-</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;">
+          <div class="name" id="topbar-name">-</div>
+          <div class="role-badge" id="topbar-role-badge">-</div>
+        </div>
       </div>
-      <button class="btn-logout" onclick="doLogout()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar</button>
     </div>
   </div>
 
@@ -840,27 +999,99 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
           <h2>Dashboard</h2>
           <div class="subtitle" id="dash-subtitle">Ringkasan data sekolah Anda</div>
         </div>
-        <div class="welcome-banner">
-          <div>
-            <h3 id="dash-school-name">Selamat datang!</h3>
-            <p>Sistem Informasi Data Sekolah — Jakarta Timur Wilayah 1</p>
-            <div class="npsn-tag" id="dash-npsn">—</div>
+
+        <!-- ═ DASHBOARD OPERATOR ═ -->
+        <div id="dashboard-operator">
+          <div class="welcome-banner">
+            <div>
+              <h3 id="dash-school-name">Selamat datang!</h3>
+              <p>Sistem Informasi Data Sekolah — Jakarta Timur Wilayah 1</p>
+              <div class="npsn-tag" id="dash-npsn">—</div>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card blue"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><div class="stat-val" id="ds-total-siswa">0</div><div class="stat-label">Total Peserta Didik</div></div>
+            <div class="stat-card amber"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="stat-val" id="ds-total-guru">0</div><div class="stat-label">Total Pendidik &amp; Tendik</div></div>
+            <div class="stat-card green"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><div class="stat-val" id="ds-rombel">0</div><div class="stat-label">Rombongan Belajar</div></div>
+            <div class="stat-card red"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/></svg></span><div class="stat-val" id="ds-luas">0</div><div class="stat-label">Luas Bangunan (m²)</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Rekap Kelengkapan Data</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Profil Sekolah</span><span id="prog-profil" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-profil" style="width:0%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Data Aset</span><span id="prog-aset" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-aset" style="width:0%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Data SDM &amp; Siswa</span><span id="prog-sdm" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-sdm" style="width:0%"></div></div></div>
+            </div>
           </div>
         </div>
-        <div class="stats-grid">
-          <div class="stat-card blue"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><div class="stat-val" id="ds-total-siswa">0</div><div class="stat-label">Total Peserta Didik</div></div>
-          <div class="stat-card amber"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="stat-val" id="ds-total-guru">0</div><div class="stat-label">Total Pendidik &amp; Tendik</div></div>
-          <div class="stat-card green"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><div class="stat-val" id="ds-rombel">0</div><div class="stat-label">Rombongan Belajar</div></div>
-          <div class="stat-card red"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/></svg></span><div class="stat-val" id="ds-luas">0</div><div class="stat-label">Luas Bangunan (m²)</div></div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span class="card-title-accent"></span>Rekap Kelengkapan Data</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Profil Sekolah</span><span id="prog-profil" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-profil" style="width:0%"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Data Aset</span><span id="prog-aset" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-aset" style="width:0%"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Data SDM &amp; Siswa</span><span id="prog-sdm" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-sdm" style="width:0%"></div></div></div>
+
+        <!-- ═ DASHBOARD PENGAWAS ═ -->
+        <div id="dashboard-pengawas" style="display:none">
+          <div class="welcome-banner">
+            <div>
+              <h3 id="dash-pengawas-name">Selamat datang, Pengawas!</h3>
+              <p id="dash-pengawas-date">Hari ini — Ringkasan Data Wilayah</p>
+              <div class="npsn-tag" id="dash-pengawas-nrk">NRK: —</div>
+            </div>
+          </div>
+
+          <!-- Stat Cards Agregat Wilayah -->
+          <div class="dashboard-pengawas-cards">
+            <div class="stat-card blue"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/></svg></span><div class="stat-val" id="pw-total-sekolah">0</div><div class="stat-label">Total Sekolah</div></div>
+            <div class="stat-card amber"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><div class="stat-val" id="pw-total-siswa">0</div><div class="stat-label">Total Peserta Didik</div></div>
+            <div class="stat-card green"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="stat-val" id="pw-total-guru">0</div><div class="stat-label">Total Pendidik &amp; Tendik</div></div>
+            <div class="stat-card red"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span><div class="stat-val" id="pw-avg-pct">0%</div><div class="stat-label">Rata-rata Kelengkapan</div></div>
+          </div>
+
+          <!-- Sekolah Perlu Perhatian -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Sekolah Perlu Perhatian (Kelengkapan &lt; 40%)</div>
+            <div id="pw-alert-container" class="dashboard-pengawas-alert">
+              <div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-sub)">Memuat data...</div>
+            </div>
+          </div>
+
+          <!-- Status Kelengkapan Data Per Sekolah -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Status Kelengkapan Data Per Sekolah</div>
+            <div id="pw-chart-kelengkapan" class="chart-bars-horizontal" style="max-height:400px;overflow-y:auto">
+              <div style="text-align:center;padding:20px;color:var(--text-sub)">Memuat grafik...</div>
+            </div>
+          </div>
+
+          <!-- Distribusi Siswa Per Sekolah -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Distribusi Peserta Didik Per Sekolah</div>
+            <div id="pw-chart-siswa" class="chart-bars-vertical" style="overflow-x:auto;padding:20px 0">
+              <div style="text-align:center;padding:20px;color:var(--text-sub)">Memuat grafik...</div>
+            </div>
+          </div>
+
+          <!-- Rasio Guru : Siswa -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Rasio Pendidik &amp; Tendik : Peserta Didik Per Sekolah</div>
+            <div id="pw-chart-ratio" class="chart-grouped-bars" style="max-height:400px;overflow-y:auto">
+              <div style="text-align:center;padding:20px;color:var(--text-sub)">Memuat grafik...</div>
+            </div>
+          </div>
+
+          <!-- Komposisi Status Pegawai (Agregat) -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Komposisi Status Kepegawaian (Agregat Wilayah)</div>
+            <div id="pw-chart-komposisi" class="chart-donut-container" style="padding:20px">
+              <div style="text-align:center;color:var(--text-sub)">Memuat grafik...</div>
+            </div>
+          </div>
+
+          <!-- Kondisi Aset Barang -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-accent"></span>Kondisi Aset Barang Per Sekolah</div>
+            <div id="pw-chart-aset" class="chart-stacked-bars" style="max-height:400px;overflow-y:auto">
+              <div style="text-align:center;padding:20px;color:var(--text-sub)">Memuat grafik...</div>
+            </div>
           </div>
         </div>
+
       </section>
 
       <!-- PROFIL -->
@@ -1023,18 +1254,18 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
         <div id="readonly-banner-pegawai"></div>
         <div class="card"><div class="card-title"><span class="card-title-accent"></span>Pendidik</div>
           <div class="pegawai-grid">
-            <div class="pegawai-item"><div class="pi-title">Pendidik PNS</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-pns-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-pns-p" placeholder="0" min="0"></div></div></div>
-            <div class="pegawai-item"><div class="pi-title">Pendidik PPPK</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-pppk-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-pppk-p" placeholder="0" min="0"></div></div></div>
-            <div class="pegawai-item"><div class="pi-title">Pendidik PPPK Paruh Waktu</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-pppkpw-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-pppkpw-p" placeholder="0" min="0"></div></div></div>
-            <div class="pegawai-item"><div class="pi-title">Pendidik Non-ASN (KKI)</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-kki-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-kki-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Pendidik PNS</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="pend-pns-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="pend-pns-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Pendidik PPPK</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="pend-pppk-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="pend-pppk-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Pendidik PPPK Paruh Waktu</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="pend-pppkpw-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="pend-pppkpw-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Pendidik Non-ASN (KKI)</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="pend-kki-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="pend-kki-p" placeholder="0" min="0"></div></div></div>
           </div>
         </div>
         <div class="card"><div class="card-title"><span class="card-title-accent"></span>Tenaga Kependidikan</div>
           <div class="pegawai-grid">
-            <div class="pegawai-item"><div class="pi-title">Tendik PNS</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-pns-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-pns-p" placeholder="0" min="0"></div></div></div>
-            <div class="pegawai-item"><div class="pi-title">Tendik PPPK</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-pppk-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-pppk-p" placeholder="0" min="0"></div></div></div>
-            <div class="pegawai-item"><div class="pi-title">Tendik PPPK Paruh Waktu</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-pppkpw-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-pppkpw-p" placeholder="0" min="0"></div></div></div>
-            <div class="pegawai-item"><div class="pi-title">Tendik Non-ASN (KKI)</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-kki-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-kki-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Tendik PNS</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="tendik-pns-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="tendik-pns-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Tendik PPPK</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="tendik-pppk-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="tendik-pppk-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Tendik PPPK Paruh Waktu</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="tendik-pppkpw-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="tendik-pppkpw-p" placeholder="0" min="0"></div></div></div>
+            <div class="pegawai-item"><div class="pi-title">Tendik Non-ASN (KKI)</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="tendik-kki-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="tendik-kki-p" placeholder="0" min="0"></div></div></div>
           </div>
         </div>
         <div class="btn-row" id="pegawai-btns"><button class="btn-outline" onclick="loadSection('pegawai')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('pegawai')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Data Pegawai</button></div>
@@ -1055,17 +1286,17 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
         </div>
         <div class="card"><div class="card-title"><span class="card-title-accent"></span>Siswa ABK — Pergub 40 Tahun 2021</div>
           <div class="abk-grid">
-            <div class="abk-item"><div class="abk-title">Tunanetra</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-a-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-a-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Tunarungu</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-b-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-b-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Tunagrahita</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-c-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-c-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Tunadaksa</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-d-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-d-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Tunalaras</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-e-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-e-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Tunawicara</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-f-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-f-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">ASD (Autisme)</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-asd-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-asd-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">ADHD</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-adhd-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-adhd-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Kesulitan Belajar</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-kb-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-kb-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Slow Learner</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-sl-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-sl-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">Gifted &amp; Talented</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-gt-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-gt-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunanetra</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-a-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-a-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunarungu</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-b-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-b-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunagrahita</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-c-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-c-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunadaksa</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-d-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-d-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunalaras</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-e-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-e-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunawicara</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-f-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-f-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">ASD (Autisme)</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-asd-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-asd-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">ADHD</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-adhd-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-adhd-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Kesulitan Belajar</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-kb-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-kb-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Slow Learner</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-sl-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-sl-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Gifted &amp; Talented</div><div class="gender-row"><div class="field"><label class="gender male">Laki-laki</label><input type="number" id="abk-gt-l" placeholder="0" min="0"></div><div class="field"><label class="gender female">Perempuan</label><input type="number" id="abk-gt-p" placeholder="0" min="0"></div></div></div>
           </div>
         </div>
         <div class="btn-row" id="siswa-btns"><button class="btn-outline" onclick="loadSection('siswa')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('siswa')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Data Siswa</button></div>
@@ -1102,12 +1333,85 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
 
       <!-- PENGAWAS: DAFTAR SEKOLAH -->
       <section class="section" id="sec-daftar-sekolah">
-        <div class="page-header"><div class="breadcrumb">Pengawas / Laporan</div><h2>Daftar Sekolah</h2><div class="subtitle">Pilih sekolah untuk melihat detail data</div></div>
+        <div class="page-header">
+          <div class="breadcrumb">Pengawas / Laporan</div>
+          <h2>Daftar Sekolah</h2>
+          <div class="subtitle">Pilih sekolah untuk melihat detail data</div>
+        </div>
         <div class="card">
-          <div class="card-title"><span class="card-title-accent"></span>Semua Sekolah Binaan</div>
-          <div class="sekolah-grid" id="sekolah-grid">
-            <div style="text-align:center;padding:24px;color:var(--text-sub);grid-column:span 2">Memuat data sekolah...</div>
+          <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px"><span class="card-title-accent"></span>Semua Sekolah Binaan</span>
+            <span id="sekolah-count" style="font-size:12px;color:var(--text-sub);font-weight:600"></span>
           </div>
+          <!-- Search & Filter -->
+          <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px;position:relative">
+              <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-4)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="sekolah-search" placeholder="Cari nama sekolah atau NPSN..." oninput="filterSekolahList()"
+                style="width:100%;padding:9px 12px 9px 32px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:13px;outline:none;background:var(--white);color:var(--text)">
+            </div>
+            <select id="sekolah-filter-status" onchange="filterSekolahList()"
+              style="padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:13px;outline:none;background:var(--white);color:var(--text);cursor:pointer">
+              <option value="">Semua Status</option>
+              <option value="aktif">Aktif</option>
+              <option value="nonaktif">Nonaktif</option>
+            </select>
+          </div>
+          <!-- Tabel -->
+          <div style="overflow-x:auto">
+            <table class="admin-table" id="tbl-sekolah">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nama Sekolah</th>
+                  <th>NPSN</th>
+                  <th>Siswa</th>
+                  <th>Pendidik &amp; Tendik</th>
+                  <th>Kelengkapan Data</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-sekolah">
+                <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">Memuat data sekolah...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PENGAWAS: DETAIL SEKOLAH (view only) -->
+      <section class="section" id="sec-detail-sekolah">
+        <div class="page-header">
+          <div class="breadcrumb" id="detail-breadcrumb">Pengawas / Laporan / Detail Sekolah</div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div>
+              <h2 id="detail-school-title">Detail Sekolah</h2>
+              <div class="subtitle" id="detail-school-sub">Data lengkap sekolah — mode baca saja</div>
+            </div>
+            <button class="btn-outline btn-sm" onclick="backToSekolahList()" style="display:flex;align-items:center;gap:6px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Kembali ke Daftar
+            </button>
+          </div>
+        </div>
+
+        <!-- Sub-tabs navigasi data sekolah -->
+        <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px">
+          <div id="detail-tabs" style="display:flex;overflow-x:auto;border-bottom:1px solid var(--border)">
+            <button class="detail-tab active" onclick="switchDetailTab('profil',this)">Profil</button>
+            <button class="detail-tab" onclick="switchDetailTab('aset-tanah',this)">Aset — Tanah</button>
+            <button class="detail-tab" onclick="switchDetailTab('aset-barang',this)">Aset — Barang</button>
+            <button class="detail-tab" onclick="switchDetailTab('aset-gedung',this)">Aset — Gedung</button>
+            <button class="detail-tab" onclick="switchDetailTab('aset-lain',this)">Aset Lainnya</button>
+            <button class="detail-tab" onclick="switchDetailTab('pegawai',this)">Pegawai</button>
+            <button class="detail-tab" onclick="switchDetailTab('siswa',this)">Siswa</button>
+          </div>
+        </div>
+
+        <!-- Konten readonly per tab — semua field di-render ulang di sini -->
+        <div id="detail-content">
+          <div style="text-align:center;padding:40px;color:var(--text-sub)">Memuat data...</div>
         </div>
       </section>
 
@@ -1116,39 +1420,72 @@ svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
 </div>
 
 <!-- MODAL TAMBAH USER -->
+
+<!-- Modal Tambah/Reset Pengguna -->
 <div class="modal-overlay" id="modal-user">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3 id="modal-title">Tambah Pengguna</h3>
     <p class="modal-sub" id="modal-sub">Isi data pengguna baru</p>
+
+    <!-- Tambah Pengawas -->
     <div id="modal-fields-pengawas" style="display:none">
       <div class="form-group"><label>Nama Pengawas</label><input type="text" id="m-nama-pengawas" placeholder="Nama lengkap"></div>
       <div class="form-group"><label>NRK</label><input type="text" id="m-nrk" placeholder="Nomor Registrasi Kepegawaian"></div>
       <div class="form-group"><label>Password</label><input type="password" id="m-pass-pengawas" placeholder="Minimal 6 karakter"></div>
     </div>
+
+    <!-- Tambah Operator Sekolah -->
     <div id="modal-fields-operator" style="display:none">
       <div class="form-group"><label>Nama Sekolah</label><input type="text" id="m-nama-sekolah" placeholder="Nama lengkap sekolah"></div>
       <div class="form-group"><label>NPSN</label><input type="text" id="m-npsn-op" placeholder="8 digit NPSN" maxlength="10"></div>
       <div class="form-group"><label>Password Awal</label><input type="password" id="m-pass-operator" placeholder="Default: sama dengan NPSN"></div>
     </div>
-    <div class="error-msg" id="modal-error"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Data tidak lengkap</div>
+
+    <!-- Reset Password -->
+    <div id="modal-fields-reset" style="display:none">
+      <div class="notif-box" style="margin-bottom:14px">
+        <div class="notif-title">⚠ Reset Password</div>
+        <div class="notif-item">Password lama akan diganti permanen.</div>
+        <div class="notif-item">Sampaikan password baru kepada pengguna secara langsung.</div>
+      </div>
+      <div class="form-group"><label>Pengguna</label><input type="text" id="m-reset-target" readonly style="background:var(--gray-1);color:var(--text-sub)"></div>
+      <div class="form-group"><label>Password Baru</label><input type="password" id="m-reset-pass" placeholder="Minimal 6 karakter"></div>
+      <div class="form-group"><label>Konfirmasi Password</label><input type="password" id="m-reset-confirm" placeholder="Ulangi password baru"></div>
+    </div>
+
+    <div class="error-msg" id="modal-error">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Data tidak lengkap
+    </div>
     <div class="btn-row">
       <button class="btn-outline btn-sm" onclick="closeModal()">Batal</button>
-      <button class="btn-save btn-sm" onclick="saveUser()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan</button>
+      <button class="btn-save btn-sm" id="modal-save-btn" onclick="saveUser()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Simpan
+      </button>
     </div>
   </div>
 </div>
 
-<!-- Firebase SDK -->
+<!-- Firebase SDK (Firestore) -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, push, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, getDocs, query, where, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth, signInWithEmailAndPassword, signOut,
+  setPersistence, browserLocalPersistence, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+/* ══════════════════════
+   FIREBASE CONFIG
+══════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyBOonf22K2HnrfWAAuq7pmRwHeB4PivvBQ",
   authDomain: "sidas-f400a.firebaseapp.com",
-  databaseURL: "https://sidas-f400a-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "sidas-f400a",
   storageBucket: "sidas-f400a.firebasestorage.app",
   messagingSenderId: "777097200711",
@@ -1159,39 +1496,269 @@ const firebaseConfig = {
 let app, db, auth;
 try {
   app = initializeApp(firebaseConfig);
-  db = getDatabase(app);
+  db = getFirestore(app);
   auth = getAuth(app);
   document.getElementById('firebase-dot').classList.remove('offline');
-  document.getElementById('firebase-label').textContent = 'Firebase ✓';
+  document.getElementById('firebase-label').textContent = 'Firestore ✓';
 } catch(e) {
   document.getElementById('firebase-dot').classList.add('offline');
-  document.getElementById('firebase-label').textContent = 'Mode Demo';
+  document.getElementById('firebase-label').textContent = 'Offline';
 }
 
-const isDemo = !app;
+// Try to set persistence to local; if it fails, continue (don't block app)
+try {
+  if (auth) await setPersistence(auth, browserLocalPersistence);
+} catch(err) {
+  console.warn('setPersistence failed, continuing with default persistence', err);
+}
 
-async function dbSet(path, data) {
-  if (isDemo) { localStorage.setItem(path, JSON.stringify(data)); return; }
-  await set(ref(db, path), data);
+// Try restoring any saved session (operator/pengawas)
+restoreSession();
+
+/* ══════════════════════
+   SESSION INACTIVITY WATCHER
+   - Persist auth across reloads, but force sign-out after inactivity
+   - Uses `localStorage` key to track last user activity timestamp
+   - Adjustable `SESSION_TIMEOUT_MS` (default: 30 minutes)
+══════════════════════ */
+const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+const ACTIVITY_KEY = 'sidas_lastActivity';
+const SESSION_KEY = 'sidas_session';
+let _idleInterval = null;
+let _activityHandler = null;
+
+function updateLastActivity() {
+  try { 
+    localStorage.setItem(ACTIVITY_KEY, Date.now().toString());
+    // Juga extend session expiry time setiap kali ada activity
+    extendSessionTimeout();
+  } catch(_) {}
 }
-async function dbGet(path) {
-  if (isDemo) { const d = localStorage.getItem(path); return d ? JSON.parse(d) : null; }
-  const snap = await get(ref(db, path));
-  return snap.exists() ? snap.val() : null;
+
+// Perpanjang waktu session saat ada aktivitas user
+function extendSessionTimeout() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (!s || !s.role) return;
+    // Update expiration time
+    s.expiresAt = Date.now() + SESSION_TIMEOUT_MS;
+    localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  } catch(_) {}
 }
-async function dbPush(path, data) {
-  if (isDemo) {
-    const existing = JSON.parse(localStorage.getItem(path) || '{}');
-    const key = 'key_' + Date.now();
-    existing[key] = data; localStorage.setItem(path, JSON.stringify(existing)); return key;
+
+function clearLastActivity() { try { localStorage.removeItem(ACTIVITY_KEY); } catch(_) {} }
+
+function startSessionWatcher() {
+  // attach activity listeners
+  _activityHandler = () => updateLastActivity();
+  ['mousemove','mousedown','keydown','touchstart','click'].forEach(ev => window.addEventListener(ev, _activityHandler));
+  updateLastActivity();
+  
+  let _warningShown = false;
+  
+  // check inactivity every minute
+  _idleInterval = setInterval(() => {
+    try {
+      const last = parseInt(localStorage.getItem(ACTIVITY_KEY) || '0');
+      if (!last) return updateLastActivity();
+      const idle = Date.now() - last;
+      const timeLeftMs = SESSION_TIMEOUT_MS - idle;
+      
+      // Tampilkan warning 5 menit sebelum session expired
+      if (timeLeftMs < (5 * 60 * 1000) && timeLeftMs > 0 && !_warningShown) {
+        _warningShown = true;
+        const minLeft = Math.ceil(timeLeftMs / 60000);
+        showToast(`⏱ Sesi Anda akan berakhir dalam ${minLeft} menit. Lakukan aktivitas untuk perpanjang sesi.`);
+      }
+      
+      // Reset flag jika waktu sudah lebih dari 5 menit
+      if (timeLeftMs > (6 * 60 * 1000)) {
+        _warningShown = false;
+      }
+      
+      if (idle > SESSION_TIMEOUT_MS) {
+        // Sign out user when idle too long
+        _warningShown = false;
+        if (auth && auth.currentUser) {
+          signOut(auth).finally(() => {
+            showToast('⏱ Sesi Anda berakhir karena tidak ada aktivitas selama 30 menit');
+          });
+        } else {
+          // Untuk operator/pengawas, clear session mereka juga
+          clearSession();
+          showLogin();
+          showToast('⏱ Sesi Anda berakhir karena tidak ada aktivitas');
+        }
+        clearLastActivity();
+      }
+    } catch(e) { console.error('Inactivity check failed', e); }
+  }, 60 * 1000);
+}
+
+function stopSessionWatcher() {
+  if (_idleInterval) { clearInterval(_idleInterval); _idleInterval = null; }
+  if (_activityHandler) {
+    ['mousemove','mousedown','keydown','touchstart','click'].forEach(ev => window.removeEventListener(ev, _activityHandler));
+    _activityHandler = null;
   }
-  const r = await push(ref(db, path), data); return r.key;
-}
-async function dbRemove(path) {
-  if (isDemo) { localStorage.removeItem(path); return; }
-  await remove(ref(db, path));
 }
 
+function showLogin() {
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.body.classList.remove('app-mode');
+}
+
+// Watch auth state to start/stop the inactivity watcher
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    // user signed in — start watching activity
+    startSessionWatcher();
+    // Try to restore admin session if applicable
+    try {
+      const udoc = await fsGet('users', user.uid);
+      if (udoc && udoc.role === 'admin') {
+        // prevent double-init
+        if (window._currentRole !== 'admin') initAppAdmin(user.email, udoc);
+      }
+    } catch(e) { console.error('Failed restoring admin session', e); }
+  } else {
+    // No Firebase user. Try restoring any saved non-Firebase session
+    try {
+      const restored = await restoreSession();
+      if (restored) return; // restoreSession starts the watcher and initializes UI
+    } catch(e) { console.warn('restoreSession call failed', e); }
+
+    // otherwise proceed to sign-out UI
+    stopSessionWatcher();
+    showLogin();
+  }
+});
+
+// Restore non-Firebase sessions (operator / pengawas) from localStorage
+async function restoreSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    if (!s || !s.role) return false;
+
+    // Cek apakah session sudah expired
+    const now = Date.now();
+    const expiresAt = s.expiresAt || (s.ts + SESSION_TIMEOUT_MS);
+    if (now > expiresAt) {
+      // Session sudah expired, clear it
+      clearSession();
+      showToast('⏱ Sesi Anda telah berakhir. Silakan login kembali.');
+      return false;
+    }
+
+    // Update activity timestamp untuk perpanjang sesi
+    updateLastActivity();
+
+    if (s.role === 'operator') {
+      try {
+        const data = await fsGet('sekolah', s.id);
+        if (data) {
+          initAppOperator(s.id, data);
+          return true;
+        }
+      } catch(e) { console.warn('restore operator failed', e); }
+      // fallback: init with minimal data so UI persists
+      initAppOperator(s.id, {});
+      return true;
+
+    } else if (s.role === 'pengawas') {
+      try {
+        const data = await fsGet('pengawas', s.id);
+        if (data) {
+          initAppPengawas(s.id, data);
+          return true;
+        }
+      } catch(e) { console.warn('restore pengawas failed', e); }
+      // fallback: init with minimal data so UI persists
+      initAppPengawas(s.id, {});
+      return true;
+
+    } else if (s.role === 'admin') {
+      // try to restore admin session by UID (preferred) or email fallback
+      try {
+        const udoc = await fsGet('users', s.id);
+        if (udoc) { initAppAdmin(udoc.email || s.id, udoc); return true; }
+      } catch(e) { console.warn('restore admin session by uid failed', e); }
+      // fallback: attempt to find admin by email stored in id field
+      try {
+        const users = await fsGet('users', s.id);
+        if (users) { initAppAdmin(s.id, users); return true; }
+      } catch(e) { /* ignore */ }
+      // As last resort, init admin with minimal info
+      initAppAdmin(s.id, {});
+      return true;
+    }
+  } catch(e) { console.warn('restoreSession failed', e); }
+  return false;
+}
+
+function saveSession(role, id) { 
+  try { 
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ 
+      role, 
+      id, 
+      ts: Date.now(),
+      expiresAt: Date.now() + SESSION_TIMEOUT_MS
+    })); 
+    // Also update activity timestamp saat login
+    updateLastActivity();
+  } catch(_) {} 
+}
+function clearSession() { try { localStorage.removeItem(SESSION_KEY); localStorage.removeItem(ACTIVITY_KEY); } catch(_) {} }
+
+/* ══════════════════════
+   SHA-256 UTILITY
+══════════════════════ */
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ══════════════════════
+   FIRESTORE HELPERS
+   Struktur koleksi:
+   /users/{uid}          ← admin (dari Firebase Auth)
+   /pengawas/{nrk}       ← pengawas/supervisi
+   /sekolah/{npsn}       ← akun sekolah (auth only)
+   /sekolah_data/{npsn}  ← data isian sekolah
+══════════════════════ */
+
+async function fsGet(colPath, docId) {
+  const snap = await getDoc(doc(db, colPath, docId));
+  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+}
+
+async function fsSet(colPath, docId, data) {
+  await setDoc(doc(db, colPath, docId), data, { merge: true });
+}
+
+async function fsUpdate(colPath, docId, data) {
+  await updateDoc(doc(db, colPath, docId), data);
+}
+
+async function fsDelete(colPath, docId) {
+  await deleteDoc(doc(db, colPath, docId));
+}
+
+async function fsGetAll(colPath) {
+  const snap = await getDocs(collection(db, colPath));
+  const result = {};
+  snap.forEach(d => { result[d.id] = { id: d.id, ...d.data() }; });
+  return result;
+}
+
+/* ══════════════════════
+   CAPTCHA
+══════════════════════ */
 let captchaCode = '';
 function makeCaptcha() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -1201,81 +1768,105 @@ function makeCaptcha() {
 window.refreshCaptcha = makeCaptcha;
 makeCaptcha();
 
+/* ══════════════════════
+   ROLE SELECTOR
+══════════════════════ */
 let currentRole = 'operator';
 window.selectRole = function(role, el) {
   currentRole = role;
   document.querySelectorAll('.role-tab').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('fields-operator').style.display = role === 'operator' ? 'block' : 'none';
-  document.getElementById('fields-pengawas').style.display = role === 'pengawas' ? 'block' : 'none';
-  document.getElementById('fields-admin').style.display = role === 'admin' ? 'block' : 'none';
+  document.getElementById('fields-operator').style.display  = role === 'operator'  ? 'block' : 'none';
+  document.getElementById('fields-pengawas').style.display  = role === 'pengawas'  ? 'block' : 'none';
+  document.getElementById('fields-admin').style.display     = role === 'admin'     ? 'block' : 'none';
   const btn = document.getElementById('login-btn');
   btn.className = 'btn-login';
-  if (role === 'admin') { btn.className += ' admin-btn'; btn.textContent = 'Masuk sebagai Admin'; }
-  else if (role === 'pengawas') { btn.className += ' pengawas-btn'; btn.textContent = 'Masuk sebagai Pengawas'; }
-  else { btn.textContent = 'Masuk ke Sistem'; }
+  if (role === 'admin')    { btn.classList.add('admin-btn');    btn.textContent = 'Masuk sebagai Admin'; }
+  else if (role === 'pengawas') { btn.classList.add('pengawas-btn'); btn.textContent = 'Masuk sebagai Pengawas'; }
+  else                     { btn.textContent = 'Masuk ke Sistem'; }
 }
 
+/* ══════════════════════
+   LOGIN
+══════════════════════ */
 window.doLogin = async function() {
   const cap = document.getElementById('captcha-input').value.trim().toUpperCase();
   const err = document.getElementById('login-error');
-  if (cap !== captchaCode) { err.textContent = '✗ Kode keamanan salah'; err.style.display='block'; makeCaptcha(); document.getElementById('captcha-input').value=''; return; }
+  if (cap !== captchaCode) {
+    err.textContent = '✗ Kode keamanan salah';
+    err.style.display = 'block';
+    makeCaptcha();
+    document.getElementById('captcha-input').value = '';
+    return;
+  }
   err.style.display = 'none';
   const btn = document.getElementById('login-btn');
+  const origText = btn.textContent;
   btn.textContent = 'Memverifikasi...'; btn.disabled = true;
+
   try {
+    /* ─── ADMIN ─── */
     if (currentRole === 'admin') {
       const email = document.getElementById('login-email').value.trim();
-      const pass = document.getElementById('login-pass-admin').value.trim();
+      const pass  = document.getElementById('login-pass-admin').value.trim();
       if (!email || !pass) throw new Error('Email dan password wajib diisi');
       const cred = await signInWithEmailAndPassword(auth, email, pass);
-      const adminData = await dbGet(`users/admins/${cred.user.uid}`);
-      if (!adminData) throw new Error('Akun ini bukan admin terdaftar di sistem');
+      // Verifikasi bahwa UID ada di koleksi /users
+      const adminData = await fsGet('users', cred.user.uid);
+      if (!adminData || adminData.role !== 'admin') {
+        await signOut(auth);
+        throw new Error('Akun ini bukan admin terdaftar di sistem');
+      }
       initAppAdmin(email, adminData);
+
+    /* ─── PENGAWAS ─── */
     } else if (currentRole === 'pengawas') {
-      const nrk = document.getElementById('login-nrk').value.trim();
+      const nrk  = document.getElementById('login-nrk').value.trim();
       const pass = document.getElementById('login-pass-pengawas').value.trim();
       if (!nrk || !pass) throw new Error('NRK dan password wajib diisi');
-      const pengawasData = await dbGet(`users/pengawas/${nrk}`);
-      if (!pengawasData) throw new Error('NRK tidak ditemukan');
-      if (pengawasData.password !== pass) throw new Error('Password salah');
-      if (pengawasData.status === 'nonaktif') throw new Error('Akun nonaktif, hubungi admin');
-      initAppPengawas(nrk, pengawasData);
+      const data = await fsGet('pengawas', nrk);
+      if (!data) throw new Error('NRK tidak ditemukan');
+      if (data.status === 'nonaktif') throw new Error('Akun nonaktif, hubungi admin');
+      const hash = await sha256(pass);
+      if (hash !== data.passwordHash) throw new Error('Password salah');
+      initAppPengawas(nrk, data);
+
+    /* ─── OPERATOR SEKOLAH ─── */
     } else {
       const npsn = document.getElementById('login-id').value.trim();
       const pass = document.getElementById('login-pass').value.trim();
       if (!npsn || !pass) throw new Error('NPSN dan password wajib diisi');
-      let data = await dbGet(`sekolah/${npsn}`);
-      if (!data) {
-        if (pass === npsn) {
-          data = { npsn, profil: { npsn, nama: '', alamat: '' }, status: 'aktif' };
-          await dbSet(`sekolah/${npsn}`, data);
-        } else throw new Error('NPSN tidak ditemukan atau password salah');
-      } else {
-        if (data.status === 'nonaktif') throw new Error('Akun nonaktif, hubungi admin');
-        const storedPass = data.password || npsn;
-        if (pass !== storedPass && pass !== npsn) throw new Error('Password salah');
-      }
+      const data = await fsGet('sekolah', npsn);
+      if (!data) throw new Error('NPSN tidak terdaftar. Hubungi admin untuk pendaftaran.');
+      if (data.status === 'nonaktif') throw new Error('Akun nonaktif, hubungi admin');
+      const hash = await sha256(pass);
+      if (hash !== data.passwordHash) throw new Error('Password salah');
       window._currentNPSN = npsn;
-      window._db = { dbSet, dbGet };
       initAppOperator(npsn, data);
     }
   } catch(e) {
     err.textContent = '✗ ' + (e.message || 'Login gagal');
     err.style.display = 'block';
-    btn.textContent = currentRole === 'admin' ? 'Masuk sebagai Admin' : currentRole === 'pengawas' ? 'Masuk sebagai Pengawas' : 'Masuk ke Sistem';
+    btn.textContent = origText;
     btn.disabled = false;
-    makeCaptcha(); document.getElementById('captcha-input').value = '';
+    makeCaptcha();
+    document.getElementById('captcha-input').value = '';
   }
 }
 
+/* ══════════════════════
+   APP INIT
+══════════════════════ */
 function initAppOperator(npsn, data) {
   window._currentRole = 'operator';
   window._currentNPSN = npsn;
-  window._db = { dbSet, dbGet };
+  saveSession('operator', npsn);
+  // Start inactivity watcher for non-Firebase sessions
+  startSessionWatcher();
   showApp();
-  setTopbar('S', npsn, 'NPSN ' + npsn, 'operator');
-  const nm = data?.profil?.nama || '';
+  // show school name when available, fallback to NPSN
+  setTopbar('S', npsn, data?.nama || ('NPSN ' + npsn), 'operator');
+  const nm = data?.nama || '';
   document.getElementById('dash-school-name').textContent = nm || 'Selamat datang!';
   document.getElementById('topbar-school').textContent = nm || ('NPSN: ' + npsn);
   document.getElementById('dash-npsn').textContent = 'NPSN: ' + npsn;
@@ -1288,10 +1879,13 @@ function initAppOperator(npsn, data) {
 
 function initAppPengawas(nrk, data) {
   window._currentRole = 'pengawas';
-  window._currentNRK = nrk;
-  window._db = { dbSet, dbGet };
+  window._currentNRK  = nrk;
+  saveSession('pengawas', nrk);
+  // Start inactivity watcher for non-Firebase sessions
+  startSessionWatcher();
   showApp();
-  setTopbar('P', nrk, data.nama || 'Pengawas', 'pengawas');
+  // show pengawas full name
+  setTopbar('P', nrk, data?.nama || 'Pengawas', 'pengawas');
   document.getElementById('dash-school-name').textContent = 'Selamat datang, ' + (data.nama || 'Pengawas') + '!';
   document.getElementById('topbar-school').textContent = 'Pengawas';
   document.getElementById('dash-npsn').textContent = 'NRK: ' + nrk;
@@ -1301,15 +1895,18 @@ function initAppPengawas(nrk, data) {
 }
 
 function initAppAdmin(email, data) {
-  window._currentRole = 'admin';
-  window._adminEmail = email;
-  window._db = { dbSet, dbGet };
+  window._currentRole   = 'admin';
+  window._adminEmail    = email;
+  // store admin by UID when available so restoreSession can find the user
+  saveSession('admin', data.id || email);
+  // Start inactivity watcher for admin (covers both Firebase and local restore)
+  startSessionWatcher();
   showApp();
   setTopbar('A', 'Admin', data.nama || 'Administrator', 'admin');
   document.getElementById('dash-school-name').textContent = 'Panel Administrator';
-  document.getElementById('topbar-school').textContent = 'Admin';
-  document.getElementById('dash-npsn').textContent = email;
-  document.getElementById('dash-subtitle').textContent = 'Kelola pengguna dan konfigurasi sistem';
+  document.getElementById('topbar-school').textContent    = 'Admin';
+  document.getElementById('dash-npsn').textContent        = email;
+  document.getElementById('dash-subtitle').textContent    = 'Kelola pengguna dan konfigurasi sistem';
   buildSidebar('admin');
   loadAdminUsers();
 }
@@ -1317,272 +1914,146 @@ function initAppAdmin(email, data) {
 function showApp() {
   document.getElementById('login-page').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
+  document.body.classList.add('app-mode');
 }
 
 function setTopbar(ico, id, name, role) {
-  document.getElementById('user-avatar').textContent = ico;
-  document.getElementById('user-avatar').className = 'avatar ' + role + '-av';
-  document.getElementById('user-name').textContent = name;
+  // set topbar avatar/name/role
+  const av = document.getElementById('topbar-avatar');
+  if (av) {
+    av.textContent  = ico;
+    av.className    = 'avatar ' + role + '-av';
+  }
+  const uname = document.getElementById('topbar-name');
+  if (uname) uname.textContent = name;
   const badge = document.getElementById('topbar-role-badge');
-  badge.textContent = role.toUpperCase();
-  badge.className = 'role-badge ' + role;
+  if (badge) {
+    // Show user name in this badge (per request)
+    const displayName = name || id || '';
+    badge.textContent = displayName;
+    badge.className = 'role-badge ' + role; // keep color styling per role
+  }
 }
 
+window.openChangePassword = function() {
+  showToast('Fitur ganti password belum diimplementasikan di versi ini.');
+}
+
+/* ══════════════════════
+   SIDEBAR
+══════════════════════ */
 function buildSidebar(role) {
   const sb = document.getElementById('sidebar');
+  const svgDash     = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`;
+  const svgProfil   = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/></svg>`;
+  const svgTanah    = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 12 2 21 11"/><rect x="3" y="11" width="18" height="11"/><path d="M9 22v-7h6v7"/></svg>`;
+  const svgBarang   = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.78 0l-8-4a2 2 0 0 1-1.11-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"/><polyline points="2.32 6.16 12 11 21.68 6.16"/><line x1="12" y1="22.76" x2="12" y2="11"/></svg>`;
+  const svgGedung   = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`;
+  const svgLain     = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>`;
+  const svgPegawai  = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+  const svgSiswa    = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`;
+  const svgDaftar   = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8l10-6 10 6v8"/><path d="M6 20v-8"/><path d="M18 20v-8"/><path d="M10 20v-5h4v5"/></svg>`;
+  const svgUser     = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+
   const navs = {
     operator: `
       <div class="nav-section-label">Navigasi</div>
-      <div class="nav-item active" onclick="navTo('dashboard',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="label">Dashboard</span></div>
+      <div class="nav-item active" onclick="navTo('dashboard',this)"><span class="ico">${svgDash}</span><span class="label">Dashboard</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Data Sekolah</div>
-      <div class="nav-item" onclick="navTo('profil',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/></svg></span><span class="label">Profil Sekolah</span></div>
+      <div class="nav-item" onclick="navTo('profil',this)"><span class="ico">${svgProfil}</span><span class="label">Profil Sekolah</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Data Aset</div>
-      <div class="nav-item" onclick="navTo('aset-tanah',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 12 2 21 11"/><rect x="3" y="11" width="18" height="11"/><path d="M9 22v-7h6v7"/></svg></span><span class="label">Aset — Tanah</span></div>
-      <div class="nav-item" onclick="navTo('aset-barang',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.78 0l-8-4a2 2 0 0 1-1.11-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"/><polyline points="2.32 6.16 12 11 21.68 6.16"/><line x1="12" y1="22.76" x2="12" y2="11"/></svg></span><span class="label">Aset — Barang (KIB B)</span></div>
-      <div class="nav-item" onclick="navTo('aset-gedung',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span class="label">Aset — Gedung (KIB C)</span></div>
-      <div class="nav-item" onclick="navTo('aset-lain',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span><span class="label">Aset Tetap Lainnya</span></div>
+      <div class="nav-item" onclick="navTo('aset-tanah',this)"><span class="ico">${svgTanah}</span><span class="label">Aset — Tanah</span></div>
+      <div class="nav-item" onclick="navTo('aset-barang',this)"><span class="ico">${svgBarang}</span><span class="label">Aset — Barang (KIB B)</span></div>
+      <div class="nav-item" onclick="navTo('aset-gedung',this)"><span class="ico">${svgGedung}</span><span class="label">Aset — Gedung (KIB C)</span></div>
+      <div class="nav-item" onclick="navTo('aset-lain',this)"><span class="ico">${svgLain}</span><span class="label">Aset Tetap Lainnya</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">SDM &amp; Peserta Didik</div>
-      <div class="nav-item" onclick="navTo('pegawai',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="label">Data Pegawai</span></div>
-      <div class="nav-item" onclick="navTo('siswa',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><span class="label">Data Siswa</span></div>`,
+      <div class="nav-item" onclick="navTo('pegawai',this)"><span class="ico">${svgPegawai}</span><span class="label">Data Pegawai</span></div>
+      <div class="nav-item" onclick="navTo('siswa',this)"><span class="ico">${svgSiswa}</span><span class="label">Data Siswa</span></div>`,
     pengawas: `
       <div class="nav-section-label">Navigasi</div>
-      <div class="nav-item pengawas-nav active" onclick="navTo('dashboard',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="label">Dashboard</span></div>
+      <div class="nav-item pengawas-nav active" onclick="navTo('dashboard',this)"><span class="ico">${svgDash}</span><span class="label">Dashboard</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Laporan Sekolah</div>
-      <div class="nav-item pengawas-nav" onclick="navTo('daftar-sekolah',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8l10-6 10 6v8"/><path d="M6 20v-8"/><path d="M18 20v-8"/><path d="M10 20v-5h4v5"/></svg></span><span class="label">Daftar Sekolah</span></div>`,
+      <div class="nav-item pengawas-nav" onclick="navTo('daftar-sekolah',this)"><span class="ico">${svgDaftar}</span><span class="label">Daftar Sekolah</span></div>`,
     admin: `
       <div class="nav-section-label">Navigasi</div>
-      <div class="nav-item admin-nav active" onclick="navTo('dashboard',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="label">Dashboard</span></div>
+      <div class="nav-item admin-nav active" onclick="navTo('dashboard',this)"><span class="ico">${svgDash}</span><span class="label">Dashboard</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Manajemen</div>
-      <div class="nav-item admin-nav" onclick="navTo('admin-users',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="label">Kelola Pengguna</span></div>`
+      <div class="nav-item admin-nav" onclick="navTo('admin-users',this)"><span class="ico">${svgUser}</span><span class="label">Kelola Pengguna</span></div>`
   };
-  sb.innerHTML = navs[role] || navs.operator;
-}
-
-function enableOperatorMode() {
-  ['profil','tanah','barang','gedung','lain','pegawai','siswa'].forEach(k => {
-    const b = document.getElementById(k + '-btns');
-    if (b) b.style.display = 'flex';
-    const r = document.getElementById('readonly-banner-' + k);
-    if (r) r.innerHTML = '';
-  });
-  document.querySelectorAll('.section .field input, .section .field select, .section .field textarea, .section .radio-btn').forEach(el => {
-    el.removeAttribute('disabled');
-  });
-}
-
-function enableReadonlyMode() {
-  const banner = `<div class="readonly-banner"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Mode Baca Saja — Pengawas tidak dapat mengubah data sekolah</div>`;
-  ['profil','tanah','barang','gedung','lain','pegawai','siswa'].forEach(k => {
-    const b = document.getElementById(k + '-btns');
-    if (b) b.style.display = 'none';
-    const rb = document.getElementById('readonly-banner-' + k);
-    if (rb) rb.innerHTML = banner;
-  });
-  document.querySelectorAll('.section .field input, .section .field select, .section .field textarea').forEach(el => {
-    el.setAttribute('disabled', true);
-  });
-}
-
-window.navTo = function(section, el) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (el) el.classList.add('active');
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  const sec = document.getElementById('sec-' + section);
-  if (sec) sec.classList.add('active');
-}
-
-async function loadSekolahList() {
-  const grid = document.getElementById('sekolah-grid');
-  if (!grid) return;
-  const allSekolah = await dbGet('sekolah');
-  if (!allSekolah) { grid.innerHTML = '<div style="color:var(--text-sub);grid-column:span 2;padding:20px">Belum ada data sekolah</div>'; return; }
-  let html = '';
-  for (const [npsn, data] of Object.entries(allSekolah)) {
-    const nm = data?.profil?.nama || ('Sekolah ' + npsn);
-    const siswa = await dbGet(`sekolah/${npsn}/siswa`);
-    const tl = (parseInt(siswa?.['s-total-l'])||0) + (parseInt(siswa?.['s-total-p'])||0);
-    html += `<div class="sekolah-card" onclick="viewSekolah('${npsn}')">
-      <div class="sk-name">${nm}</div>
-      <div class="sk-npsn">NPSN: ${npsn}</div>
-      <div class="sk-stats">
-        <span class="badge badge-blue"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> ${tl} Siswa</span>
-        <span class="badge badge-green">Aktif</span>
+  const footer = `
+    <div class="sidebar-footer">
+      <div style="margin-top:10px">
+        <button class="btn-outline" style="width:100%;margin-bottom:8px" onclick="openChangePassword()">Ganti Password</button>
+        <button class="btn-danger" style="width:100%;" onclick="doLogout()">Keluar</button>
       </div>
     </div>`;
-  }
-  grid.innerHTML = html || '<div style="color:var(--text-sub);grid-column:span 2;padding:20px">Belum ada data sekolah</div>';
-}
-
-window.viewSekolah = async function(npsn) {
-  window._currentNPSN = npsn;
-  const data = await dbGet(`sekolah/${npsn}`);
-  const nm = data?.profil?.nama || ('Sekolah ' + npsn);
-  document.getElementById('dash-school-name').textContent = nm;
-  document.getElementById('topbar-school').textContent = nm;
-  document.getElementById('dash-npsn').textContent = 'NPSN: ' + npsn;
-  enableReadonlyMode();
-  ['profil','aset-tanah','aset-barang','aset-gedung','aset-lain','pegawai','siswa'].forEach(s => loadSection(s));
-  updateDashboard();
-  navTo('profil', null);
-  const sb = document.getElementById('sidebar');
-  if (!document.getElementById('nav-back-btn')) {
-    const backDiv = document.createElement('div');
-    backDiv.id = 'nav-back-btn';
-    backDiv.className = 'nav-item pengawas-nav';
-    backDiv.style.cssText = 'margin-top:auto;border-top:1px solid var(--border);padding-top:14px;';
-    backDiv.innerHTML = '<span class="ico">←</span><span class="label">Kembali ke Daftar</span>';
-    backDiv.onclick = () => {
-      window._currentNPSN = null;
-      navTo('daftar-sekolah', document.querySelector('.nav-item.pengawas-nav'));
-      loadSekolahList();
-      backDiv.remove();
-    };
-    sb.appendChild(backDiv);
-  }
-}
-
-async function loadAdminUsers() {
-  const pengawasData = await dbGet('users/pengawas');
-  const tbodyP = document.getElementById('tbody-pengawas');
-  if (!pengawasData || Object.keys(pengawasData).length === 0) {
-    tbodyP.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Belum ada data pengawas</td></tr>';
-  } else {
-    tbodyP.innerHTML = Object.entries(pengawasData).map(([nrk, d], i) =>
-      `<tr>
-        <td>${i+1}</td>
-        <td>${d.nama || '-'}</td>
-        <td><span class="badge badge-purple">${nrk}</span></td>
-        <td><span class="badge ${d.status==='nonaktif' ? 'badge-red' : 'badge-green'}">${d.status || 'aktif'}</span></td>
-        <td><div class="actions">
-          <button class="btn-danger btn-sm" onclick="toggleUser('pengawas','${nrk}','${d.status||'aktif'}')">${d.status==='nonaktif' ? '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Aktifkan' : '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Nonaktifkan'}</button>
-          <button class="btn-danger btn-sm" onclick="deleteUser('pengawas','${nrk}')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg> Hapus</button>
-        </div></td>
-      </tr>`).join('');
-  }
-  const operatorData = await dbGet('sekolah');
-  const tbodyO = document.getElementById('tbody-operator');
-  if (!operatorData || Object.keys(operatorData).length === 0) {
-    tbodyO.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Belum ada operator</td></tr>';
-  } else {
-    tbodyO.innerHTML = Object.entries(operatorData).map(([npsn, d], i) =>
-      `<tr>
-        <td>${i+1}</td>
-        <td>${d?.profil?.nama || d?.nama || '—'}</td>
-        <td><span class="badge badge-blue">${npsn}</span></td>
-        <td><span class="badge ${d.status==='nonaktif' ? 'badge-red' : 'badge-green'}">${d.status || 'aktif'}</span></td>
-        <td><div class="actions">
-          <button class="btn-danger btn-sm" onclick="toggleUser('operator','${npsn}','${d.status||'aktif'}')">${d.status==='nonaktif' ? '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Aktifkan' : '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Nonaktifkan'}</button>
-          <button class="btn-danger btn-sm" onclick="deleteUser('operator','${npsn}')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg> Hapus</button>
-        </div></td>
-      </tr>`).join('');
-  }
-}
-
-let _modalRole = '';
-window.openModal = function(role) {
-  _modalRole = role;
-  const m = document.getElementById('modal-user');
-  document.getElementById('modal-fields-pengawas').style.display = role === 'pengawas' ? 'block' : 'none';
-  document.getElementById('modal-fields-operator').style.display = role === 'operator' ? 'block' : 'none';
-  document.getElementById('modal-title').textContent = role === 'pengawas' ? 'Tambah Pengawas' : 'Tambah Operator Sekolah';
-  document.getElementById('modal-sub').textContent = role === 'pengawas' ? 'Isi data akun pengawas baru' : 'Isi data operator sekolah baru';
-  document.getElementById('modal-error').style.display = 'none';
-  m.classList.add('open');
-}
-window.closeModal = function() {
-  document.getElementById('modal-user').classList.remove('open');
-}
-
-window.saveUser = async function() {
-  const err = document.getElementById('modal-error');
-  try {
-    if (_modalRole === 'pengawas') {
-      const nama = document.getElementById('m-nama-pengawas').value.trim();
-      const nrk = document.getElementById('m-nrk').value.trim();
-      const pass = document.getElementById('m-pass-pengawas').value.trim();
-      if (!nama || !nrk || !pass) throw new Error('Semua field wajib diisi');
-      if (pass.length < 6) throw new Error('Password minimal 6 karakter');
-      const exists = await dbGet(`users/pengawas/${nrk}`);
-      if (exists) throw new Error('NRK sudah terdaftar');
-      await dbSet(`users/pengawas/${nrk}`, { nama, nrk, password: pass, status: 'aktif', created: Date.now() });
-      showToast('✓ Pengawas berhasil ditambahkan');
-    } else {
-      const nama = document.getElementById('m-nama-sekolah').value.trim();
-      const npsn = document.getElementById('m-npsn-op').value.trim();
-      const pass = document.getElementById('m-pass-operator').value.trim() || npsn;
-      if (!nama || !npsn) throw new Error('Nama sekolah dan NPSN wajib diisi');
-      const exists = await dbGet(`sekolah/${npsn}`);
-      if (exists) throw new Error('NPSN sudah terdaftar');
-      await dbSet(`sekolah/${npsn}`, { npsn, nama, password: pass, status: 'aktif', profil: { npsn, nama }, created: Date.now() });
-      showToast('✓ Operator sekolah berhasil ditambahkan');
+  sb.innerHTML = (navs[role] || navs.operator) + footer;
+  // populate topbar user info if available
+  const avatarEl = document.getElementById('topbar-avatar');
+  const nameEl = document.getElementById('topbar-name');
+  const roleEl = document.getElementById('topbar-role-badge');
+  if (window._currentRole) {
+    const ico = window._currentRole === 'operator' ? 'S' : window._currentRole === 'pengawas' ? 'P' : 'A';
+    if (avatarEl) { avatarEl.textContent = ico; avatarEl.className = 'avatar ' + window._currentRole + '-av'; }
+    if (nameEl) {
+      nameEl.textContent = window._currentRole === 'operator' ? (window._currentNPSN || '-') : (window._currentRole === 'pengawas' ? (window._currentNRK || '-') : (window._adminEmail || '-'));
+      nameEl.title = nameEl.textContent;
     }
-    closeModal();
-    loadAdminUsers();
-  } catch(e) {
-    err.textContent = '✗ ' + e.message;
-    err.style.display = 'block';
+    if (roleEl) { roleEl.textContent = window._currentRole.toUpperCase(); roleEl.className = 'role-badge ' + window._currentRole; }
   }
+  // ensure buttons in footer have consistent sizing
+  const footBtns = document.querySelectorAll('.sidebar-footer .btn-outline, .sidebar-footer .btn-danger');
+  footBtns.forEach(b => { b.style.padding = '10px 12px'; b.style.fontSize = '14px'; b.style.borderRadius = '8px'; b.style.display = 'block'; });
 }
 
-window.toggleUser = async function(type, id, currentStatus) {
-  const newStatus = currentStatus === 'nonaktif' ? 'aktif' : 'nonaktif';
-  const path = type === 'pengawas' ? `users/pengawas/${id}/status` : `sekolah/${id}/status`;
-  await dbSet(path, newStatus);
-  showToast(`✓ Status diubah menjadi ${newStatus}`);
-  loadAdminUsers();
-}
-
-window.deleteUser = async function(type, id) {
-  if (!confirm(`Hapus ${type} "${id}"? Data sekolah tidak akan ikut terhapus.`)) return;
-  const path = type === 'pengawas' ? `users/pengawas/${id}` : `sekolah/${id}`;
-  await dbRemove(path);
-  showToast('✓ Pengguna dihapus', false);
-  loadAdminUsers();
-}
-
-window.doLogout = async function() {
-  if (!confirm('Yakin ingin keluar dari sistem?')) return;
-  if (auth && window._currentRole === 'admin') { try { await signOut(auth); } catch(e) {} }
-  location.reload();
-}
-
-window.showReset = function() {
-  alert('Untuk reset password, hubungi administrator SIDAS-JT1.\nEmail: admin@sidasjt1.disdik.jakarta.go.id');
-}
-
+/* ══════════════════════
+   READ/WRITE SECTIONS
+   Data sekolah → koleksi /sekolah_data/{npsn}
+   Sub-dokumen per section (profil, aset_tanah, dst)
+══════════════════════ */
 const sectionFields = {
-  profil: ['p-nama','p-alamat','p-gmaps','p-kepsek','p-nip-kepsek','p-kasubbag','p-nip-kasubbag','p-bendahara','p-nip-bendahara','p-pengurus','p-nip-pengurus'],
+  profil:       ['p-nama','p-alamat','p-gmaps','p-kepsek','p-nip-kepsek','p-kasubbag','p-nip-kasubbag','p-bendahara','p-nip-bendahara','p-pengurus','p-nip-pengurus'],
   'aset-tanah': ['kiba-ket','kiba-jumlah-sertif','sertif-ket','luas-tanah','luas-lapangan','ket-lapangan'],
-  'aset-barang': ['kibb-jml-inp','kibb-nilai-inp','kibb-baik-inp','kibb-rusak-inp'],
-  'aset-gedung': ['kibc-ket','luas-bangunan','ket-kerusakan','r-pimpinan','r-wakil','r-subbag','r-tu','r-guru','r-kelas','r-perpus','r-konseling','r-lab','ket-lab','r-om','r-bkpbi-wicara','r-bkpbi-persepsi','r-bina-diri-c','r-bina-gerak-d','r-bina-sosial-e','r-keterampilan','r-ibadah','r-uks','r-osis','r-gudang','toilet-siswa','toilet-guru','kerusakan-gedung'],
-  'aset-lain': ['kibe-jml-inp','kibe-nilai-inp','kibe-baik-inp','kibe-rusak-inp'],
-  pegawai: ['pend-pns-l','pend-pns-p','pend-pppk-l','pend-pppk-p','pend-pppkpw-l','pend-pppkpw-p','pend-kki-l','pend-kki-p','tendik-pns-l','tendik-pns-p','tendik-pppk-l','tendik-pppk-p','tendik-pppkpw-l','tendik-pppkpw-p','tendik-kki-l','tendik-kki-p'],
-  siswa: ['s-rombel','s-total-l','s-total-p','s-kjp','s-pip','abk-a-l','abk-a-p','abk-b-l','abk-b-p','abk-c-l','abk-c-p','abk-d-l','abk-d-p','abk-e-l','abk-e-p','abk-f-l','abk-f-p','abk-asd-l','abk-asd-p','abk-adhd-l','abk-adhd-p','abk-kb-l','abk-kb-p','abk-sl-l','abk-sl-p','abk-gt-l','abk-gt-p']
+  'aset-barang':['kibb-jml-inp','kibb-nilai-inp','kibb-baik-inp','kibb-rusak-inp'],
+  'aset-gedung':['kibc-ket','luas-bangunan','ket-kerusakan','r-pimpinan','r-wakil','r-subbag','r-tu','r-guru','r-kelas','r-perpus','r-konseling','r-lab','ket-lab','r-om','r-bkpbi-wicara','r-bkpbi-persepsi','r-bina-diri-c','r-bina-gerak-d','r-bina-sosial-e','r-keterampilan','r-ibadah','r-uks','r-osis','r-gudang','toilet-siswa','toilet-guru','kerusakan-gedung'],
+  'aset-lain':  ['kibe-jml-inp','kibe-nilai-inp','kibe-baik-inp','kibe-rusak-inp'],
+  pegawai:      ['pend-pns-l','pend-pns-p','pend-pppk-l','pend-pppk-p','pend-pppkpw-l','pend-pppkpw-p','pend-kki-l','pend-kki-p','tendik-pns-l','tendik-pns-p','tendik-pppk-l','tendik-pppk-p','tendik-pppkpw-l','tendik-pppkpw-p','tendik-kki-l','tendik-kki-p'],
+  siswa:        ['s-rombel','s-total-l','s-total-p','s-kjp','s-pip','abk-a-l','abk-a-p','abk-b-l','abk-b-p','abk-c-l','abk-c-p','abk-d-l','abk-d-p','abk-e-l','abk-e-p','abk-f-l','abk-f-p','abk-asd-l','abk-asd-p','abk-adhd-l','abk-adhd-p','abk-kb-l','abk-kb-p','abk-sl-l','abk-sl-p','abk-gt-l','abk-gt-p']
 };
 const sectionRadios = {
   'aset-tanah': [{ name:'kib-a', id:'kiba' },{ name:'sertif', id:'sertif' }],
-  'aset-gedung': [{ name:'kib-c', id:'kibc' }]
+  'aset-gedung':[{ name:'kib-c', id:'kibc' }]
 };
+
+// Konversi nama section → nama field Firestore (pakai underscore)
+function sectionKey(s) { return s.replace(/-/g,'_'); }
 
 window.loadSection = async function(section) {
   const npsn = window._currentNPSN;
   if (!npsn) return;
-  const data = await dbGet(`sekolah/${npsn}/${section.replace(/-/g,'_')}`);
+  const docSnap = await fsGet('sekolah_data', npsn);
+  const data = docSnap?.[sectionKey(section)];
   if (!data) return;
-  sectionFields[section]?.forEach(id => { const el = document.getElementById(id); if (el && data[id] !== undefined) el.value = data[id]; });
-  sectionRadios[section]?.forEach(r => { const val = data[r.name]; if (val) { const radio = document.getElementById(r.id + '-' + val.toLowerCase()); if (radio) radio.checked = true; } });
+  sectionFields[section]?.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && data[id] !== undefined) el.value = data[id];
+  });
+  sectionRadios[section]?.forEach(r => {
+    const val = data[r.name];
+    if (val) { const radio = document.getElementById(r.id + '-' + val.toLowerCase()); if (radio) radio.checked = true; }
+  });
   if (section === 'aset-barang') syncKibB();
-  if (section === 'aset-lain') syncKibE();
-  if (section === 'aset-tanah') { const sel = document.getElementById('kiba-ket'); if (sel) toggleKibaJumlah(sel.value); }
+  if (section === 'aset-lain')   syncKibE();
+  if (section === 'aset-tanah')  { const sel = document.getElementById('kiba-ket'); if (sel) toggleKibaJumlah(sel.value); }
   if (section === 'profil') {
     const nm = data['p-nama'];
     if (nm) { document.getElementById('dash-school-name').textContent = nm; document.getElementById('topbar-school').textContent = nm; }
-    previewMap();
+    if (window._currentRole === 'operator') previewMap();
   }
 }
 
@@ -1593,46 +2064,773 @@ window.saveSection = async function(section) {
   const payload = {};
   sectionFields[section]?.forEach(id => { const el = document.getElementById(id); if (el) payload[id] = el.value; });
   sectionRadios[section]?.forEach(r => { const val = document.querySelector(`input[name="${r.name}"]:checked`)?.value; if (val) payload[r.name] = val; });
-  await dbSet(`sekolah/${npsn}/${section.replace(/-/g,'_')}`, payload);
+  // Simpan sebagai nested field di dokumen /sekolah_data/{npsn}
+  await fsSet('sekolah_data', npsn, { [sectionKey(section)]: payload, updatedAt: serverTimestamp() });
   showToast('✓ Data berhasil disimpan');
-  if (section === 'profil') { const nm = payload['p-nama']; if (nm) { document.getElementById('dash-school-name').textContent = nm; document.getElementById('topbar-school').textContent = nm; } }
+  if (section === 'profil') {
+    const nm = payload['p-nama'];
+    if (nm) { document.getElementById('dash-school-name').textContent = nm; document.getElementById('topbar-school').textContent = nm; }
+  }
   updateDashboard();
 }
 
-function showToast(msg, isErr) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.toggle('error', isErr === true);
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-window.showToast = showToast;
-
+/* ══════════════════════
+   DASHBOARD STATS
+══════════════════════ */
 async function updateDashboard() {
   const npsn = window._currentNPSN;
   if (!npsn) return;
-  const siswa = await dbGet(`sekolah/${npsn}/siswa`);
-  const pegawai = await dbGet(`sekolah/${npsn}/pegawai`);
-  const gedung = await dbGet(`sekolah/${npsn}/aset_gedung`);
+  const docSnap = await fsGet('sekolah_data', npsn);
+  const siswa   = docSnap?.siswa;
+  const pegawai = docSnap?.pegawai;
+  const gedung  = docSnap?.aset_gedung;
+  const profil  = docSnap?.profil;
+
   const totalSiswa = (parseInt(siswa?.['s-total-l'])||0) + (parseInt(siswa?.['s-total-p'])||0);
-  const totalGuru = ['pend-pns-l','pend-pns-p','pend-pppk-l','pend-pppk-p','pend-pppkpw-l','pend-pppkpw-p','pend-kki-l','pend-kki-p','tendik-pns-l','tendik-pns-p','tendik-pppk-l','tendik-pppk-p','tendik-pppkpw-l','tendik-pppkpw-p','tendik-kki-l','tendik-kki-p'].reduce((a,k) => a + (parseInt(pegawai?.[k])||0), 0);
+  const totalGuru  = ['pend-pns-l','pend-pns-p','pend-pppk-l','pend-pppk-p','pend-pppkpw-l','pend-pppkpw-p','pend-kki-l','pend-kki-p',
+                      'tendik-pns-l','tendik-pns-p','tendik-pppk-l','tendik-pppk-p','tendik-pppkpw-l','tendik-pppkpw-p','tendik-kki-l','tendik-kki-p']
+                     .reduce((a,k) => a + (parseInt(pegawai?.[k])||0), 0);
   const rombel = parseInt(siswa?.['s-rombel'])||0;
-  const luas = parseInt(gedung?.['luas-bangunan'])||0;
+  const luas   = parseInt(gedung?.['luas-bangunan'])||0;
+
   document.getElementById('ds-total-siswa').textContent = totalSiswa;
-  document.getElementById('ds-total-guru').textContent = totalGuru;
-  document.getElementById('ds-rombel').textContent = rombel;
-  document.getElementById('ds-luas').textContent = luas.toLocaleString('id');
-  const profilData = await dbGet(`sekolah/${npsn}/profil`);
-  const profilPct = profilData ? Math.min(100, Math.round(Object.keys(profilData).filter(k=>profilData[k]).length / 11 * 100)) : 0;
-  const asetPct = gedung ? Math.min(100, Math.round(Object.keys(gedung).filter(k=>gedung[k]).length / 20 * 100)) : 0;
-  const sdmPct = (totalSiswa > 0 || totalGuru > 0) ? 100 : 0;
+  document.getElementById('ds-total-guru').textContent  = totalGuru;
+  document.getElementById('ds-rombel').textContent      = rombel;
+  document.getElementById('ds-luas').textContent        = luas.toLocaleString('id');
+
+  const profilPct = profil ? Math.min(100, Math.round(Object.keys(profil).filter(k=>profil[k]).length / 11 * 100)) : 0;
+  const asetPct   = gedung ? Math.min(100, Math.round(Object.keys(gedung).filter(k=>gedung[k]).length / 20 * 100)) : 0;
+  const sdmPct    = (totalSiswa > 0 || totalGuru > 0) ? 100 : 0;
   ['profil','aset','sdm'].forEach((k,i) => {
     const p = [profilPct, asetPct, sdmPct][i];
-    document.getElementById(`prog-${k}`).textContent = p+'%';
-    document.getElementById(`pb-${k}`).style.width = p+'%';
+    document.getElementById(`prog-${k}`).textContent = p + '%';
+    document.getElementById(`pb-${k}`).style.width   = p + '%';
   });
 }
 
+/* ══════════════════════
+   PENGAWAS — DAFTAR SEKOLAH
+   Cache semua data agar filter/search instan
+══════════════════════ */
+let _sekolahCache = []; // { npsn, nama, status, totalSiswa, totalGuru, pctData }
+
+/* ══════════════════════
+   PENGAWAS — DASHBOARD
+══════════════════════ */
+function updateDashboardPengawas() {
+  if (!_sekolahCache || !_sekolahCache.length) return;
+  
+  const now = new Date();
+  const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][now.getDay()];
+  const tgl = now.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  
+  // Update welcome
+  document.getElementById('dash-pengawas-date').textContent = tgl;
+  
+  // Agregat data
+  const totalSekolah = _sekolahCache.length;
+  const totalSiswa = _sekolahCache.reduce((s, r) => s + (r.totalSiswa || 0), 0);
+  const totalGuru = _sekolahCache.reduce((s, r) => s + (r.totalGuru || 0), 0);
+  const avgPct = Math.round(_sekolahCache.reduce((s, r) => s + (r.pctData || 0), 0) / totalSekolah);
+  
+  document.getElementById('pw-total-sekolah').textContent = totalSekolah;
+  document.getElementById('pw-total-siswa').textContent = totalSiswa;
+  document.getElementById('pw-total-guru').textContent = totalGuru;
+  document.getElementById('pw-avg-pct').textContent = avgPct + '%';
+  
+  // Sekolah perlu perhatian (pctData < 40%)
+  const alert = _sekolahCache.filter(r => r.pctData < 40).sort((a,b) => a.pctData - b.pctData).slice(0, 5);
+  const alertHTML = alert.length ? alert.map(r => `
+    <div class="alert-card">
+      <div class="alert-card-title">⚠ ${r.nama}</div>
+      <div class="alert-card-school">NPSN: ${r.npsn}</div>
+      <div class="alert-card-pct">Kelengkapan Data: <strong>${r.pctData}%</strong></div>
+      <button class="btn-save btn-sm" style="width:100%;margin-top:6px" onclick="viewSekolah('${r.npsn}','${r.nama.replace(/'/g,"\\'")}')">
+        Lihat Data
+      </button>
+    </div>
+  `).join('') : '<div style="grid-column:1/-1;padding:20px;text-align:center;color:var(--text-sub)">Semua sekolah memiliki kelengkapan data ≥ 40% ✓</div>';
+  document.getElementById('pw-alert-container').innerHTML = alertHTML;
+  
+  // Chart 1: Kelengkapan Data (bar horizontal)
+  const sorted = [..._sekolahCache].sort((a,b) => a.pctData - b.pctData);
+  const chartKelengkapan = sorted.map(r => {
+    const pctColor = r.pctData >= 75 ? '#1A7A3E' : r.pctData >= 40 ? '#F4A01C' : '#CC0000';
+    return `<div class="chart-bar-row">
+      <div class="chart-bar-label">${r.nama}</div>
+      <div class="chart-bar-container">
+        <div class="chart-bar-fill" style="width:${r.pctData}%;background:linear-gradient(90deg, #CC0000, #F4A01C, #1A7A3E)">
+          <span class="chart-bar-pct">${r.pctData}%</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pw-chart-kelengkapan').innerHTML = chartKelengkapan;
+  
+  // Chart 2: Distribusi Siswa (bar vertikal)
+  const maxSiswa = Math.max(..._sekolahCache.map(r => r.totalSiswa || 0));
+  const chartSiswa = _sekolahCache.map((r, i) => {
+    const heightPct = maxSiswa > 0 ? Math.max(10, (r.totalSiswa / maxSiswa) * 100) : 10;
+    return `<div class="chart-bar-v" style="height:${heightPct}%">
+      <div class="chart-bar-v-val">${r.totalSiswa}</div>
+      <div class="chart-bar-v-label">${r.nama.substring(0,15)}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('pw-chart-siswa').innerHTML = `<div class="chart-bars-vertical" style="height:250px">${chartSiswa}</div>`;
+  
+  // Chart 3: Rasio Guru:Siswa (grouped bar)
+  const chartRatio = _sekolahCache.sort((a,b) => (b.totalGuru/b.totalSiswa || 0) - (a.totalGuru/a.totalSiswa || 0)).slice(0, 10).map(r => {
+    const maxVal = Math.max(r.totalGuru, r.totalSiswa, 50);
+    const guruH = Math.max(5, (r.totalGuru / maxVal) * 100);
+    const siswaH = Math.max(5, (r.totalSiswa / maxVal) * 100);
+    const ratio = r.totalSiswa > 0 ? (r.totalGuru / r.totalSiswa).toFixed(2) : '0';
+    return `<div class="chart-grouped-row">
+      <div class="chart-grouped-label">${r.nama}</div>
+      <div class="chart-grouped-bars-inner">
+        <div class="chart-grouped-bar guru" style="height:${guruH}%"><div class="chart-grouped-bar-val">${r.totalGuru}</div></div>
+        <div class="chart-grouped-bar siswa" style="height:${siswaH}%"><div class="chart-grouped-bar-val">${r.totalSiswa}</div></div>
+      </div>
+      <div class="chart-grouped-ratio">1:${ratio}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('pw-chart-ratio').innerHTML = chartRatio || '<div style="padding:20px;text-align:center;color:var(--text-sub)">Tidak ada data</div>';
+  
+  // Chart 4: Komposisi Pegawai (agregat)
+  // Untuk sekarang, buat dummy. Nanti bisa fetch dari sekolah_data untuk detail pegawai status
+  const totalPNS = totalGuru * 0.5; // dummy
+  const totalPPPK = totalGuru * 0.25;
+  const totalHonorer = totalGuru * 0.25;
+  const donutSvg = createDonutChart(
+    [
+      { label: 'PNS', val: Math.round(totalPNS), color: '#003366' },
+      { label: 'PPPK', val: Math.round(totalPPPK), color: '#F4A01C' },
+      { label: 'Honorer (KKI)', val: Math.round(totalHonorer), color: '#1A7A3E' }
+    ]
+  );
+  document.getElementById('pw-chart-komposisi').innerHTML = donutSvg;
+  
+  // Chart 5: Kondisi Aset Barang (dummy stacked)
+  const chartAset = _sekolahCache.slice(0, 8).map(r => {
+    const baik = Math.round(Math.random() * 100);
+    const rusak = 100 - baik;
+    return `<div class="chart-stacked-row">
+      <div class="chart-stacked-label">${r.nama}</div>
+      <div class="chart-stacked-bar">
+        <div class="chart-stacked-segment baik" style="width:${baik}%"><span>${baik}%</span></div>
+        <div class="chart-stacked-segment rusak" style="width:${rusak}%"><span>${rusak}%</span></div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pw-chart-aset').innerHTML = chartAset;
+}
+
+function createDonutChart(items) {
+  const total = items.reduce((s, i) => s + i.val, 0);
+  const slices = items.map(item => {
+    const pct = total > 0 ? (item.val / total) * 100 : 0;
+    return { ...item, pct };
+  });
+  
+  let svg = `<svg class="chart-donut-svg" viewBox="0 0 200 200" style="margin:0 auto">`;
+  let angle = 0;
+  
+  slices.forEach(s => {
+    const rad1 = (angle * Math.PI) / 180;
+    const rad2 = ((angle + (s.pct * 3.6)) * Math.PI) / 180;
+    const x1 = 100 + 80 * Math.cos(rad1);
+    const y1 = 100 + 80 * Math.sin(rad1);
+    const x2 = 100 + 80 * Math.cos(rad2);
+    const y2 = 100 + 80 * Math.sin(rad2);
+    const largeArc = s.pct > 50 ? 1 : 0;
+    const ix1 = 100 + 40 * Math.cos(rad1);
+    const iy1 = 100 + 40 * Math.sin(rad1);
+    const ix2 = 100 + 40 * Math.cos(rad2);
+    const iy2 = 100 + 40 * Math.sin(rad2);
+    
+    svg += `<path d="M${x1},${y1} A80,80 0 ${largeArc},1 ${x2},${y2} L${ix2},${iy2} A40,40 0 ${largeArc},0 ${ix1},${iy1} Z" fill="${s.color}" stroke="white" stroke-width="2"/>`;
+    angle += s.pct * 3.6;
+  });
+  
+  svg += `</svg>`;
+  
+  const legend = `<div class="chart-donut-legend">${slices.map(s => 
+    `<div class="chart-donut-item"><div class="chart-donut-color" style="background:${s.color}"></div><span>${s.label}: ${s.val} (${s.pct.toFixed(1)}%)</span></div>`
+  ).join('')}</div>`;
+  
+  return svg + legend;
+}
+
+async function loadSekolahList() {
+  const tbody = document.getElementById('tbody-sekolah');
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">
+    <div class="ld-spinner" style="margin:0 auto 8px"></div>Memuat data sekolah...
+  </td></tr>`;
+
+  const allSekolah = await fsGetAll('sekolah');
+  const keys = Object.keys(allSekolah);
+  if (!keys.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">Belum ada data sekolah</td></tr>';
+    return;
+  }
+
+  // Fetch semua sekolah_data parallel
+  const rows = await Promise.all(keys.map(async npsn => {
+    const acc  = allSekolah[npsn];
+    const d    = await fsGet('sekolah_data', npsn);
+    const profil  = d?.profil   || {};
+    const siswa   = d?.siswa    || {};
+    const pegawai = d?.pegawai  || {};
+    const gedung  = d?.aset_gedung || {};
+
+    const nama = profil['p-nama'] || acc.nama || ('Sekolah ' + npsn);
+    const totalSiswa = (parseInt(siswa['s-total-l'])||0) + (parseInt(siswa['s-total-p'])||0);
+    const totalGuru  = ['pend-pns-l','pend-pns-p','pend-pppk-l','pend-pppk-p','pend-pppkpw-l','pend-pppkpw-p','pend-kki-l','pend-kki-p',
+                        'tendik-pns-l','tendik-pns-p','tendik-pppk-l','tendik-pppk-p','tendik-pppkpw-l','tendik-pppkpw-p','tendik-kki-l','tendik-kki-p']
+                       .reduce((s,k) => s + (parseInt(pegawai[k])||0), 0);
+    // Kelengkapan: hitung field profil + aset_gedung + siswa yang terisi
+    const filledProfil = Object.keys(profil).filter(k=>profil[k]).length;
+    const filledGedung = Object.keys(gedung).filter(k=>gedung[k]).length;
+    const pctData = Math.min(100, Math.round(
+      (filledProfil / 11 * 40) + (filledGedung / 20 * 40) + ((totalSiswa > 0 || totalGuru > 0) ? 20 : 0)
+    ));
+    return { npsn, nama, status: acc.status || 'aktif', totalSiswa, totalGuru, pctData };
+  }));
+
+  _sekolahCache = rows;
+  renderSekolahTable(rows);
+  updateDashboardPengawas();
+}
+
+function renderSekolahTable(rows) {
+  const tbody = document.getElementById('tbody-sekolah');
+  const count = document.getElementById('sekolah-count');
+  if (count) count.textContent = rows.length + ' sekolah ditemukan';
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">Tidak ada data yang cocok</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map((r, i) => {
+    const pctColor = r.pctData >= 75 ? 'var(--green)' : r.pctData >= 40 ? 'var(--gold)' : 'var(--red)';
+    return `<tr>
+      <td>${i+1}</td>
+      <td style="font-weight:600;color:var(--text)">${r.nama}</td>
+      <td><span class="badge badge-blue">${r.npsn}</span></td>
+      <td>${r.totalSiswa > 0 ? r.totalSiswa + ' siswa' : '<span style="color:var(--gray-4)">—</span>'}</td>
+      <td>${r.totalGuru > 0 ? r.totalGuru + ' orang' : '<span style="color:var(--gray-4)">—</span>'}</td>
+      <td style="min-width:110px">
+        <div style="display:flex;align-items:center;gap:7px">
+          <div class="progress-wrap" style="flex:1"><div class="progress-bar" style="width:${r.pctData}%;background:${pctColor}"></div></div>
+          <span style="font-size:11px;font-weight:700;color:${pctColor};white-space:nowrap">${r.pctData}%</span>
+        </div>
+      </td>
+      <td><span class="badge ${r.status === 'nonaktif' ? 'badge-red' : 'badge-green'}">${r.status}</span></td>
+      <td>
+        <button class="btn-save btn-sm" style="font-size:11px;padding:6px 12px" onclick="viewSekolah('${r.npsn}','${r.nama.replace(/'/g,"\\'")}')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Lihat Data
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.filterSekolahList = function() {
+  const q      = (document.getElementById('sekolah-search')?.value || '').toLowerCase().trim();
+  const status = document.getElementById('sekolah-filter-status')?.value || '';
+  const filtered = _sekolahCache.filter(r => {
+    const matchQ = !q || r.nama.toLowerCase().includes(q) || r.npsn.includes(q);
+    const matchS = !status || r.status === status;
+    return matchQ && matchS;
+  });
+  renderSekolahTable(filtered);
+}
+
+/* ══════════════════════
+   PENGAWAS — DETAIL SEKOLAH
+══════════════════════ */
+let _detailData = null; // cache data sekolah yang sedang dilihat
+
+window.viewSekolah = async function(npsn, nama) {
+  window._currentNPSN = npsn;
+  // Tampilkan header
+  document.getElementById('detail-school-title').textContent = nama || ('Sekolah ' + npsn);
+  document.getElementById('detail-school-sub').textContent   = 'NPSN: ' + npsn + ' — Mode Baca Saja';
+  document.getElementById('detail-breadcrumb').textContent   = 'Pengawas / Laporan / ' + (nama || npsn);
+
+  // Fetch semua data sekolah
+  document.getElementById('detail-content').innerHTML =
+    '<div style="text-align:center;padding:40px;color:var(--text-sub)"><div class="ld-spinner" style="margin:0 auto 10px"></div>Memuat data...</div>';
+
+  navTo('detail-sekolah', null);
+  // Aktifkan tab pertama
+  document.querySelectorAll('.detail-tab').forEach((t,i) => t.classList.toggle('active', i === 0));
+
+  _detailData = await fsGet('sekolah_data', npsn);
+  renderDetailTab('profil');
+}
+
+window.backToSekolahList = function() {
+  window._currentNPSN = null;
+  _detailData = null;
+  navTo('daftar-sekolah', document.querySelector('.nav-item.pengawas-nav'));
+}
+
+window.switchDetailTab = function(section, el) {
+  document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderDetailTab(section);
+}
+
+function rv(val, textarea) {
+  // Render readonly value
+  const empty = !val || val === '' || val === '0' || val === 0;
+  return `<div class="ro-val${textarea ? ' textarea' : ''}${empty ? ' empty' : ''}">${empty ? '—' : val}</div>`;
+}
+
+function renderDetailTab(section) {
+  const d   = _detailData;
+  const key = section.replace(/-/g,'_');
+  const sec = d?.[key] || {};
+  const el  = document.getElementById('detail-content');
+
+  const banner = ``;
+
+  if (section === 'profil') {
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Identitas Sekolah</div>
+      <div class="form-grid">
+        <div class="ro-field"><label>NPSN</label>${rv(window._currentNPSN)}</div>
+        <div class="ro-field"><label>Nama Sekolah</label>${rv(sec['p-nama'])}</div>
+        <div class="ro-field span-2"><label>Alamat</label>${rv(sec['p-alamat'])}</div>
+      </div>
+      ${sec['p-gmaps'] ? `
+        <div class="section-divider"><span>Lokasi Google Maps</span></div>
+        <iframe src="${(()=>{ const v=sec['p-gmaps']; const m=v.match(/src=["'][^"']+["']/); if(m) return m[0].replace(/src=["']/,'').replace(/["']$/,''); if(v.includes('google.com/maps/embed')) return v; return 'https://maps.google.com/maps?q='+encodeURIComponent(v)+'&output=embed'; })()}" style="width:100%;height:200px;border-radius:var(--radius);border:1px solid var(--border)" allowfullscreen loading="lazy"></iframe>
+      ` : ''}
+    </div>
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Pejabat Sekolah</div>
+      <div class="form-grid">
+        <div class="ro-field"><label>Kepala Sekolah</label>${rv(sec['p-kepsek'])}</div>
+        <div class="ro-field"><label>NIP Kepala Sekolah</label>${rv(sec['p-nip-kepsek'])}</div>
+        <div class="ro-field"><label>Kasubbag / Kasatpel</label>${rv(sec['p-kasubbag'])}</div>
+        <div class="ro-field"><label>NIP Kasubbag</label>${rv(sec['p-nip-kasubbag'])}</div>
+        <div class="ro-field"><label>Bendahara</label>${rv(sec['p-bendahara'])}</div>
+        <div class="ro-field"><label>NIP Bendahara</label>${rv(sec['p-nip-bendahara'])}</div>
+        <div class="ro-field"><label>Pengurus Barang</label>${rv(sec['p-pengurus'])}</div>
+        <div class="ro-field"><label>NIP Pengurus Barang</label>${rv(sec['p-nip-pengurus'])}</div>
+      </div>
+    </div>`;
+
+  } else if (section === 'aset-tanah') {
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>KIB A — Tanah</div>
+      <div class="form-grid">
+        <div class="ro-field"><label>KIB A</label>${rv(sec['kib-a'])}</div>
+        <div class="ro-field"><label>Keterangan KIB A</label>${rv(sec['kiba-ket'])}</div>
+        ${sec['kiba-ket'] === 'Belum a/n Pemda/Perorangan' ? `<div class="ro-field"><label>Jumlah Sertifikat</label>${rv(sec['kiba-jumlah-sertif'])}</div>` : ''}
+        <div class="ro-field"><label>Sertifikat Tanah</label>${rv(sec['sertif'])}</div>
+        <div class="ro-field"><label>Keterangan Sertifikat</label>${rv(sec['sertif-ket'])}</div>
+        <div class="ro-field"><label>Luas Tanah (m²)</label>${rv(sec['luas-tanah'])}</div>
+        <div class="ro-field"><label>Luas Lapangan (m²)</label>${rv(sec['luas-lapangan'])}</div>
+        <div class="ro-field span-2"><label>Keterangan Lapangan</label>${rv(sec['ket-lapangan'], true)}</div>
+      </div>
+    </div>`;
+
+  } else if (section === 'aset-barang') {
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>KIB B — Barang Bergerak</div>
+      <div class="kib-summary" style="margin-bottom:16px">
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibb-jml-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Jumlah Total Barang</div></div>
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibb-nilai-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Nilai Total (Rp)</div></div>
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibb-baik-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Kondisi Baik</div></div>
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibb-rusak-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Kondisi Rusak</div></div>
+      </div>
+    </div>`;
+
+  } else if (section === 'aset-gedung') {
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>KIB C — Gedung</div>
+      <div class="form-grid">
+        <div class="ro-field"><label>KIB C</label>${rv(sec['kib-c'])}</div>
+        <div class="ro-field"><label>Keterangan KIB C</label>${rv(sec['kibc-ket'])}</div>
+        <div class="ro-field"><label>Luas Bangunan (m²)</label>${rv(sec['luas-bangunan'])}</div>
+        <div class="ro-field span-2"><label>Keterangan Kerusakan</label>${rv(sec['ket-kerusakan'], true)}</div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ruang Administrasi &amp; Manajemen</div>
+      <div class="form-grid cols-3">
+        <div class="ro-field"><label>R. Pimpinan</label>${rv(sec['r-pimpinan'])}</div>
+        <div class="ro-field"><label>R. Wakil Pimpinan</label>${rv(sec['r-wakil'])}</div>
+        <div class="ro-field"><label>R. Subbag TU</label>${rv(sec['r-subbag'])}</div>
+        <div class="ro-field"><label>R. Tata Usaha</label>${rv(sec['r-tu'])}</div>
+        <div class="ro-field"><label>R. Guru</label>${rv(sec['r-guru'])}</div>
+        <div class="ro-field"><label>R. Kelas</label>${rv(sec['r-kelas'])}</div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ruang Penunjang &amp; Fasilitas</div>
+      <div class="form-grid cols-3">
+        <div class="ro-field"><label>Perpustakaan</label>${rv(sec['r-perpus'])}</div>
+        <div class="ro-field"><label>Konseling</label>${rv(sec['r-konseling'])}</div>
+        <div class="ro-field"><label>Laboratorium</label>${rv(sec['r-lab'])}</div>
+        <div class="ro-field span-3"><label>Keterangan Lab</label>${rv(sec['ket-lab'])}</div>
+        <div class="ro-field"><label>R. Orientasi Mobilitas</label>${rv(sec['r-om'])}</div>
+        <div class="ro-field"><label>R. BKPBI Wicara</label>${rv(sec['r-bkpbi-wicara'])}</div>
+        <div class="ro-field"><label>R. BKPBI Persepsi</label>${rv(sec['r-bkpbi-persepsi'])}</div>
+        <div class="ro-field"><label>R. Bina Diri (C)</label>${rv(sec['r-bina-diri-c'])}</div>
+        <div class="ro-field"><label>R. Bina Gerak (D)</label>${rv(sec['r-bina-gerak-d'])}</div>
+        <div class="ro-field"><label>R. Bina Sosial (E)</label>${rv(sec['r-bina-sosial-e'])}</div>
+        <div class="ro-field"><label>R. Keterampilan</label>${rv(sec['r-keterampilan'])}</div>
+        <div class="ro-field"><label>Tempat Ibadah</label>${rv(sec['r-ibadah'])}</div>
+        <div class="ro-field"><label>UKS</label>${rv(sec['r-uks'])}</div>
+        <div class="ro-field"><label>OSIS</label>${rv(sec['r-osis'])}</div>
+        <div class="ro-field"><label>Gudang</label>${rv(sec['r-gudang'])}</div>
+        <div class="ro-field"><label>Toilet Siswa/i</label>${rv(sec['toilet-siswa'])}</div>
+        <div class="ro-field"><label>Toilet Kepsek/Guru</label>${rv(sec['toilet-guru'])}</div>
+        <div class="ro-field span-3"><label>Deskripsi Kerusakan Gedung</label>${rv(sec['kerusakan-gedung'], true)}</div>
+      </div>
+    </div>`;
+
+  } else if (section === 'aset-lain') {
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>KIB E — Aset Tetap Lainnya</div>
+      <div class="kib-summary">
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibe-jml-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Jumlah Total</div></div>
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibe-nilai-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Nilai Total (Rp)</div></div>
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibe-baik-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Kondisi Baik</div></div>
+        <div class="kib-stat"><div class="kib-val">${parseInt(sec['kibe-rusak-inp']||0).toLocaleString('id')}</div><div class="kib-lbl">Kondisi Rusak</div></div>
+      </div>
+    </div>`;
+
+  } else if (section === 'pegawai') {
+    const pegKeys = [
+      { title:'Pendidik PNS',           l:'pend-pns-l',     p:'pend-pns-p' },
+      { title:'Pendidik PPPK',          l:'pend-pppk-l',    p:'pend-pppk-p' },
+      { title:'Pendidik PPPK Paruh Waktu', l:'pend-pppkpw-l', p:'pend-pppkpw-p' },
+      { title:'Pendidik Non-ASN (KKI)', l:'pend-kki-l',     p:'pend-kki-p' },
+      { title:'Tendik PNS',             l:'tendik-pns-l',   p:'tendik-pns-p' },
+      { title:'Tendik PPPK',            l:'tendik-pppk-l',  p:'tendik-pppk-p' },
+      { title:'Tendik PPPK Paruh Waktu',l:'tendik-pppkpw-l',p:'tendik-pppkpw-p' },
+      { title:'Tendik Non-ASN (KKI)',   l:'tendik-kki-l',   p:'tendik-kki-p' },
+    ];
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Data Pendidik &amp; Tenaga Kependidikan</div>
+      <div class="pegawai-grid">
+        ${pegKeys.map(k => `
+          <div class="pegawai-item">
+            <div class="pi-title">${k.title}</div>
+            <div class="gender-row">
+              <div class="ro-field"><span class="gender male">Laki-laki</span>${rv(sec[k.l] || '0')}</div>
+              <div class="ro-field"><span class="gender female">Perempuan</span>${rv(sec[k.p] || '0')}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  } else if (section === 'siswa') {
+    const abkList = [
+      { title:'Tunanetra',      l:'abk-a-l',    p:'abk-a-p' },
+      { title:'Tunarungu',      l:'abk-b-l',    p:'abk-b-p' },
+      { title:'Tunagrahita',    l:'abk-c-l',    p:'abk-c-p' },
+      { title:'Tunadaksa',      l:'abk-d-l',    p:'abk-d-p' },
+      { title:'Tunalaras',      l:'abk-e-l',    p:'abk-e-p' },
+      { title:'Tunawicara',     l:'abk-f-l',    p:'abk-f-p' },
+      { title:'ASD (Autisme)',  l:'abk-asd-l',  p:'abk-asd-p' },
+      { title:'ADHD',           l:'abk-adhd-l', p:'abk-adhd-p' },
+      { title:'Kesulitan Belajar', l:'abk-kb-l',p:'abk-kb-p' },
+      { title:'Slow Learner',   l:'abk-sl-l',   p:'abk-sl-p' },
+      { title:'Gifted & Talented', l:'abk-gt-l',p:'abk-gt-p' },
+    ];
+    el.innerHTML = banner + `
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ringkasan Peserta Didik</div>
+      <div class="form-grid cols-3">
+        <div class="ro-field"><label>Rombongan Belajar</label>${rv(sec['s-rombel'])}</div>
+        <div class="ro-field"><span class="gender male">Siswa Laki-laki</span>${rv(sec['s-total-l'])}</div>
+        <div class="ro-field"><span class="gender female">Siswa Perempuan</span>${rv(sec['s-total-p'])}</div>
+        <div class="ro-field"><label>Penerima KJP</label>${rv(sec['s-kjp'])}</div>
+        <div class="ro-field"><label>Penerima PIP</label>${rv(sec['s-pip'])}</div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title"><span class="card-title-accent"></span>Data ABK per Jenis Kebutuhan</div>
+      <div class="abk-grid">
+        ${abkList.map(k => `
+          <div class="abk-item">
+            <div class="abk-title">${k.title}</div>
+            <div class="gender-row">
+              <div class="ro-field"><label>L</label>${rv(sec[k.l] || '0')}</div>
+              <div class="ro-field"><label>P</label>${rv(sec[k.p] || '0')}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+}
+
+/* ══════════════════════
+   ADMIN — KELOLA PENGGUNA
+══════════════════════ */
+async function loadAdminUsers() {
+  // ── Pengawas ──
+  const pengawasData = await fsGetAll('pengawas');
+  const tbodyP = document.getElementById('tbody-pengawas');
+  const pengawasEntries = Object.entries(pengawasData);
+  if (!pengawasEntries.length) {
+    tbodyP.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Belum ada data pengawas</td></tr>';
+  } else {
+    tbodyP.innerHTML = pengawasEntries.map(([nrk, d], i) =>
+      `<tr>
+        <td>${i+1}</td>
+        <td>${d.nama || '-'}</td>
+        <td><span class="badge badge-purple">${nrk}</span></td>
+        <td><span class="badge ${d.status==='nonaktif' ? 'badge-red' : 'badge-green'}">${d.status || 'aktif'}</span></td>
+        <td><div class="actions">
+          <button class="btn-danger btn-sm" onclick="openResetModal('pengawas','${nrk}','${d.nama||nrk}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Reset PW
+          </button>
+          <button class="btn-danger btn-sm" onclick="toggleUser('pengawas','${nrk}','${d.status||'aktif'}')">
+            ${d.status==='nonaktif'
+              ? '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Aktifkan'
+              : '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Nonaktifkan'}
+          </button>
+          <button class="btn-danger btn-sm" onclick="deleteUser('pengawas','${nrk}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Hapus
+          </button>
+        </div></td>
+      </tr>`).join('');
+  }
+
+  // ── Operator Sekolah ──
+  const sekolahData = await fsGetAll('sekolah');
+  const tbodyO = document.getElementById('tbody-operator');
+  const sekolahEntries = Object.entries(sekolahData);
+  if (!sekolahEntries.length) {
+    tbodyO.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Belum ada operator</td></tr>';
+  } else {
+    tbodyO.innerHTML = sekolahEntries.map(([npsn, d], i) =>
+      `<tr>
+        <td>${i+1}</td>
+        <td>${d.nama || '—'}</td>
+        <td><span class="badge badge-blue">${npsn}</span></td>
+        <td><span class="badge ${d.status==='nonaktif' ? 'badge-red' : 'badge-green'}">${d.status || 'aktif'}</span></td>
+        <td><div class="actions">
+          <button class="btn-danger btn-sm" onclick="openResetModal('sekolah','${npsn}','${d.nama||npsn}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Reset PW
+          </button>
+          <button class="btn-danger btn-sm" onclick="toggleUser('sekolah','${npsn}','${d.status||'aktif'}')">
+            ${d.status==='nonaktif'
+              ? '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Aktifkan'
+              : '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Nonaktifkan'}
+          </button>
+          <button class="btn-danger btn-sm" onclick="deleteUser('sekolah','${npsn}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Hapus
+          </button>
+        </div></td>
+      </tr>`).join('');
+  }
+}
+
+/* ══════════════════════
+   MODAL — BUKA / TUTUP
+══════════════════════ */
+let _modalRole = '';
+let _resetTarget = { type: '', id: '' };
+
+window.openModal = function(role) {
+  _modalRole = role;
+  const m = document.getElementById('modal-user');
+  document.getElementById('modal-fields-pengawas').style.display = role === 'pengawas' ? 'block' : 'none';
+  document.getElementById('modal-fields-operator').style.display = role === 'operator'  ? 'block' : 'none';
+  document.getElementById('modal-fields-reset').style.display    = 'none';
+  document.getElementById('modal-title').textContent = role === 'pengawas' ? 'Tambah Pengawas' : 'Tambah Operator Sekolah';
+  document.getElementById('modal-sub').textContent   = role === 'pengawas' ? 'Isi data akun pengawas baru' : 'Isi data operator sekolah baru';
+  document.getElementById('modal-save-btn').textContent = 'Simpan';
+  document.getElementById('modal-error').style.display  = 'none';
+  // Reset field values
+  ['m-nama-pengawas','m-nrk','m-pass-pengawas','m-nama-sekolah','m-npsn-op','m-pass-operator'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  m.classList.add('open');
+}
+
+window.openResetModal = function(type, id, label) {
+  _modalRole = 'reset';
+  _resetTarget = { type, id };
+  const m = document.getElementById('modal-user');
+  document.getElementById('modal-fields-pengawas').style.display = 'none';
+  document.getElementById('modal-fields-operator').style.display = 'none';
+  document.getElementById('modal-fields-reset').style.display    = 'block';
+  document.getElementById('modal-title').textContent = 'Reset Password';
+  document.getElementById('modal-sub').textContent   = `Atur ulang password untuk: ${label}`;
+  document.getElementById('m-reset-target').value    = `${type === 'pengawas' ? 'NRK' : 'NPSN'}: ${id} — ${label}`;
+  document.getElementById('m-reset-pass').value      = '';
+  document.getElementById('m-reset-confirm').value   = '';
+  document.getElementById('modal-save-btn').textContent = 'Reset Password';
+  document.getElementById('modal-error').style.display  = 'none';
+  m.classList.add('open');
+}
+
+window.closeModal = function() {
+  document.getElementById('modal-user').classList.remove('open');
+}
+
+/* ══════════════════════
+   MODAL — SIMPAN
+══════════════════════ */
+window.saveUser = async function() {
+  const err = document.getElementById('modal-error');
+  err.style.display = 'none';
+  try {
+    /* ─── Tambah Pengawas ─── */
+    if (_modalRole === 'pengawas') {
+      const nama = document.getElementById('m-nama-pengawas').value.trim();
+      const nrk  = document.getElementById('m-nrk').value.trim();
+      const pass = document.getElementById('m-pass-pengawas').value.trim();
+      if (!nama || !nrk || !pass) throw new Error('Semua field wajib diisi');
+      if (pass.length < 6) throw new Error('Password minimal 6 karakter');
+      const existing = await fsGet('pengawas', nrk);
+      if (existing) throw new Error('NRK sudah terdaftar');
+      const passwordHash = await sha256(pass);
+      await fsSet('pengawas', nrk, {
+        nama, nrk, passwordHash,
+        status: 'aktif',
+        createdAt: serverTimestamp()
+      });
+      showToast('✓ Pengawas berhasil ditambahkan');
+
+    /* ─── Tambah Operator Sekolah ─── */
+    } else if (_modalRole === 'operator') {
+      const nama = document.getElementById('m-nama-sekolah').value.trim();
+      const npsn = document.getElementById('m-npsn-op').value.trim();
+      const passRaw = document.getElementById('m-pass-operator').value.trim() || npsn;
+      if (!nama || !npsn) throw new Error('Nama sekolah dan NPSN wajib diisi');
+      if (!/^\d{8,10}$/.test(npsn)) throw new Error('NPSN harus 8–10 digit angka');
+      const existing = await fsGet('sekolah', npsn);
+      if (existing) throw new Error('NPSN sudah terdaftar');
+      const passwordHash = await sha256(passRaw);
+      await fsSet('sekolah', npsn, {
+        npsn, nama, passwordHash,
+        status: 'aktif',
+        createdAt: serverTimestamp()
+      });
+      // Buat dokumen data kosong sekaligus
+      await fsSet('sekolah_data', npsn, {
+        profil: { 'p-npsn': npsn, 'p-nama': nama },
+        createdAt: serverTimestamp()
+      });
+      showToast('✓ Operator sekolah berhasil ditambahkan');
+
+    /* ─── Reset Password ─── */
+    } else if (_modalRole === 'reset') {
+      const pass    = document.getElementById('m-reset-pass').value.trim();
+      const confirm = document.getElementById('m-reset-confirm').value.trim();
+      if (!pass || !confirm) throw new Error('Password baru dan konfirmasi wajib diisi');
+      if (pass.length < 6)   throw new Error('Password minimal 6 karakter');
+      if (pass !== confirm)   throw new Error('Konfirmasi password tidak cocok');
+      const passwordHash = await sha256(pass);
+      const col = _resetTarget.type === 'pengawas' ? 'pengawas' : 'sekolah';
+      await fsUpdate(col, _resetTarget.id, {
+        passwordHash,
+        resetAt: serverTimestamp()
+      });
+      showToast('✓ Password berhasil direset');
+    }
+
+    closeModal();
+    loadAdminUsers();
+  } catch(e) {
+    err.textContent = '✗ ' + e.message;
+    err.style.display = 'block';
+  }
+}
+
+/* ══════════════════════
+   TOGGLE AKTIF / NONAKTIF
+══════════════════════ */
+window.toggleUser = async function(type, id, currentStatus) {
+  const newStatus = currentStatus === 'nonaktif' ? 'aktif' : 'nonaktif';
+  const col = type === 'pengawas' ? 'pengawas' : 'sekolah';
+  await fsUpdate(col, id, { status: newStatus });
+  showToast(`✓ Status diubah menjadi ${newStatus}`);
+  loadAdminUsers();
+}
+
+/* ══════════════════════
+   HAPUS PENGGUNA
+══════════════════════ */
+window.deleteUser = async function(type, id) {
+  const label = type === 'pengawas' ? `pengawas NRK "${id}"` : `operator sekolah NPSN "${id}"`;
+  if (!confirm(`Hapus ${label}?\n\nData isian sekolah TIDAK akan ikut terhapus.`)) return;
+  const col = type === 'pengawas' ? 'pengawas' : 'sekolah';
+  await fsDelete(col, id);
+  showToast('✓ Pengguna dihapus');
+  loadAdminUsers();
+}
+
+/* ══════════════════════
+   LOGOUT
+══════════════════════ */
+window.doLogout = async function() {
+  if (!confirm('Yakin ingin keluar dari sistem?')) return;
+  // Clear local session and activity tracking
+  clearSession();
+  clearLastActivity();
+  if (auth && window._currentRole === 'admin') { try { await signOut(auth); } catch(e) {} }
+  location.reload();
+}
+
+window.showReset = function() {
+  alert('Untuk reset password, hubungi administrator SIDAS-JT1.\nEmail: admin@sidasjt1.disdik.jakarta.go.id');
+}
+
+/* ══════════════════════
+   NAVIGATION
+══════════════════════ */
+window.navTo = function(section, el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('sec-' + section);
+  if (sec) sec.classList.add('active');
+}
+
+/* ══════════════════════
+   MODE OPERATOR / READONLY
+══════════════════════ */
+function enableOperatorMode() {
+  ['profil','tanah','barang','gedung','lain','pegawai','siswa'].forEach(k => {
+    const b = document.getElementById(k + '-btns');
+    if (b) b.style.display = 'flex';
+    const r = document.getElementById('readonly-banner-' + k);
+    if (r) r.innerHTML = '';
+  });
+  document.querySelectorAll('.section .field input, .section .field select, .section .field textarea, .section .radio-btn')
+    .forEach(el => el.removeAttribute('disabled'));
+}
+
+function enableReadonlyMode() {
+  const banner = ``;
+  ['profil','tanah','barang','gedung','lain','pegawai','siswa'].forEach(k => {
+    const b = document.getElementById(k + '-btns');
+    if (b) b.style.display = 'none';
+    const rb = document.getElementById('readonly-banner-' + k);
+    if (rb) rb.innerHTML = banner;
+  });
+  // Sembunyikan map operator agar tidak dobel dengan readonly view pengawas
+  const gmapIframe = document.getElementById('gmap-iframe');
+  const mapPlaceholder = document.getElementById('map-placeholder');
+  if (gmapIframe) gmapIframe.style.display = 'none';
+  if (mapPlaceholder) mapPlaceholder.style.display = 'none';
+  document.querySelectorAll('.section .field input, .section .field select, .section .field textarea')
+    .forEach(el => el.setAttribute('disabled', true));
+}
+
+/* ══════════════════════
+   KIB SYNC & HELPERS
+══════════════════════ */
 window.syncKibB = function() {
   ['jml','nilai','baik','rusak'].forEach(k => {
     const v = document.getElementById(`kibb-${k}-inp`)?.value || 0;
@@ -1664,7 +2862,44 @@ window.toggleKibaJumlah = function(val) {
   if (field) field.style.display = val === 'Belum a/n Pemda/Perorangan' ? 'flex' : 'none';
 }
 
+/* ══════════════════════
+   TOAST
+══════════════════════ */
+function showToast(msg, isErr) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('error', isErr === true);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+window.showToast = showToast;
+
+/* ── hide loading ── */
 setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 700);
 </script>
+<script>(function(){
+  function wrapGenderTexts(){
+    const map={'Laki-Laki':'male','Perempuan':'female'};
+    const re = /\b(Laki-Laki|Perempuan)\b/g;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: function(node){
+      if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      var p = node.parentNode;
+      if(!p || /^(SCRIPT|STYLE|TEXTAREA|CODE|PRE|NOSCRIPT|INPUT)$/i.test(p.tagName)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    var nodes=[]; var n;
+    while(n = walker.nextNode()) nodes.push(n);
+    nodes.forEach(function(node){
+      var txt = node.nodeValue;
+      if(!re.test(txt)) return;
+      var html = txt.replace(re, function(m){ return '<span class="gender '+map[m]+'">'+m+'</span>'; });
+      var span = document.createElement('span');
+      span.innerHTML = html;
+      node.parentNode.replaceChild(span, node);
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wrapGenderTexts);
+  else wrapGenderTexts();
+})();</script>
 </body>
 </html>
