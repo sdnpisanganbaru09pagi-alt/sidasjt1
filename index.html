@@ -5,358 +5,706 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SIDAS-JT1 | Sistem Informasi Data Sekolah</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&family=DM+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #1a1a1a;
-  --navy-2: #242424;
-  --navy-3: #2e2e2e;
-  --blue: #1e6eb5;
-  --blue-light: #3b9ddd;
-  --accent: #f5a623;
-  --accent-2: #e8834a;
-  --red: #e74c3c;
-  --green: #27ae60;
-  --green-light: #2ecc71;
-  --purple: #8b5cf6;
-  --purple-light: #a78bfa;
-  --white: #f0f0f0;
-  --white-2: #c8c8c8;
-  --text: #b8b8b8;
-  --text-muted: #787878;
-  --border: rgba(255,255,255,0.09);
-  --card-bg: rgba(36,36,36,0.95);
-  --input-bg: rgba(255,255,255,0.06);
-  --shadow: 0 8px 32px rgba(0,0,0,0.5);
-  --radius: 14px;
-  --sidebar-w: 270px;
+  /* ── SILAPOR palette ── */
+  --red:       #CC0000;
+  --red-dk:    #A30000;
+  --red-lt:    #F5E6E6;
+  --navy:      #003366;
+  --navy-dk:   #002244;
+  --navy-lt:   #E6EDF5;
+  --gold:      #F4A01C;
+  --gold-lt:   #FEF3DC;
+  --green:     #1A7A3E;
+  --green-lt:  #E6F4EC;
+  --gray-1:    #F7F8FA;
+  --gray-2:    #EEF0F4;
+  --gray-3:    #D6DAE2;
+  --gray-4:    #9AA3B2;
+  --gray-5:    #5C6475;
+  --gray-6:    #2B3140;
+  --white:     #FFFFFF;
+  --text:      #2B3140;
+  --text-sub:  #5C6475;
+  --border:    #D6DAE2;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow:    0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+  --sidebar-w: 256px;
+  --topbar-h:  56px;
+  --radius:    6px;
 }
 
-/* ===== LIGHT MODE ===== */
-body.light-mode {
-  --navy: #f0f4fb; --navy-2: #ffffff; --navy-3: #dce7f5;
-  --blue: #1e6eb5; --blue-light: #1a5fa0;
-  --accent: #d4870a; --accent-2: #c06830;
-  --red: #c0392b; --green: #1e8449; --green-light: #1e8449;
-  --purple: #7c3aed; --purple-light: #6d28d9;
-  --white: #0d1b2e; --white-2: #1a2f4a;
-  --text: #2c3e5a; --text-muted: #5a7291;
-  --border: rgba(0,0,0,0.1); --card-bg: rgba(255,255,255,0.9);
-  --input-bg: rgba(0,0,0,0.04); --shadow: 0 8px 32px rgba(0,0,0,0.12);
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  font-family: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--gray-1);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
-body.light-mode .login-bg { background: radial-gradient(ellipse 80% 80% at 20% -20%, rgba(30,110,181,0.15) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 110%, rgba(245,166,35,0.07) 0%, transparent 60%); }
-body.light-mode .login-grid { background-image: linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px); }
-body.light-mode .login-card { box-shadow: 0 24px 80px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8); }
-body.light-mode .data-table thead tr th { background: rgba(0,0,0,0.04); }
-body.light-mode .data-table tbody tr td { color: var(--text); }
-body.light-mode .data-table tbody tr:hover td { background: rgba(0,0,0,0.02); }
-body.light-mode .progress-wrap { background: rgba(0,0,0,0.1); }
-body.light-mode .welcome-banner { background: linear-gradient(135deg, #dce7f5 0%, #eef4fc 100%); border-color: rgba(30,110,181,0.2); }
-body.light-mode ::-webkit-scrollbar-track { background: var(--navy); }
-body.light-mode ::-webkit-scrollbar-thumb { background: #b0c4d8; }
-body.light-mode .sub-card, body.light-mode .kib-stat, body.light-mode .pegawai-item, body.light-mode .abk-item { background: rgba(0,0,0,0.03); }
-body.light-mode .map-placeholder { background: rgba(0,0,0,0.04); }
-body.light-mode .field select option { background: #ffffff; color: #2c3e5a; }
-body.light-mode .loading-overlay { background: var(--navy); }
-body.light-mode .notif-box { background: rgba(212,135,10,0.06); }
-body.light-mode .modal-overlay { background: rgba(0,0,0,0.5); }
-body.light-mode .modal-box { background: #fff; }
-body.light-mode .admin-table tbody tr:hover td { background: rgba(0,0,0,0.03); }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--gray-2); }
+::-webkit-scrollbar-thumb { background: var(--gray-3); border-radius: 4px; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settings: 'cv02','cv03','cv04','cv11'; -webkit-font-smoothing: antialiased; background: var(--navy); color: var(--text); overflow-x: hidden; }
-
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--navy); }
-::-webkit-scrollbar-thumb { background: var(--navy-3); border-radius: 10px; }
-
-/* ===== ROLE SELECTOR ===== */
-.role-selector {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 28px;
+/* ══════════════════════════════════════
+   LOADING
+══════════════════════════════════════ */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; flex-direction: column; gap: 16px;
 }
-.role-btn {
-  flex: 1;
-  padding: 12px 10px;
-  border-radius: 10px;
-  border: 2px solid var(--border);
-  background: var(--input-bg);
-  color: var(--text-muted);
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-  letter-spacing: 0.5px;
+.loading-overlay .ld-logo {
+  display: flex; align-items: center; gap: 10px;
 }
-.role-btn .role-ico { font-size: 18px; display: block; margin-bottom: 4px; }
-.role-btn:hover { border-color: var(--blue-light); color: var(--white); background: rgba(59,157,221,0.08); }
-.role-btn.active.admin-role { border-color: var(--red); background: rgba(231,76,60,0.1); color: var(--red); }
-.role-btn.active.pengawas-role { border-color: var(--purple-light); background: rgba(139,92,246,0.1); color: var(--purple-light); }
-.role-btn.active.operator-role { border-color: var(--blue-light); background: rgba(59,157,221,0.1); color: var(--blue-light); }
-
-/* Role badges in topbar */
-.role-badge {
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: 800;
+.loading-overlay .ld-bar {
+  width: 4px; height: 36px;
+  background: linear-gradient(180deg, var(--red), var(--navy));
+  border-radius: 2px;
+}
+.loading-overlay h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 22px; font-weight: 700; color: var(--navy);
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
-.role-badge.admin { background: rgba(231,76,60,0.15); color: var(--red); border: 1px solid rgba(231,76,60,0.3); }
-.role-badge.pengawas { background: rgba(139,92,246,0.15); color: var(--purple-light); border: 1px solid rgba(139,92,246,0.3); }
-.role-badge.operator { background: rgba(59,157,221,0.15); color: var(--blue-light); border: 1px solid rgba(59,157,221,0.3); }
+.ld-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--gray-3);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* ===== LOGIN PAGE ===== */
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--green); color: var(--white);
+  padding: 12px 20px; border-radius: var(--radius);
+  font-weight: 600; font-size: 13px; z-index: 9998;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(80px); opacity: 0;
+  transition: all .35s cubic-bezier(.22,1,.36,1);
+  display: flex; align-items: center; gap: 8px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { background: var(--red); }
+
+/* ══════════════════════════════════════
+   LOGIN PAGE
+══════════════════════════════════════ */
 #login-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--white);
+}
+.login-left {
+  width: 420px; flex-shrink: 0;
   background: var(--navy);
-  position: relative;
-  overflow: hidden;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
 }
-.login-bg {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 80% 80% at 20% -20%, rgba(30,110,181,0.25) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 60% at 80% 110%, rgba(245,166,35,0.1) 0%, transparent 60%);
+.login-left::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--red) 50%, var(--gold) 50%);
 }
-.login-grid {
-  position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 40px 40px;
+.login-left .gov-emblem {
+  font-size: 64px; margin-bottom: 24px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
 }
-.login-card {
-  position: relative; z-index: 2;
-  background: var(--card-bg);
+.login-left h1 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 28px; font-weight: 700; color: var(--white);
+  letter-spacing: 2px; text-align: center; line-height: 1.2;
+  margin-bottom: 8px;
+}
+.login-left .login-sub {
+  font-size: 11px; font-weight: 600; color: rgba(255,255,255,.55);
+  letter-spacing: 2.5px; text-transform: uppercase; text-align: center;
+  line-height: 1.6;
+}
+.login-left .login-divline {
+  width: 48px; height: 3px;
+  background: var(--red); border-radius: 2px;
+  margin: 20px auto;
+}
+.login-left .login-instansi {
+  font-size: 12px; color: rgba(255,255,255,.7);
+  text-align: center; line-height: 1.6;
+}
+.login-right {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 48px 40px;
+  background: var(--gray-1);
+}
+.login-form-box {
+  width: 100%; max-width: 420px;
+  background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 48px 44px;
-  width: 480px;
-  max-width: 95vw;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-  animation: loginSlide 0.6s cubic-bezier(.22,1,.36,1);
+  border-radius: 8px;
+  padding: 36px 36px 28px;
+  box-shadow: var(--shadow);
+  animation: loginIn .5s cubic-bezier(.22,1,.36,1);
 }
-@keyframes loginSlide { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
-.login-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
-.login-brand .brand-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--blue), var(--blue-light)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 8px 24px rgba(30,110,181,0.4); }
-.login-brand .brand-text h1 { font-family: 'DM Sans', sans-serif; font-size: 22px; color: var(--white); letter-spacing: 1px; }
-.login-brand .brand-text p { font-size: 11px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
-.login-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px; }
-.form-group input {
-  width: 100%; background: var(--input-bg); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 16px; color: var(--white);
-  font-family: 'Inter', sans-serif; font-size: 14px; transition: all 0.2s; outline: none;
+@keyframes loginIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.login-form-box .form-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: 20px; font-weight: 700; color: var(--navy);
+  margin-bottom: 4px;
 }
-.form-group input:focus { border-color: var(--blue-light); background: rgba(59,157,221,0.08); box-shadow: 0 0 0 3px rgba(59,157,221,0.15); }
-.captcha-row { display: flex; gap: 10px; align-items: stretch; }
-.captcha-box { background: linear-gradient(135deg, var(--navy-3), var(--navy-2)); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-weight: 700; font-size: 16px; letter-spacing: 5px; color: var(--accent); user-select: none; white-space: nowrap; display: flex; align-items: center; font-family: monospace; text-decoration: line-through; cursor: pointer; }
-.captcha-row .form-group { flex:1; margin-bottom:0; }
-.btn-primary { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--blue), var(--blue-light)); border: none; border-radius: 10px; color: white; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; transition: all 0.2s; letter-spacing: 0.5px; box-shadow: 0 4px 20px rgba(30,110,181,0.4); }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(30,110,181,0.5); }
-.btn-primary:active { transform: translateY(0); }
-.btn-primary.admin-btn { background: linear-gradient(135deg, #c0392b, var(--red)); box-shadow: 0 4px 20px rgba(231,76,60,0.4); }
-.btn-primary.pengawas-btn { background: linear-gradient(135deg, var(--purple), var(--purple-light)); box-shadow: 0 4px 20px rgba(139,92,246,0.4); }
-.login-links { display: flex; justify-content: center; margin-top: 14px; }
-.link-btn { background: none; border: none; color: var(--blue-light); cursor: pointer; font-size: 13px; font-family: inherit; padding: 4px 8px; border-radius: 6px; transition: background 0.2s; text-decoration: underline; }
-.link-btn:hover { background: rgba(59,157,221,0.1); }
-.error-msg { color: var(--red); font-size: 12px; margin-top: 6px; display: none; }
-.login-theme-btn { position: absolute; top: 20px; right: 20px; z-index: 10; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); font-size: 16px; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(10px); }
-.login-theme-btn:hover { border-color: var(--blue-light); color: var(--blue-light); }
+.login-form-box .form-title-sub {
+  font-size: 13px; color: var(--text-sub); margin-bottom: 24px;
+}
 
-/* ===== MAIN APP ===== */
+/* Role tabs */
+.role-tabs {
+  display: flex; gap: 0;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 24px;
+}
+.role-tab {
+  flex: 1; padding: 9px 6px;
+  border: none; background: var(--white);
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  color: var(--text-sub); cursor: pointer;
+  transition: all .2s; text-align: center;
+  border-right: 1px solid var(--border); letter-spacing: .3px;
+}
+.role-tab:last-child { border-right: none; }
+.role-tab .rt-ico { display: block; font-size: 16px; margin-bottom: 3px; }
+.role-tab:hover { background: var(--gray-1); color: var(--text); }
+.role-tab.active { background: var(--navy); color: var(--white); }
+.role-tab.active.admin-role { background: var(--red); }
+.role-tab.active.pengawas-role { background: #5B21B6; }
+
+/* Form fields */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 12px; font-weight: 600;
+  color: var(--text-sub); margin-bottom: 5px;
+  letter-spacing: .3px; text-transform: uppercase;
+}
+.form-group input {
+  width: 100%;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 10px 12px;
+  color: var(--text); font-family: inherit; font-size: 14px;
+  transition: all .2s; outline: none;
+}
+.form-group input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(0,51,102,.1);
+}
+.captcha-row { display: flex; gap: 8px; align-items: stretch; }
+.captcha-box {
+  background: var(--gray-2); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 10px 14px;
+  font-weight: 700; font-size: 16px; letter-spacing: 5px;
+  color: var(--navy); user-select: none; white-space: nowrap;
+  font-family: monospace; text-decoration: line-through;
+  cursor: pointer; display: flex; align-items: center;
+}
+.captcha-row .form-group { flex: 1; margin-bottom: 0; }
+
+.btn-login {
+  width: 100%; padding: 11px;
+  background: var(--navy); border: none; border-radius: var(--radius);
+  color: var(--white); font-family: inherit; font-size: 14px;
+  font-weight: 700; cursor: pointer; margin-top: 8px;
+  transition: all .2s; letter-spacing: .3px;
+}
+.btn-login:hover { background: var(--navy-dk); }
+.btn-login.admin-btn { background: var(--red); }
+.btn-login.admin-btn:hover { background: var(--red-dk); }
+.btn-login.pengawas-btn { background: #5B21B6; }
+.btn-login.pengawas-btn:hover { background: #4C1D95; }
+
+.error-msg {
+  background: var(--red-lt); border: 1px solid rgba(204,0,0,.2);
+  color: var(--red); font-size: 12px; font-weight: 600;
+  padding: 8px 12px; border-radius: var(--radius);
+  margin-top: 8px; display: none;
+}
+.login-links { display: flex; justify-content: center; margin-top: 14px; }
+.link-btn {
+  background: none; border: none; color: var(--navy);
+  cursor: pointer; font-size: 12px; font-family: inherit;
+  padding: 4px 8px; border-radius: 4px;
+  text-decoration: underline; font-weight: 600;
+}
+.link-btn:hover { background: var(--navy-lt); }
+
+.role-hint {
+  font-size: 12px; color: var(--text-sub); margin-bottom: 16px;
+  padding: 10px 12px; background: var(--gray-1);
+  border-left: 3px solid var(--navy); border-radius: 0 4px 4px 0;
+}
+
+@media (max-width: 768px) {
+  .login-left { display: none; }
+  .login-right { padding: 24px 16px; }
+  .login-form-box { padding: 24px 20px; }
+}
+
+/* ══════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════ */
 #app { display: none; height: 100vh; flex-direction: column; }
 
-/* TOPBAR */
-.topbar { height: 64px; background: var(--navy-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px 0 0; gap: 16px; flex-shrink: 0; position: sticky; top:0; z-index: 100; }
-.topbar .logo-area { width: var(--sidebar-w); display: flex; align-items: center; gap: 12px; padding: 0 20px; flex-shrink: 0; }
-.topbar .logo-area .ico { font-size: 22px; }
-.topbar .logo-area h1 { font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--white); letter-spacing: 1px; }
-.topbar .logo-area span { font-size: 10px; color: var(--accent); font-weight: 700; letter-spacing: 2px; }
-.topbar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-.school-badge { background: rgba(30,110,181,0.15); border: 1px solid rgba(30,110,181,0.3); border-radius: 8px; padding: 6px 14px; font-size: 13px; color: var(--blue-light); font-weight: 600; }
-.user-pill { display: flex; align-items: center; gap: 8px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px 5px 5px; cursor: pointer; }
-.user-pill .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; }
-.user-pill .avatar.admin-av { background: linear-gradient(135deg, #c0392b, var(--red)); }
-.user-pill .avatar.pengawas-av { background: linear-gradient(135deg, var(--purple), var(--purple-light)); }
-.user-pill .name { font-size: 13px; font-weight: 600; color: var(--white-2); }
-.btn-logout { background: rgba(231,76,60,0.12); border: 1px solid rgba(231,76,60,0.25); color: var(--red); font-family: inherit; font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-.btn-logout:hover { background: rgba(231,76,60,0.25); }
-.btn-theme { background: var(--input-bg); border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); font-size: 16px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
-.btn-theme:hover { border-color: var(--blue-light); color: var(--blue-light); }
+/* ─── TOPBAR ─── */
+.topbar {
+  height: var(--topbar-h);
+  background: var(--navy);
+  display: flex; align-items: center;
+  padding: 0 20px; gap: 14px;
+  flex-shrink: 0;
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 3px solid var(--red);
+}
+.topbar-brand {
+  display: flex; align-items: center; gap: 10px;
+  width: var(--sidebar-w); flex-shrink: 0;
+  padding-right: 10px; border-right: 1px solid rgba(255,255,255,.15);
+}
+.topbar-brand .brand-bar {
+  width: 3px; height: 28px;
+  background: linear-gradient(180deg, var(--red), var(--gold));
+  border-radius: 2px; flex-shrink: 0;
+}
+.topbar-brand h1 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--white); letter-spacing: 1px;
+}
+.topbar-brand span {
+  font-size: 9px; color: rgba(255,255,255,.5);
+  font-weight: 600; letter-spacing: 1.5px; display: block;
+  text-transform: uppercase;
+}
+.school-badge {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 4px; padding: 5px 12px;
+  font-size: 12px; color: rgba(255,255,255,.9);
+  font-weight: 600; max-width: 280px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.topbar-right {
+  display: flex; align-items: center; gap: 10px; margin-left: auto;
+}
+.firebase-status {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: rgba(255,255,255,.55);
+  padding: 4px 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+}
+.firebase-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #4ADE80; animation: pulse 2s infinite;
+}
+.firebase-dot.offline { background: #F87171; animation: none; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-/* LAYOUT */
+.role-badge {
+  padding: 3px 10px; border-radius: 3px;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+}
+.role-badge.operator { background: rgba(244,160,28,.2); color: var(--gold); border: 1px solid rgba(244,160,28,.3); }
+.role-badge.pengawas { background: rgba(139,92,246,.2); color: #C4B5FD; border: 1px solid rgba(139,92,246,.3); }
+.role-badge.admin    { background: rgba(204,0,0,.2); color: #FCA5A5; border: 1px solid rgba(204,0,0,.3); }
+
+.user-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 20px; padding: 4px 12px 4px 4px;
+}
+.user-pill .avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--white);
+}
+.user-pill .avatar.admin-av    { background: linear-gradient(135deg, #CC0000, #FF6B6B); }
+.user-pill .avatar.pengawas-av { background: linear-gradient(135deg, #5B21B6, #8B5CF6); }
+.user-pill .name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); }
+
+.btn-logout {
+  background: rgba(204,0,0,.15);
+  border: 1px solid rgba(204,0,0,.3);
+  color: #FCA5A5; font-family: inherit;
+  font-size: 11px; font-weight: 700;
+  padding: 6px 12px; border-radius: 4px;
+  cursor: pointer; transition: all .2s;
+  letter-spacing: .3px; text-transform: uppercase;
+}
+.btn-logout:hover { background: rgba(204,0,0,.3); }
+
+/* ─── LAYOUT ─── */
 .app-body { display: flex; flex: 1; overflow: hidden; }
 
-/* SIDEBAR */
-.sidebar { width: var(--sidebar-w); background: var(--navy-2); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; padding: 16px 0; }
-.nav-section-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 12px 20px 6px; }
-.nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; margin: 1px 0; }
-.nav-item .ico { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
-.nav-item .label { font-size: 13.5px; font-weight: 500; color: var(--text-muted); transition: color 0.2s; white-space: nowrap; }
-.nav-item:hover { background: rgba(255,255,255,0.03); }
-.nav-item:hover .label { color: var(--white-2); }
-.nav-item.active { background: linear-gradient(90deg, rgba(30,110,181,0.2) 0%, transparent 100%); border-left-color: var(--blue-light); }
-.nav-item.active .label { color: var(--white); font-weight: 600; }
-.nav-item.admin-nav.active { background: linear-gradient(90deg, rgba(231,76,60,0.18) 0%, transparent 100%); border-left-color: var(--red); }
-.nav-item.pengawas-nav.active { background: linear-gradient(90deg, rgba(139,92,246,0.18) 0%, transparent 100%); border-left-color: var(--purple-light); }
-.nav-divider { height: 1px; background: var(--border); margin: 10px 20px; }
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  flex-shrink: 0; overflow-y: auto;
+  padding: 16px 0 24px;
+}
+.nav-section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gray-4);
+  padding: 14px 18px 5px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px; cursor: pointer;
+  transition: all .15s;
+  border-left: 3px solid transparent;
+  margin: 1px 0;
+}
+.nav-item .ico {
+  font-size: 15px; width: 20px; text-align: center; flex-shrink: 0;
+}
+.nav-item .label {
+  font-size: 13px; font-weight: 500; color: var(--text-sub);
+  transition: color .15s; white-space: nowrap;
+}
+.nav-item:hover { background: var(--gray-1); }
+.nav-item:hover .label { color: var(--text); }
+.nav-item.active {
+  background: var(--navy-lt);
+  border-left-color: var(--navy);
+}
+.nav-item.active .label { color: var(--navy); font-weight: 700; }
+.nav-item.admin-nav.active { background: var(--red-lt); border-left-color: var(--red); }
+.nav-item.admin-nav.active .label { color: var(--red); }
+.nav-item.pengawas-nav.active { background: rgba(91,33,182,.08); border-left-color: #5B21B6; }
+.nav-item.pengawas-nav.active .label { color: #5B21B6; }
+.nav-divider { height: 1px; background: var(--border); margin: 6px 0; }
 
-/* MAIN CONTENT */
-.main-content { flex: 1; overflow-y: auto; padding: 28px 32px; }
-.page-header { margin-bottom: 28px; }
-.page-header .breadcrumb { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-.page-header h2 { font-family: 'DM Sans', sans-serif; font-size: 26px; color: var(--white); }
-.page-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+/* ─── MAIN ─── */
+.main-content { flex: 1; overflow-y: auto; padding: 28px 32px; background: var(--gray-1); }
 
-.section { display: none; animation: fadeIn 0.3s ease; }
+.page-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.page-header .breadcrumb {
+  font-size: 12px; color: var(--text-sub); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.page-header .breadcrumb::before {
+  content: ''; display: block;
+  width: 3px; height: 12px;
+  background: var(--red); border-radius: 2px;
+}
+.page-header h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 22px; font-weight: 700; color: var(--navy);
+}
+.page-header .subtitle { font-size: 13px; color: var(--text-sub); margin-top: 3px; }
+
+.section { display: none; animation: fadeIn .25s ease; }
 .section.active { display: block; }
-@keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
-/* CARDS */
-.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; backdrop-filter: blur(10px); }
-.card-title { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--blue-light); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-.card-title::before { content: ''; display: block; width: 4px; height: 16px; background: linear-gradient(180deg, var(--blue-light), var(--accent)); border-radius: 2px; }
+/* ─── CARDS ─── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.card-title {
+  font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-sub);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.card-title-accent {
+  display: inline-block;
+  width: 3px; height: 14px;
+  background: var(--red); border-radius: 2px;
+}
 
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+/* ─── STAT CARDS ─── */
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 16px; }
+.stat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+}
+.stat-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.stat-card.blue::before  { background: var(--navy); }
+.stat-card.amber::before { background: var(--gold); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.red::before   { background: var(--red); }
+.stat-card .stat-ico { font-size: 22px; margin-bottom: 8px; display: block; }
+.stat-card .stat-val {
+  font-family: 'Source Serif 4', serif;
+  font-size: 26px; color: var(--navy); font-weight: 700; line-height: 1;
+}
+.stat-card .stat-label { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+
+/* ─── WELCOME BANNER ─── */
+.welcome-banner {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--navy);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+.welcome-banner h3 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px;
+}
+.welcome-banner p { font-size: 12px; color: var(--text-sub); }
+.npsn-tag {
+  display: inline-block;
+  background: var(--navy-lt); color: var(--navy);
+  border: 1px solid rgba(0,51,102,.2);
+  padding: 3px 12px; border-radius: 3px;
+  font-size: 11px; font-weight: 700; margin-top: 10px;
+  letter-spacing: .5px;
+}
+
+/* ─── FORMS ─── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
 .form-grid.cols-1 { grid-template-columns: 1fr; }
 .span-2 { grid-column: span 2; }
 .span-3 { grid-column: span 3; }
-.field { display: flex; flex-direction: column; gap: 6px; }
-.field label { font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); }
-.field input, .field select, .field textarea { background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--white); font-family: 'Inter', sans-serif; font-size: 13.5px; transition: all 0.2s; outline: none; }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue-light); background: rgba(59,157,221,0.07); }
-.field input[readonly] { opacity: 0.7; cursor: default; }
-.field select option { background: var(--navy-2); }
-.field textarea { resize: vertical; min-height: 80px; }
-.field .hint { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
-.radio-group { display: flex; gap: 10px; }
-.radio-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: all 0.2s; user-select: none; }
-.radio-btn:has(input:checked) { border-color: var(--blue-light); background: rgba(30,110,181,0.15); color: var(--white); }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .5px; text-transform: uppercase; color: var(--text-sub);
+}
+.field input, .field select, .field textarea {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 9px 12px;
+  color: var(--text); font-family: inherit; font-size: 13px;
+  transition: all .2s; outline: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(0,51,102,.08);
+}
+.field input[readonly] { background: var(--gray-1); color: var(--text-sub); cursor: default; }
+.field select option { background: var(--white); }
+.field textarea { resize: vertical; min-height: 80px; }
+.field .hint { font-size: 11px; color: var(--gray-4); }
+
+.radio-group { display: flex; gap: 8px; }
+.radio-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  gap: 7px; padding: 9px; background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--text-sub); transition: all .15s; user-select: none;
+}
+.radio-btn:has(input:checked) {
+  border-color: var(--navy); background: var(--navy-lt); color: var(--navy);
+}
 .radio-btn input { display: none; }
 
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
-.stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
-.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-.stat-card.blue::after { background: linear-gradient(90deg, var(--blue), var(--blue-light)); }
-.stat-card.amber::after { background: linear-gradient(90deg, var(--accent-2), var(--accent)); }
-.stat-card.green::after { background: linear-gradient(90deg, #1a9c4e, var(--green-light)); }
-.stat-card.red::after { background: linear-gradient(90deg, #c0392b, var(--red)); }
-.stat-card .stat-ico { font-size: 28px; margin-bottom: 4px; }
-.stat-card .stat-val { font-family: 'DM Sans', sans-serif; font-size: 28px; color: var(--white); font-weight: 800; }
-.stat-card .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+/* ─── SECTION DIVIDER ─── */
+.section-divider {
+  display: flex; align-items: center; gap: 10px;
+  margin: 20px 0 14px;
+}
+.section-divider span {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--navy); white-space: nowrap;
+}
+.section-divider::before, .section-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
 
+/* ─── BUTTONS ─── */
+.btn-save {
+  background: var(--navy); border: none; border-radius: var(--radius);
+  color: var(--white); font-family: inherit; font-size: 13px; font-weight: 700;
+  padding: 10px 24px; cursor: pointer; transition: all .2s;
+  display: inline-flex; align-items: center; gap: 7px;
+  letter-spacing: .3px;
+}
+.btn-save:hover { background: var(--navy-dk); }
+.btn-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+.btn-outline {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); color: var(--text-sub);
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  padding: 10px 20px; cursor: pointer; transition: all .2s;
+}
+.btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+.btn-danger {
+  background: var(--red-lt); border: 1px solid rgba(204,0,0,.2);
+  border-radius: 4px; color: var(--red); font-family: inherit;
+  font-size: 12px; font-weight: 600; padding: 5px 12px;
+  cursor: pointer; transition: all .2s;
+}
+.btn-danger:hover { background: rgba(204,0,0,.15); }
+.btn-sm { font-size: 12px; padding: 7px 14px; }
+
+/* ─── TABLE ─── */
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.data-table thead tr th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); background: rgba(0,0,0,0.25); border-bottom: 1px solid var(--border); }
-.data-table tbody tr td { padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text); }
-.data-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
-
-.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
-.badge-green { background: rgba(39,174,96,0.15); color: var(--green-light); border: 1px solid rgba(39,174,96,0.3); }
-.badge-red { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
-.badge-amber { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
-.badge-blue { background: rgba(30,110,181,0.15); color: var(--blue-light); border: 1px solid rgba(30,110,181,0.3); }
-.badge-purple { background: rgba(139,92,246,0.15); color: var(--purple-light); border: 1px solid rgba(139,92,246,0.3); }
-
-.notif-box { background: rgba(245,166,35,0.07); border: 1px solid rgba(245,166,35,0.25); border-radius: 10px; padding: 16px 18px; margin-top: 12px; }
-.notif-box .notif-title { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.notif-box .notif-item { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; padding-left: 12px; position: relative; }
-.notif-box .notif-item::before { content: '•'; position: absolute; left: 0; color: var(--accent); }
-.notif-box strong { color: var(--text); }
-
-.section-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; }
-.section-divider span { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue-light); white-space: nowrap; }
-.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.btn-save { background: linear-gradient(135deg, var(--blue), var(--blue-light)); border: none; border-radius: 10px; color: white; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; padding: 12px 32px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(30,110,181,0.35); }
-.btn-save:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(30,110,181,0.45); }
-.btn-row { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
-.btn-outline { background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; padding: 12px 28px; cursor: pointer; transition: all 0.2s; }
-.btn-outline:hover { border-color: var(--blue-light); color: var(--blue-light); }
-.btn-danger { background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3); border-radius: 8px; color: var(--red); font-family: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
-.btn-danger:hover { background: rgba(231,76,60,0.2); }
-.btn-sm { font-size: 12px; padding: 7px 16px; border-radius: 7px; }
-
-.toast { position: fixed; bottom: 24px; right: 24px; background: var(--green); color: white; padding: 14px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; z-index: 9999; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); transform: translateY(80px); opacity: 0; transition: all 0.4s cubic-bezier(.22,1,.36,1); }
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.error { background: var(--red); }
-
-.welcome-banner { background: linear-gradient(135deg, var(--navy-3) 0%, var(--navy-2) 100%); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
-.welcome-banner::before { content: '🏫'; position: absolute; right: 32px; font-size: 80px; opacity: 0.08; }
-.welcome-banner h3 { font-family: 'DM Sans', sans-serif; font-size: 22px; color: var(--white); margin-bottom: 6px; }
-.welcome-banner p { font-size: 13px; color: var(--text-muted); }
-.welcome-banner .npsn-tag { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 12px; display: inline-block; }
-
-.sub-card { background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
-.sub-card .sub-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
-.input-unit { position: relative; }
-.input-unit input { padding-right: 44px; }
-.input-unit .unit { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted); font-weight: 600; pointer-events: none; }
-.progress-wrap { background: rgba(0,0,0,0.3); border-radius: 20px; height: 6px; overflow: hidden; }
-.progress-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-light)); border-radius: 20px; transition: width 0.8s ease; }
-.kib-summary { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
-.kib-stat { background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-.kib-stat .kib-val { font-size: 22px; font-weight: 700; font-family: 'DM Sans', sans-serif; color: var(--white); }
-.kib-stat .kib-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.map-placeholder { background: rgba(0,0,0,0.2); border: 1px dashed var(--border); border-radius: 10px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
-.map-placeholder:hover { border-color: var(--blue-light); color: var(--blue-light); background: rgba(30,110,181,0.05); }
-.map-placeholder span.ico { font-size: 36px; }
-#gmap-iframe { width: 100%; height: 200px; border-radius: 10px; border: 1px solid var(--border); display: none; }
-.loading-overlay { position:fixed; inset:0; background: var(--navy); display:flex; align-items:center; justify-content:center; z-index:9998; }
-.spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color: var(--blue-light); border-radius:50%; animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.pegawai-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
-.pegawai-item { background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-.pegawai-item .pi-title { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-.gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.abk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-.abk-item { background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.abk-item .abk-title { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
-.firebase-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); padding: 5px 12px; background: var(--input-bg); border-radius: 20px; border: 1px solid var(--border); }
-.firebase-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-light); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.firebase-dot.offline { background: var(--red); animation: none; }
-
-/* ===== ADMIN PANEL ===== */
+.data-table thead tr th {
+  padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub);
+  background: var(--gray-1); border-bottom: 2px solid var(--border);
+}
+.data-table tbody tr td { padding: 12px 14px; border-bottom: 1px solid var(--gray-2); color: var(--text); }
+.data-table tbody tr:hover td { background: var(--navy-lt); }
 .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.admin-table thead tr th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border); }
-.admin-table tbody tr td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text); vertical-align: middle; }
-.admin-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.admin-table thead tr th {
+  padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub);
+  background: var(--gray-1); border-bottom: 2px solid var(--border);
+}
+.admin-table tbody tr td { padding: 11px 14px; border-bottom: 1px solid var(--gray-2); color: var(--text); vertical-align: middle; }
+.admin-table tbody tr:hover td { background: var(--gray-1); }
 .admin-table td .actions { display: flex; gap: 6px; }
 
-/* ===== MODAL ===== */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-.modal-overlay.open { display: flex; }
-.modal-box { background: var(--navy-2); border: 1px solid var(--border); border-radius: 20px; padding: 36px; width: 480px; max-width: 95vw; box-shadow: 0 24px 80px rgba(0,0,0,0.6); animation: loginSlide 0.3s cubic-bezier(.22,1,.36,1); }
-.modal-box h3 { font-family: 'DM Sans', sans-serif; font-size: 20px; color: var(--white); margin-bottom: 6px; }
-.modal-box .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-.modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
-.modal-close:hover { background: var(--input-bg); color: var(--white); }
-.modal-box .btn-row { margin-top: 20px; }
+/* ─── BADGES ─── */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 9px; border-radius: 3px;
+  font-size: 11px; font-weight: 700; letter-spacing: .3px;
+}
+.badge-green  { background: var(--green-lt); color: var(--green); border: 1px solid rgba(26,122,62,.2); }
+.badge-red    { background: var(--red-lt); color: var(--red); border: 1px solid rgba(204,0,0,.2); }
+.badge-amber  { background: var(--gold-lt); color: #B45309; border: 1px solid rgba(244,160,28,.3); }
+.badge-blue   { background: var(--navy-lt); color: var(--navy); border: 1px solid rgba(0,51,102,.2); }
+.badge-purple { background: rgba(91,33,182,.08); color: #5B21B6; border: 1px solid rgba(91,33,182,.2); }
 
-/* ===== PENGAWAS LAPORAN ===== */
-.sekolah-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
-.sekolah-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; cursor: pointer; transition: all 0.2s; }
-.sekolah-card:hover { border-color: var(--blue-light); transform: translateY(-2px); box-shadow: var(--shadow); }
-.sekolah-card .sk-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-.sekolah-card .sk-npsn { font-size: 11px; color: var(--text-muted); font-weight: 600; }
-.sekolah-card .sk-stats { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+/* ─── PROGRESS ─── */
+.progress-wrap { background: var(--gray-2); border-radius: 20px; height: 5px; overflow: hidden; }
+.progress-bar  { height: 100%; background: var(--navy); border-radius: 20px; transition: width .8s ease; }
 
-/* READ-ONLY overlay for pengawas */
+/* ─── MISC COMPONENTS ─── */
+.notif-box {
+  background: var(--gold-lt); border: 1px solid rgba(244,160,28,.3);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius); padding: 14px 16px; margin-top: 12px;
+}
+.notif-box .notif-title { font-size: 12px; font-weight: 700; color: #92400E; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.notif-box .notif-item { font-size: 12px; color: #78350F; margin-bottom: 5px; padding-left: 12px; position: relative; }
+.notif-box .notif-item::before { content: '•'; position: absolute; left: 0; color: var(--gold); }
+.notif-box strong { color: var(--text); }
+
+.kib-summary { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.kib-stat { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+.kib-stat .kib-val { font-family: 'Source Serif 4', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+.kib-stat .kib-lbl { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+
+.sub-card { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; }
+.sub-card .sub-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-sub); margin-bottom: 12px; }
+
+.map-placeholder {
+  background: var(--gray-1); border: 1.5px dashed var(--border);
+  border-radius: var(--radius); height: 200px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; color: var(--text-sub); font-size: 13px; cursor: pointer; transition: all .2s;
+}
+.map-placeholder:hover { border-color: var(--navy); color: var(--navy); background: var(--navy-lt); }
+.map-placeholder span.ico { font-size: 32px; }
+#gmap-iframe { width: 100%; height: 200px; border-radius: var(--radius); border: 1px solid var(--border); display: none; }
+
+.input-unit { position: relative; }
+.input-unit input { padding-right: 44px; }
+.input-unit .unit { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); font-weight: 700; pointer-events: none; }
+
+.pegawai-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+.pegawai-item { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+.pegawai-item .pi-title { font-size: 11px; font-weight: 700; color: var(--text-sub); letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+.gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.abk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.abk-item { background: var(--gray-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.abk-item .abk-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+
+/* ─── SEKOLAH GRID ─── */
+.sekolah-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+.sekolah-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px;
+  cursor: pointer; transition: all .2s;
+  border-left: 3px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+.sekolah-card:hover { border-left-color: var(--navy); box-shadow: var(--shadow); transform: translateY(-1px); }
+.sekolah-card .sk-name { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.sekolah-card .sk-npsn { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+.sekolah-card .sk-stats { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
+
+/* ─── READONLY ─── */
 .readonly-overlay { pointer-events: none; opacity: 0.75; }
-.readonly-banner { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 10px 16px; margin-bottom: 16px; font-size: 12px; color: var(--purple-light); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.readonly-banner {
+  background: rgba(91,33,182,.06); border: 1px solid rgba(91,33,182,.2);
+  border-left: 3px solid #5B21B6;
+  border-radius: var(--radius); padding: 9px 14px; margin-bottom: 14px;
+  font-size: 12px; color: #5B21B6; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+}
 
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 1000;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 8px; padding: 32px 32px 24px;
+  width: 460px; max-width: 95vw;
+  box-shadow: var(--shadow-lg);
+  animation: loginIn .3s cubic-bezier(.22,1,.36,1);
+  position: relative;
+}
+.modal-box h3 { font-family: 'Source Serif 4', serif; font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.modal-box .modal-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
+.modal-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: var(--text-sub); font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
+.modal-close:hover { background: var(--gray-2); }
+.modal-box .btn-row { margin-top: 18px; }
+.modal-box .form-group { margin-bottom: 14px; }
+.modal-box .form-group label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-sub); display: block; margin-bottom: 5px; }
+.modal-box .form-group input {
+  width: 100%; background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 9px 12px; color: var(--text);
+  font-family: inherit; font-size: 14px; transition: all .2s; outline: none;
+}
+.modal-box .form-group input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(0,51,102,.08); }
+.modal-box .error-msg { display: none; margin-top: 8px; }
+
+/* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .form-grid { grid-template-columns: 1fr; }
@@ -366,89 +714,105 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
   :root { --sidebar-w: 220px; }
   .sekolah-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Icon alignment ── */
+svg { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+.gov-emblem svg { display: block; margin: 0 auto; }
+.role-tab svg { display: block; margin: 0 auto 4px; }
+.stat-ico svg { display: block; }
+.rt-ico { display: flex; align-items: center; justify-content: center; height: 24px; }
 </style>
 </head>
 <body>
 
+<!-- Loading -->
 <div class="loading-overlay" id="loading">
-  <div style="text-align:center">
-    <div class="spinner" style="margin:0 auto 16px"></div>
-    <div style="font-size:13px;color:var(--text-muted)">Memuat SIDAS-JT1...</div>
+  <div class="ld-logo">
+    <div class="ld-bar"></div>
+    <h2>SIDAS-JT1</h2>
   </div>
+  <div class="ld-spinner"></div>
 </div>
 
 <div class="toast" id="toast">✓ Data berhasil disimpan</div>
 
-<!-- ===== LOGIN PAGE ===== -->
+<!-- ═══════════════════════════════════
+     LOGIN PAGE
+════════════════════════════════════ -->
 <div id="login-page">
-  <div class="login-bg"></div>
-  <div class="login-grid"></div>
-  <button class="login-theme-btn" id="theme-toggle-login" onclick="toggleTheme()" title="Ganti tema">🌙</button>
-  <div class="login-card">
-    <div class="login-brand">
-      <div class="brand-icon">🏫</div>
-      <div class="brand-text">
-        <h1>SIDAS-JT1</h1>
-        <p>SISTEM INFORMASI DATA SEKOLAH</p>
+  <div class="login-left">
+    <div class="gov-emblem"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 12 2 21 11"/><rect x="3" y="11" width="18" height="11"/><path d="M9 22v-7h6v7"/><line x1="12" y1="2" x2="12" y2="6"/></svg></div>
+    <h1>SIDAS-JT1</h1>
+    <div class="login-divline"></div>
+    <p class="login-sub">Sistem Informasi Data Sekolah<br>Jakarta Timur Wilayah I</p>
+    <p class="login-instansi" style="margin-top:20px">Dinas Pendidikan<br>Provinsi DKI Jakarta</p>
+  </div>
+
+  <div class="login-right">
+    <div class="login-form-box">
+      <div class="form-title">Portal Masuk</div>
+      <div class="form-title-sub">Sistem Informasi Data Sekolah — Jakbar Timur Wilayah 1</div>
+
+      <div class="role-tabs" id="role-selector">
+        <button class="role-tab operator-role active" onclick="selectRole('operator',this)">
+          <span class="rt-ico"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/></svg></span>Operator
+        </button>
+        <button class="role-tab pengawas-role" onclick="selectRole('pengawas',this)">
+          <span class="rt-ico"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>Pengawas
+        </button>
+        <button class="role-tab admin-role" onclick="selectRole('admin',this)">
+          <span class="rt-ico"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Admin
+        </button>
       </div>
-    </div>
 
-    <!-- Role selector -->
-    <div class="role-selector" id="role-selector">
-      <button class="role-btn operator-role active" onclick="selectRole('operator',this)">
-        <span class="role-ico">🏫</span>Operator Sekolah
-      </button>
-      <button class="role-btn pengawas-role" onclick="selectRole('pengawas',this)">
-        <span class="role-ico">🔍</span>Pengawas
-      </button>
-      <button class="role-btn admin-role" onclick="selectRole('admin',this)">
-        <span class="role-ico">⚙️</span>Admin
-      </button>
-    </div>
-    <div class="login-divider"></div>
-
-    <!-- Operator fields -->
-    <div id="fields-operator">
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Masuk menggunakan NPSN sebagai ID dan Password sekolah Anda.</p>
-      <div class="form-group"><label>ID Sekolah (NPSN)</label><input type="text" id="login-id" placeholder="Masukkan NPSN" maxlength="10"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Password (default: NPSN)"></div>
-    </div>
-
-    <!-- Pengawas fields -->
-    <div id="fields-pengawas" style="display:none">
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Masuk menggunakan NRK dan password yang ditetapkan admin.</p>
-      <div class="form-group"><label>NRK (Nomor Registrasi Kepegawaian)</label><input type="text" id="login-nrk" placeholder="Masukkan NRK"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="login-pass-pengawas" placeholder="Password"></div>
-    </div>
-
-    <!-- Admin fields -->
-    <div id="fields-admin" style="display:none">
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Masuk menggunakan akun email admin yang terdaftar di Firebase.</p>
-      <div class="form-group"><label>Email Admin</label><input type="email" id="login-email" placeholder="admin@disdik.jakarta.go.id"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="login-pass-admin" placeholder="Password Firebase"></div>
-    </div>
-
-    <div class="form-group" id="captcha-group">
-      <label>Kode Keamanan</label>
-      <div class="captcha-row">
-        <div class="captcha-box" id="captcha-display" onclick="refreshCaptcha()" title="Klik untuk refresh">— — —</div>
-        <div class="form-group" style="flex:1;margin-bottom:0"><input type="text" id="captcha-input" placeholder="Ketik kode di samping" style="width:100%"></div>
+      <!-- Operator -->
+      <div id="fields-operator">
+        <p class="role-hint">Masuk menggunakan NPSN sebagai ID dan password sekolah Anda.</p>
+        <div class="form-group"><label>ID Sekolah (NPSN)</label><input type="text" id="login-id" placeholder="Masukkan NPSN" maxlength="10"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Password (default: NPSN)"></div>
       </div>
-    </div>
-    <div class="error-msg" id="login-error">❌ Kredensial salah atau akun tidak ditemukan</div>
-    <button class="btn-primary" id="login-btn" onclick="doLogin()">🔐 Masuk ke Sistem</button>
-    <div class="login-links">
-      <button class="link-btn" onclick="showReset()">🔄 Lupa Password?</button>
+
+      <!-- Pengawas -->
+      <div id="fields-pengawas" style="display:none">
+        <p class="role-hint">Masuk menggunakan NRK dan password yang ditetapkan admin.</p>
+        <div class="form-group"><label>NRK (Nomor Registrasi Kepegawaian)</label><input type="text" id="login-nrk" placeholder="Masukkan NRK"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="login-pass-pengawas" placeholder="Password"></div>
+      </div>
+
+      <!-- Admin -->
+      <div id="fields-admin" style="display:none">
+        <p class="role-hint">Masuk menggunakan akun email admin yang terdaftar di Firebase.</p>
+        <div class="form-group"><label>Email Admin</label><input type="email" id="login-email" placeholder="admin@disdik.jakarta.go.id"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="login-pass-admin" placeholder="Password Firebase"></div>
+      </div>
+
+      <div class="form-group" id="captcha-group">
+        <label>Kode Keamanan</label>
+        <div class="captcha-row">
+          <div class="captcha-box" id="captcha-display" onclick="refreshCaptcha()" title="Klik untuk refresh">— — —</div>
+          <div class="form-group" style="flex:1;margin-bottom:0"><input type="text" id="captcha-input" placeholder="Ketik kode di samping" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="error-msg" id="login-error"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Kredensial salah atau akun tidak ditemukan</div>
+      <button class="btn-login" id="login-btn" onclick="doLogin()">Masuk ke Sistem</button>
+      <div class="login-links">
+        <button class="link-btn" onclick="showReset()">Lupa Password?</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ===== MAIN APP ===== -->
+<!-- ═══════════════════════════════════
+     MAIN APP
+════════════════════════════════════ -->
 <div id="app">
   <div class="topbar">
-    <div class="logo-area">
-      <span class="ico">🏫</span>
-      <div><h1>SIDAS-JT1</h1><span>PORTAL DATA SEKOLAH</span></div>
+    <div class="topbar-brand">
+      <div class="brand-bar"></div>
+      <div>
+        <h1>SIDAS-JT1</h1>
+        <span>Portal Data Sekolah</span>
+      </div>
     </div>
     <div class="school-badge" id="topbar-school">Memuat...</div>
     <div class="topbar-right">
@@ -461,22 +825,18 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
         <div class="avatar" id="user-avatar">S</div>
         <div class="name" id="user-name">-</div>
       </div>
-      <button class="btn-theme" id="theme-toggle-app" onclick="toggleTheme()" title="Ganti tema">🌙</button>
-      <button class="btn-logout" onclick="doLogout()">⏻ Keluar</button>
+      <button class="btn-logout" onclick="doLogout()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Keluar</button>
     </div>
   </div>
 
   <div class="app-body">
-    <aside class="sidebar" id="sidebar">
-      <!-- Filled dynamically per role -->
-    </aside>
+    <aside class="sidebar" id="sidebar"></aside>
     <main class="main-content" id="main-content">
-      <!-- Sections filled here -->
 
-      <!-- DASHBOARD (shared) -->
+      <!-- DASHBOARD -->
       <section class="section active" id="sec-dashboard">
         <div class="page-header">
-          <div class="breadcrumb">Home</div>
+          <div class="breadcrumb">Beranda</div>
           <h2>Dashboard</h2>
           <div class="subtitle" id="dash-subtitle">Ringkasan data sekolah Anda</div>
         </div>
@@ -488,28 +848,28 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
           </div>
         </div>
         <div class="stats-grid">
-          <div class="stat-card blue"><div class="stat-ico">👨‍🎓</div><div class="stat-val" id="ds-total-siswa">0</div><div class="stat-label">Total Peserta Didik</div></div>
-          <div class="stat-card amber"><div class="stat-ico">👩‍🏫</div><div class="stat-val" id="ds-total-guru">0</div><div class="stat-label">Total Pendidik & Tendik</div></div>
-          <div class="stat-card green"><div class="stat-ico">🏫</div><div class="stat-val" id="ds-rombel">0</div><div class="stat-label">Rombongan Belajar</div></div>
-          <div class="stat-card red"><div class="stat-ico">📐</div><div class="stat-val" id="ds-luas">0</div><div class="stat-label">Luas Bangunan (m²)</div></div>
+          <div class="stat-card blue"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><div class="stat-val" id="ds-total-siswa">0</div><div class="stat-label">Total Peserta Didik</div></div>
+          <div class="stat-card amber"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="stat-val" id="ds-total-guru">0</div><div class="stat-label">Total Pendidik &amp; Tendik</div></div>
+          <div class="stat-card green"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><div class="stat-val" id="ds-rombel">0</div><div class="stat-label">Rombongan Belajar</div></div>
+          <div class="stat-card red"><span class="stat-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/></svg></span><div class="stat-val" id="ds-luas">0</div><div class="stat-label">Luas Bangunan (m²)</div></div>
         </div>
         <div class="card">
-          <div class="card-title">Rekap Kelengkapan Data</div>
+          <div class="card-title"><span class="card-title-accent"></span>Rekap Kelengkapan Data</div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Profil Sekolah</span><span id="prog-profil" style="color:var(--blue-light);font-weight:700">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-profil" style="width:0%"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Data Aset</span><span id="prog-aset" style="color:var(--blue-light);font-weight:700">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-aset" style="width:0%"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Data SDM & Siswa</span><span id="prog-sdm" style="color:var(--blue-light);font-weight:700">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-sdm" style="width:0%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Profil Sekolah</span><span id="prog-profil" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-profil" style="width:0%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Data Aset</span><span id="prog-aset" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-aset" style="width:0%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;font-weight:600;color:var(--text-sub)"><span>Data SDM &amp; Siswa</span><span id="prog-sdm" style="color:var(--navy)">0%</span></div><div class="progress-wrap"><div class="progress-bar" id="pb-sdm" style="width:0%"></div></div></div>
           </div>
         </div>
       </section>
 
-      <!-- PROFIL SEKOLAH -->
+      <!-- PROFIL -->
       <section class="section" id="sec-profil">
-        <div class="page-header"><div class="breadcrumb">Home / Data Sekolah</div><h2>Profil Sekolah</h2><div class="subtitle">Informasi dasar identitas sekolah</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / Data Sekolah</div><h2>Profil Sekolah</h2><div class="subtitle">Informasi dasar identitas sekolah</div></div>
         <div id="readonly-banner-profil"></div>
         <div id="profil-content">
         <div class="card">
-          <div class="card-title">Identitas Sekolah</div>
+          <div class="card-title"><span class="card-title-accent"></span>Identitas Sekolah</div>
           <div class="form-grid">
             <div class="field"><label>NPSN</label><input type="text" id="p-npsn" placeholder="NPSN" maxlength="10" readonly></div>
             <div class="field"><label>Nama Sekolah</label><input type="text" id="p-nama" placeholder="Nama lengkap sekolah"></div>
@@ -517,11 +877,11 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
           </div>
           <div class="section-divider"><span>Lokasi Google Maps</span></div>
           <div class="form-grid cols-1"><div class="field"><label>Link / Embed Google Maps</label><input type="text" id="p-gmaps" placeholder="https://maps.google.com/..." oninput="previewMap()"><div class="hint">Tempel link Google Maps atau src iframe embed</div></div></div>
-          <div class="map-placeholder" id="map-placeholder" onclick="document.getElementById('p-gmaps').focus()"><span class="ico">📍</span><span>Masukkan link Google Maps untuk menampilkan peta</span></div>
+          <div class="map-placeholder" id="map-placeholder" onclick="document.getElementById('p-gmaps').focus()"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><span>Masukkan link Google Maps untuk menampilkan peta</span></div>
           <iframe id="gmap-iframe" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <div class="card">
-          <div class="card-title">Pejabat Sekolah</div>
+          <div class="card-title"><span class="card-title-accent"></span>Pejabat Sekolah</div>
           <div class="form-grid">
             <div class="field"><label>Nama Kepala Sekolah</label><input type="text" id="p-kepsek" placeholder="Nama lengkap"></div>
             <div class="field"><label>NIP Kepala Sekolah</label><input type="text" id="p-nip-kepsek" placeholder="18 digit NIP"></div>
@@ -534,39 +894,39 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
           </div>
         </div>
         <div class="btn-row" id="profil-btns">
-          <button class="btn-outline" onclick="loadSection('profil')">↺ Reset</button>
-          <button class="btn-save" onclick="saveSection('profil')">💾 Simpan Profil</button>
+          <button class="btn-outline" onclick="loadSection('profil')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button>
+          <button class="btn-save" onclick="saveSection('profil')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Profil</button>
         </div>
         </div>
       </section>
 
       <!-- ASET TANAH -->
       <section class="section" id="sec-aset-tanah">
-        <div class="page-header"><div class="breadcrumb">Home / Aset Sekolah</div><h2>Aset — Tanah</h2><div class="subtitle">Data aset tanah sekolah (KIB A)</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / Aset Sekolah</div><h2>Aset — Tanah</h2><div class="subtitle">Data aset tanah sekolah (KIB A)</div></div>
         <div id="readonly-banner-tanah"></div>
-        <div class="card"><div class="card-title">Kartu Inventaris Barang A (KIB A)</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Kartu Inventaris Barang A (KIB A)</div>
           <div class="form-grid cols-1">
-            <div class="field"><label>KIB A</label><div class="radio-group"><label class="radio-btn"><input type="radio" name="kib-a" id="kiba-ya" value="Ya"><span>✅ Ya</span></label><label class="radio-btn"><input type="radio" name="kib-a" id="kiba-tidak" value="Tidak" checked><span>❌ Tidak</span></label></div></div>
+            <div class="field"><label>KIB A</label><div class="radio-group"><label class="radio-btn"><input type="radio" name="kib-a" id="kiba-ya" value="Ya"><span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Ya</span></label><label class="radio-btn"><input type="radio" name="kib-a" id="kiba-tidak" value="Tidak" checked><span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Tidak</span></label></div></div>
             <div class="field"><label>Keterangan KIB A</label><select id="kiba-ket" onchange="toggleKibaJumlah(this.value)"><option value="">— Pilih Keterangan —</option><option value="Sudah a/n Sekolah/Sudin/Dinas">Sudah atas nama (a/n) sekolah/sudin/dinas</option><option value="Belum a/n Pemda/Perorangan">Belum atas nama (a/n) pemda/perorangan</option></select></div><div class="field" id="kiba-jumlah-field" style="display:none"><label>Jumlah Sertifikat</label><input type="number" id="kiba-jumlah-sertif" placeholder="0" min="0"><span class="hint">Jumlah sertifikat yang belum a/n pemda/perorangan</span></div>
           </div>
         </div>
-        <div class="card"><div class="card-title">Sertifikat & Luas Tanah</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Sertifikat &amp; Luas Tanah</div>
           <div class="form-grid">
-            <div class="field"><label>Sertifikat Tanah</label><div class="radio-group"><label class="radio-btn"><input type="radio" name="sertif" id="sertif-ya" value="Ya"><span>✅ Ya</span></label><label class="radio-btn"><input type="radio" name="sertif" id="sertif-tidak" value="Tidak" checked><span>❌ Tidak</span></label></div></div>
+            <div class="field"><label>Sertifikat Tanah</label><div class="radio-group"><label class="radio-btn"><input type="radio" name="sertif" id="sertif-ya" value="Ya"><span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Ya</span></label><label class="radio-btn"><input type="radio" name="sertif" id="sertif-tidak" value="Tidak" checked><span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Tidak</span></label></div></div>
             <div class="field"><label>Keterangan Sertifikat</label><input type="text" id="sertif-ket" placeholder="Nomor sertifikat / catatan"></div>
             <div class="field"><label>Luas Tanah</label><div class="input-unit"><input type="number" id="luas-tanah" placeholder="0" min="0"><span class="unit">m²</span></div></div>
             <div class="field"><label>Luas Lapangan</label><div class="input-unit"><input type="number" id="luas-lapangan" placeholder="0" min="0"><span class="unit">m²</span></div></div>
             <div class="field span-2"><label>Keterangan Lapangan</label><textarea id="ket-lapangan" placeholder="Jenis lapangan, kondisi..."></textarea></div>
           </div>
         </div>
-        <div class="btn-row" id="tanah-btns"><button class="btn-outline" onclick="loadSection('aset-tanah')">↺ Reset</button><button class="btn-save" onclick="saveSection('aset-tanah')">💾 Simpan Data Tanah</button></div>
+        <div class="btn-row" id="tanah-btns"><button class="btn-outline" onclick="loadSection('aset-tanah')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('aset-tanah')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Data Tanah</button></div>
       </section>
 
       <!-- ASET BARANG -->
       <section class="section" id="sec-aset-barang">
-        <div class="page-header"><div class="breadcrumb">Home / Aset Sekolah</div><h2>Aset — Barang (KIB B)</h2><div class="subtitle">Data inventaris barang bergerak sekolah</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / Aset Sekolah</div><h2>Aset — Barang (KIB B)</h2><div class="subtitle">Data inventaris barang bergerak sekolah</div></div>
         <div id="readonly-banner-barang"></div>
-        <div class="card"><div class="card-title">Ringkasan KIB B</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ringkasan KIB B</div>
           <div class="kib-summary">
             <div class="kib-stat"><div class="kib-val" id="kibb-jml">0</div><div class="kib-lbl">Jumlah Total Barang</div></div>
             <div class="kib-stat"><div class="kib-val" id="kibb-nilai">0</div><div class="kib-lbl">Nilai Total (Rp)</div></div>
@@ -574,7 +934,7 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="kib-stat"><div class="kib-val" id="kibb-rusak">0</div><div class="kib-lbl">Kondisi Rusak</div></div>
           </div>
         </div>
-        <div class="card"><div class="card-title">Input Data KIB B</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Input Data KIB B</div>
           <div class="form-grid">
             <div class="field"><label>Jumlah Total KIB B</label><input type="number" id="kibb-jml-inp" placeholder="0" min="0" oninput="syncKibB()"></div>
             <div class="field"><label>Nilai Total KIB B (Rp)</label><input type="number" id="kibb-nilai-inp" placeholder="0" min="0" oninput="syncKibB()"></div>
@@ -582,48 +942,44 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="field"><label>KIB B — Kondisi Rusak</label><input type="number" id="kibb-rusak-inp" placeholder="0" min="0" oninput="syncKibB()"></div>
           </div>
         </div>
-        <div class="btn-row" id="barang-btns"><button class="btn-outline" onclick="loadSection('aset-barang')">↺ Reset</button><button class="btn-save" onclick="saveSection('aset-barang')">💾 Simpan KIB B</button></div>
+        <div class="btn-row" id="barang-btns"><button class="btn-outline" onclick="loadSection('aset-barang')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('aset-barang')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan KIB B</button></div>
       </section>
 
       <!-- ASET GEDUNG -->
       <section class="section" id="sec-aset-gedung">
-        <div class="page-header"><div class="breadcrumb">Home / Aset Sekolah</div><h2>Aset — Gedung (KIB C)</h2><div class="subtitle">Data bangunan dan ruangan sekolah</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / Aset Sekolah</div><h2>Aset — Gedung (KIB C)</h2><div class="subtitle">Data ruangan dan bangunan sekolah</div></div>
         <div id="readonly-banner-gedung"></div>
-        <div class="card"><div class="card-title">Informasi Umum Gedung</div>
-          <div class="form-grid">
-            <div class="field"><label>KIB C</label><div class="radio-group"><label class="radio-btn"><input type="radio" name="kib-c" id="kibc-ya" value="Ya"><span>✅ Ya</span></label><label class="radio-btn"><input type="radio" name="kib-c" id="kibc-tidak" value="Tidak" checked><span>❌ Tidak</span></label></div></div>
-            <div class="field"><label>Keterangan KIB C</label><input type="text" id="kibc-ket" placeholder="Nomor / keterangan dokumen KIB C"></div>
-            <div class="field"><label>Luas Bangunan</label><div class="input-unit"><input type="number" id="luas-bangunan" placeholder="0" min="0"><span class="unit">m²</span></div></div>
-            <div class="field"><label>Kerusakan Gedung</label><select id="kerusakan-gedung"><option value="">— Pilih —</option><option value="Ringan">Ringan</option><option value="Sedang">Sedang</option><option value="Berat">Berat</option></select></div>
-            <div class="field span-2"><label>Keterangan Kerusakan</label><textarea id="ket-kerusakan" placeholder="Uraikan kerusakan..."></textarea></div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Kartu Inventaris Bangunan Gedung (KIB C)</div>
+          <div class="form-grid cols-1">
+            <div class="field"><label>KIB C</label><div class="radio-group"><label class="radio-btn"><input type="radio" name="kib-c" id="kibc-ya" value="Ya"><span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Ya</span></label><label class="radio-btn"><input type="radio" name="kib-c" id="kibc-tidak" value="Tidak" checked><span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Tidak</span></label></div></div>
+            <div class="field"><label>Keterangan KIB C</label><input type="text" id="kibc-ket" placeholder="Catatan KIB C"></div>
+            <div class="field"><label>Luas Bangunan Total</label><div class="input-unit"><input type="number" id="luas-bangunan" placeholder="0" min="0"><span class="unit">m²</span></div></div>
+            <div class="field span-2"><label>Keterangan Kerusakan</label><textarea id="ket-kerusakan" placeholder="Deskripsi kerusakan gedung..."></textarea></div>
           </div>
-          <div class="notif-box"><div class="notif-title">⚠️ Kategori Kerusakan — Pergub 32 Tahun 2012</div><div class="notif-item"><strong>Ringan:</strong> Komponen non struktural (atap, langit-langit, lantai, dinding pengisi).</div><div class="notif-item"><strong>Sedang:</strong> Sebagian komponen non struktural dan/atau struktural (struktur atap, lantai, dll).</div><div class="notif-item"><strong>Berat:</strong> Sebagian besar komponen bangunan struktural maupun non struktural.</div></div>
         </div>
-        <div class="card"><div class="card-title">Jumlah Ruangan</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ruang Administrasi &amp; Manajemen</div>
           <div class="form-grid cols-3">
-            <div class="field"><label>Ruang Pimpinan</label><input type="number" id="r-pimpinan" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang Wakil</label><input type="number" id="r-wakil" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang Subbag TU / Kasatpel</label><input type="number" id="r-subbag" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang TU / Admin</label><input type="number" id="r-tu" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang Guru</label><input type="number" id="r-guru" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang Kelas</label><input type="number" id="r-kelas" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Pimpinan</label><input type="number" id="r-pimpinan" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Wakil Pimpinan</label><input type="number" id="r-wakil" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Subbag TU</label><input type="number" id="r-subbag" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Tata Usaha</label><input type="number" id="r-tu" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Guru</label><input type="number" id="r-guru" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Kelas</label><input type="number" id="r-kelas" placeholder="0" min="0"></div>
+          </div>
+        </div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ruang Penunjang &amp; Fasilitas</div>
+          <div class="form-grid cols-3">
             <div class="field"><label>Perpustakaan</label><input type="number" id="r-perpus" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang Konseling</label><input type="number" id="r-konseling" placeholder="0" min="0"></div>
+            <div class="field"><label>Konseling</label><input type="number" id="r-konseling" placeholder="0" min="0"></div>
             <div class="field"><label>Laboratorium</label><input type="number" id="r-lab" placeholder="0" min="0"></div>
-          </div>
-          <div class="field" style="margin-top:14px"><label>Keterangan Laboratorium</label><input type="text" id="ket-lab" placeholder="Jenis laboratorium..."></div>
-          <div class="section-divider"><span>Ruang Khusus SLB</span></div>
-          <div class="form-grid cols-3">
-            <div class="field"><label>Ruang OM (A)</label><input type="number" id="r-om" placeholder="0" min="0"></div>
-            <div class="field"><label>BKPBI — Bina Wicara (B)</label><input type="number" id="r-bkpbi-wicara" placeholder="0" min="0"></div>
-            <div class="field"><label>BKPBI — Bina Persepsi (B)</label><input type="number" id="r-bkpbi-persepsi" placeholder="0" min="0"></div>
-            <div class="field"><label>Bina Diri (C)</label><input type="number" id="r-bina-diri-c" placeholder="0" min="0"></div>
-            <div class="field"><label>Bina Diri & Gerak (D)</label><input type="number" id="r-bina-gerak-d" placeholder="0" min="0"></div>
-            <div class="field"><label>Bina Pribadi & Sosial (E)</label><input type="number" id="r-bina-sosial-e" placeholder="0" min="0"></div>
-            <div class="field"><label>Ruang Keterampilan SLB</label><input type="number" id="r-keterampilan" placeholder="0" min="0"></div>
-          </div>
-          <div class="section-divider"><span>Fasilitas Penunjang</span></div>
-          <div class="form-grid cols-3">
+            <div class="field span-3"><label>Keterangan Laboratorium</label><input type="text" id="ket-lab" placeholder="Jenis dan kondisi lab..."></div>
+            <div class="field"><label>R. Orientasi Mobilitas</label><input type="number" id="r-om" placeholder="0" min="0"></div>
+            <div class="field"><label>R. BKPBI Wicara</label><input type="number" id="r-bkpbi-wicara" placeholder="0" min="0"></div>
+            <div class="field"><label>R. BKPBI Persepsi Bunyi</label><input type="number" id="r-bkpbi-persepsi" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Bina Diri (C)</label><input type="number" id="r-bina-diri-c" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Bina Gerak (D)</label><input type="number" id="r-bina-gerak-d" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Bina Sosial (E)</label><input type="number" id="r-bina-sosial-e" placeholder="0" min="0"></div>
+            <div class="field"><label>R. Keterampilan</label><input type="number" id="r-keterampilan" placeholder="0" min="0"></div>
             <div class="field"><label>Tempat Ibadah</label><input type="number" id="r-ibadah" placeholder="0" min="0"></div>
             <div class="field"><label>UKS</label><input type="number" id="r-uks" placeholder="0" min="0"></div>
             <div class="field"><label>Organisasi Kesiswaan</label><input type="number" id="r-osis" placeholder="0" min="0"></div>
@@ -632,14 +988,17 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="field"><label>Toilet Kepsek / Guru</label><input type="number" id="toilet-guru" placeholder="0" min="0"></div>
           </div>
         </div>
-        <div class="btn-row" id="gedung-btns"><button class="btn-outline" onclick="loadSection('aset-gedung')">↺ Reset</button><button class="btn-save" onclick="saveSection('aset-gedung')">💾 Simpan Data Gedung</button></div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Kondisi Kerusakan Gedung</div>
+          <div class="form-grid cols-1"><div class="field"><label>Deskripsi Kerusakan</label><textarea id="kerusakan-gedung" placeholder="Rincian kerusakan gedung dan infrastruktur..."></textarea></div></div>
+        </div>
+        <div class="btn-row" id="gedung-btns"><button class="btn-outline" onclick="loadSection('aset-gedung')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('aset-gedung')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Data Gedung</button></div>
       </section>
 
       <!-- ASET LAIN -->
       <section class="section" id="sec-aset-lain">
-        <div class="page-header"><div class="breadcrumb">Home / Aset Sekolah</div><h2>Aset Tetap Lainnya (KIB E)</h2><div class="subtitle">Data aset tetap lainnya</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / Aset Sekolah</div><h2>Aset Tetap Lainnya (KIB E)</h2><div class="subtitle">Data aset tetap lainnya</div></div>
         <div id="readonly-banner-lain"></div>
-        <div class="card"><div class="card-title">Ringkasan KIB E</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ringkasan KIB E</div>
           <div class="kib-summary">
             <div class="kib-stat"><div class="kib-val" id="kibe-jml">0</div><div class="kib-lbl">Jumlah Total</div></div>
             <div class="kib-stat"><div class="kib-val" id="kibe-nilai">0</div><div class="kib-lbl">Nilai Total (Rp)</div></div>
@@ -647,7 +1006,7 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="kib-stat"><div class="kib-val" id="kibe-rusak">0</div><div class="kib-lbl">Kondisi Rusak</div></div>
           </div>
         </div>
-        <div class="card"><div class="card-title">Input Data KIB E</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Input Data KIB E</div>
           <div class="form-grid">
             <div class="field"><label>Jumlah Total KIB E</label><input type="number" id="kibe-jml-inp" placeholder="0" min="0" oninput="syncKibE()"></div>
             <div class="field"><label>Nilai Total KIB E (Rp)</label><input type="number" id="kibe-nilai-inp" placeholder="0" min="0" oninput="syncKibE()"></div>
@@ -655,14 +1014,14 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="field"><label>KIB E — Kondisi Rusak</label><input type="number" id="kibe-rusak-inp" placeholder="0" min="0" oninput="syncKibE()"></div>
           </div>
         </div>
-        <div class="btn-row" id="lain-btns"><button class="btn-outline" onclick="loadSection('aset-lain')">↺ Reset</button><button class="btn-save" onclick="saveSection('aset-lain')">💾 Simpan KIB E</button></div>
+        <div class="btn-row" id="lain-btns"><button class="btn-outline" onclick="loadSection('aset-lain')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('aset-lain')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan KIB E</button></div>
       </section>
 
       <!-- PEGAWAI -->
       <section class="section" id="sec-pegawai">
-        <div class="page-header"><div class="breadcrumb">Home / SDM & Peserta Didik</div><h2>Data Pegawai</h2><div class="subtitle">Data pendidik dan tenaga kependidikan</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / SDM &amp; Peserta Didik</div><h2>Data Pegawai</h2><div class="subtitle">Data pendidik dan tenaga kependidikan</div></div>
         <div id="readonly-banner-pegawai"></div>
-        <div class="card"><div class="card-title">Pendidik</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Pendidik</div>
           <div class="pegawai-grid">
             <div class="pegawai-item"><div class="pi-title">Pendidik PNS</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-pns-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-pns-p" placeholder="0" min="0"></div></div></div>
             <div class="pegawai-item"><div class="pi-title">Pendidik PPPK</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-pppk-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-pppk-p" placeholder="0" min="0"></div></div></div>
@@ -670,7 +1029,7 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="pegawai-item"><div class="pi-title">Pendidik Non-ASN (KKI)</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="pend-kki-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="pend-kki-p" placeholder="0" min="0"></div></div></div>
           </div>
         </div>
-        <div class="card"><div class="card-title">Tenaga Kependidikan</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Tenaga Kependidikan</div>
           <div class="pegawai-grid">
             <div class="pegawai-item"><div class="pi-title">Tendik PNS</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-pns-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-pns-p" placeholder="0" min="0"></div></div></div>
             <div class="pegawai-item"><div class="pi-title">Tendik PPPK</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-pppk-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-pppk-p" placeholder="0" min="0"></div></div></div>
@@ -678,14 +1037,14 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="pegawai-item"><div class="pi-title">Tendik Non-ASN (KKI)</div><div class="gender-row"><div class="field"><label>Laki-laki</label><input type="number" id="tendik-kki-l" placeholder="0" min="0"></div><div class="field"><label>Perempuan</label><input type="number" id="tendik-kki-p" placeholder="0" min="0"></div></div></div>
           </div>
         </div>
-        <div class="btn-row" id="pegawai-btns"><button class="btn-outline" onclick="loadSection('pegawai')">↺ Reset</button><button class="btn-save" onclick="saveSection('pegawai')">💾 Simpan Data Pegawai</button></div>
+        <div class="btn-row" id="pegawai-btns"><button class="btn-outline" onclick="loadSection('pegawai')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('pegawai')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Data Pegawai</button></div>
       </section>
 
       <!-- SISWA -->
       <section class="section" id="sec-siswa">
-        <div class="page-header"><div class="breadcrumb">Home / SDM & Peserta Didik</div><h2>Data Siswa</h2><div class="subtitle">Data peserta didik dan ABK sesuai Pergub 40 Tahun 2021</div></div>
+        <div class="page-header"><div class="breadcrumb">Beranda / SDM &amp; Peserta Didik</div><h2>Data Siswa</h2><div class="subtitle">Data peserta didik dan ABK sesuai Pergub 40 Tahun 2021</div></div>
         <div id="readonly-banner-siswa"></div>
-        <div class="card"><div class="card-title">Ringkasan Peserta Didik</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Ringkasan Peserta Didik</div>
           <div class="form-grid cols-3">
             <div class="field"><label>Rombongan Belajar</label><input type="number" id="s-rombel" placeholder="0" min="0"></div>
             <div class="field"><label>Total Siswa Laki-laki</label><input type="number" id="s-total-l" placeholder="0" min="0"></div>
@@ -694,64 +1053,60 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
             <div class="field"><label>Penerima PIP</label><input type="number" id="s-pip" placeholder="0" min="0"></div>
           </div>
         </div>
-        <div class="card"><div class="card-title">Siswa ABK — Pergub 40 Tahun 2021</div>
+        <div class="card"><div class="card-title"><span class="card-title-accent"></span>Siswa ABK — Pergub 40 Tahun 2021</div>
           <div class="abk-grid">
-            <div class="abk-item"><div class="abk-title">👁️ Tunanetra</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-a-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-a-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">👂 Tunarungu</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-b-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-b-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">🧠 Tunagrahita</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-c-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-c-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">♿ Tunadaksa</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-d-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-d-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">💢 Tunalaras</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-e-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-e-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">🗣️ Tunawicara</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-f-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-f-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">🔵 ASD (Autisme)</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-asd-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-asd-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">⚡ ADHD</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-adhd-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-adhd-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">📚 Kesulitan Belajar</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-kb-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-kb-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">🐢 Slow Learner</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-sl-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-sl-p" placeholder="0" min="0"></div></div></div>
-            <div class="abk-item"><div class="abk-title">⭐ Gifted & Talented</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-gt-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-gt-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunanetra</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-a-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-a-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunarungu</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-b-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-b-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunagrahita</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-c-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-c-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunadaksa</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-d-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-d-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunalaras</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-e-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-e-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Tunawicara</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-f-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-f-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">ASD (Autisme)</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-asd-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-asd-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">ADHD</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-adhd-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-adhd-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Kesulitan Belajar</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-kb-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-kb-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Slow Learner</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-sl-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-sl-p" placeholder="0" min="0"></div></div></div>
+            <div class="abk-item"><div class="abk-title">Gifted &amp; Talented</div><div class="gender-row"><div class="field"><label>L</label><input type="number" id="abk-gt-l" placeholder="0" min="0"></div><div class="field"><label>P</label><input type="number" id="abk-gt-p" placeholder="0" min="0"></div></div></div>
           </div>
         </div>
-        <div class="btn-row" id="siswa-btns"><button class="btn-outline" onclick="loadSection('siswa')">↺ Reset</button><button class="btn-save" onclick="saveSection('siswa')">💾 Simpan Data Siswa</button></div>
+        <div class="btn-row" id="siswa-btns"><button class="btn-outline" onclick="loadSection('siswa')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reset</button><button class="btn-save" onclick="saveSection('siswa')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Data Siswa</button></div>
       </section>
 
-      <!-- ===== ADMIN: KELOLA PENGGUNA ===== -->
+      <!-- ADMIN: KELOLA PENGGUNA -->
       <section class="section" id="sec-admin-users">
-        <div class="page-header"><div class="breadcrumb">Admin / Manajemen</div><h2>Kelola Pengguna</h2><div class="subtitle">Tambah, edit, dan hapus akun Pengawas & Operator Sekolah</div></div>
-
-        <!-- Pengawas -->
+        <div class="page-header"><div class="breadcrumb">Admin / Manajemen</div><h2>Kelola Pengguna</h2><div class="subtitle">Tambah, edit, dan hapus akun Pengawas &amp; Operator Sekolah</div></div>
         <div class="card">
           <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:10px">
-            <span>👤 Daftar Pengawas</span>
+            <span style="display:flex;align-items:center;gap:8px"><span class="card-title-accent"></span>Daftar Pengawas</span>
             <button class="btn-save btn-sm" onclick="openModal('pengawas')">+ Tambah Pengawas</button>
           </div>
           <div style="overflow-x:auto">
             <table class="admin-table" id="tbl-pengawas">
               <thead><tr><th>#</th><th>Nama</th><th>NRK</th><th>Status</th><th>Aksi</th></tr></thead>
-              <tbody id="tbody-pengawas"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">Memuat...</td></tr></tbody>
+              <tbody id="tbody-pengawas"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Memuat...</td></tr></tbody>
             </table>
           </div>
         </div>
-
-        <!-- Operator -->
         <div class="card">
           <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:10px">
-            <span>🏫 Daftar Operator Sekolah</span>
+            <span style="display:flex;align-items:center;gap:8px"><span class="card-title-accent"></span>Daftar Operator Sekolah</span>
             <button class="btn-save btn-sm" onclick="openModal('operator')">+ Tambah Operator</button>
           </div>
           <div style="overflow-x:auto">
             <table class="admin-table" id="tbl-operator">
               <thead><tr><th>#</th><th>Nama Sekolah</th><th>NPSN</th><th>Status</th><th>Aksi</th></tr></thead>
-              <tbody id="tbody-operator"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">Memuat...</td></tr></tbody>
+              <tbody id="tbody-operator"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Memuat...</td></tr></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- ===== PENGAWAS: DAFTAR SEKOLAH ===== -->
+      <!-- PENGAWAS: DAFTAR SEKOLAH -->
       <section class="section" id="sec-daftar-sekolah">
         <div class="page-header"><div class="breadcrumb">Pengawas / Laporan</div><h2>Daftar Sekolah</h2><div class="subtitle">Pilih sekolah untuk melihat detail data</div></div>
         <div class="card">
-          <div class="card-title">Semua Sekolah Binaan</div>
+          <div class="card-title"><span class="card-title-accent"></span>Semua Sekolah Binaan</div>
           <div class="sekolah-grid" id="sekolah-grid">
-            <div style="text-align:center;padding:24px;color:var(--text-muted);grid-column:span 2">Memuat data sekolah...</div>
+            <div style="text-align:center;padding:24px;color:var(--text-sub);grid-column:span 2">Memuat data sekolah...</div>
           </div>
         </div>
       </section>
@@ -760,13 +1115,12 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
   </div>
 </div>
 
-<!-- ===== MODAL TAMBAH USER ===== -->
+<!-- MODAL TAMBAH USER -->
 <div class="modal-overlay" id="modal-user">
-  <div class="modal-box" style="position:relative">
+  <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3 id="modal-title">Tambah Pengguna</h3>
     <p class="modal-sub" id="modal-sub">Isi data pengguna baru</p>
-
     <div id="modal-fields-pengawas" style="display:none">
       <div class="form-group"><label>Nama Pengawas</label><input type="text" id="m-nama-pengawas" placeholder="Nama lengkap"></div>
       <div class="form-group"><label>NRK</label><input type="text" id="m-nrk" placeholder="Nomor Registrasi Kepegawaian"></div>
@@ -777,11 +1131,10 @@ html, body { height: 100%; font-family: 'Inter', sans-serif; font-feature-settin
       <div class="form-group"><label>NPSN</label><input type="text" id="m-npsn-op" placeholder="8 digit NPSN" maxlength="10"></div>
       <div class="form-group"><label>Password Awal</label><input type="password" id="m-pass-operator" placeholder="Default: sama dengan NPSN"></div>
     </div>
-
-    <div class="error-msg" id="modal-error">❌ Data tidak lengkap</div>
+    <div class="error-msg" id="modal-error"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Data tidak lengkap</div>
     <div class="btn-row">
       <button class="btn-outline btn-sm" onclick="closeModal()">Batal</button>
-      <button class="btn-save btn-sm" onclick="saveUser()">💾 Simpan</button>
+      <button class="btn-save btn-sm" onclick="saveUser()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan</button>
     </div>
   </div>
 </div>
@@ -817,7 +1170,6 @@ try {
 
 const isDemo = !app;
 
-// ===== STORAGE HELPERS =====
 async function dbSet(path, data) {
   if (isDemo) { localStorage.setItem(path, JSON.stringify(data)); return; }
   await set(ref(db, path), data);
@@ -840,7 +1192,6 @@ async function dbRemove(path) {
   await remove(ref(db, path));
 }
 
-// ===== CAPTCHA =====
 let captchaCode = '';
 function makeCaptcha() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -850,43 +1201,37 @@ function makeCaptcha() {
 window.refreshCaptcha = makeCaptcha;
 makeCaptcha();
 
-// ===== ROLE SELECTION =====
 let currentRole = 'operator';
 window.selectRole = function(role, el) {
   currentRole = role;
-  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.role-tab').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('fields-operator').style.display = role === 'operator' ? 'block' : 'none';
   document.getElementById('fields-pengawas').style.display = role === 'pengawas' ? 'block' : 'none';
   document.getElementById('fields-admin').style.display = role === 'admin' ? 'block' : 'none';
-
   const btn = document.getElementById('login-btn');
-  btn.className = 'btn-primary';
-  if (role === 'admin') { btn.className += ' admin-btn'; btn.textContent = '🔐 Masuk sebagai Admin'; }
-  else if (role === 'pengawas') { btn.className += ' pengawas-btn'; btn.textContent = '🔍 Masuk sebagai Pengawas'; }
-  else { btn.textContent = '🔐 Masuk ke Sistem'; }
+  btn.className = 'btn-login';
+  if (role === 'admin') { btn.className += ' admin-btn'; btn.textContent = 'Masuk sebagai Admin'; }
+  else if (role === 'pengawas') { btn.className += ' pengawas-btn'; btn.textContent = 'Masuk sebagai Pengawas'; }
+  else { btn.textContent = 'Masuk ke Sistem'; }
 }
 
-// ===== LOGIN =====
 window.doLogin = async function() {
   const cap = document.getElementById('captcha-input').value.trim().toUpperCase();
   const err = document.getElementById('login-error');
-  if (cap !== captchaCode) { err.textContent = '❌ Kode keamanan salah'; err.style.display='block'; makeCaptcha(); document.getElementById('captcha-input').value=''; return; }
+  if (cap !== captchaCode) { err.textContent = '✗ Kode keamanan salah'; err.style.display='block'; makeCaptcha(); document.getElementById('captcha-input').value=''; return; }
   err.style.display = 'none';
   const btn = document.getElementById('login-btn');
-  btn.textContent = '⏳ Memverifikasi...'; btn.disabled = true;
-
+  btn.textContent = 'Memverifikasi...'; btn.disabled = true;
   try {
     if (currentRole === 'admin') {
       const email = document.getElementById('login-email').value.trim();
       const pass = document.getElementById('login-pass-admin').value.trim();
       if (!email || !pass) throw new Error('Email dan password wajib diisi');
       const cred = await signInWithEmailAndPassword(auth, email, pass);
-      // Verify admin role in DB
       const adminData = await dbGet(`users/admins/${cred.user.uid}`);
       if (!adminData) throw new Error('Akun ini bukan admin terdaftar di sistem');
       initAppAdmin(email, adminData);
-
     } else if (currentRole === 'pengawas') {
       const nrk = document.getElementById('login-nrk').value.trim();
       const pass = document.getElementById('login-pass-pengawas').value.trim();
@@ -896,7 +1241,6 @@ window.doLogin = async function() {
       if (pengawasData.password !== pass) throw new Error('Password salah');
       if (pengawasData.status === 'nonaktif') throw new Error('Akun nonaktif, hubungi admin');
       initAppPengawas(nrk, pengawasData);
-
     } else {
       const npsn = document.getElementById('login-id').value.trim();
       const pass = document.getElementById('login-pass').value.trim();
@@ -917,61 +1261,55 @@ window.doLogin = async function() {
       initAppOperator(npsn, data);
     }
   } catch(e) {
-    err.textContent = '❌ ' + (e.message || 'Login gagal');
+    err.textContent = '✗ ' + (e.message || 'Login gagal');
     err.style.display = 'block';
-    btn.textContent = currentRole === 'admin' ? '🔐 Masuk sebagai Admin' : currentRole === 'pengawas' ? '🔍 Masuk sebagai Pengawas' : '🔐 Masuk ke Sistem';
+    btn.textContent = currentRole === 'admin' ? 'Masuk sebagai Admin' : currentRole === 'pengawas' ? 'Masuk sebagai Pengawas' : 'Masuk ke Sistem';
     btn.disabled = false;
     makeCaptcha(); document.getElementById('captcha-input').value = '';
   }
 }
 
-// ===== INIT APP: OPERATOR =====
 function initAppOperator(npsn, data) {
   window._currentRole = 'operator';
   window._currentNPSN = npsn;
   window._db = { dbSet, dbGet };
   showApp();
-  setTopbar('🏫', npsn, 'NPSN ' + npsn, 'operator');
+  setTopbar('S', npsn, 'NPSN ' + npsn, 'operator');
   const nm = data?.profil?.nama || '';
   document.getElementById('dash-school-name').textContent = nm || 'Selamat datang!';
   document.getElementById('topbar-school').textContent = nm || ('NPSN: ' + npsn);
   document.getElementById('dash-npsn').textContent = 'NPSN: ' + npsn;
   document.getElementById('dash-subtitle').textContent = 'Ringkasan data sekolah Anda';
-
   buildSidebar('operator');
   enableOperatorMode();
   ['profil','aset-tanah','aset-barang','aset-gedung','aset-lain','pegawai','siswa'].forEach(s => loadSection(s));
   updateDashboard();
 }
 
-// ===== INIT APP: PENGAWAS =====
 function initAppPengawas(nrk, data) {
   window._currentRole = 'pengawas';
   window._currentNRK = nrk;
   window._db = { dbSet, dbGet };
   showApp();
-  setTopbar('🔍', nrk, data.nama || 'Pengawas', 'pengawas');
+  setTopbar('P', nrk, data.nama || 'Pengawas', 'pengawas');
   document.getElementById('dash-school-name').textContent = 'Selamat datang, ' + (data.nama || 'Pengawas') + '!';
   document.getElementById('topbar-school').textContent = 'Pengawas';
   document.getElementById('dash-npsn').textContent = 'NRK: ' + nrk;
   document.getElementById('dash-subtitle').textContent = 'Panel pengawas — pilih sekolah untuk melihat laporan';
-
   buildSidebar('pengawas');
   loadSekolahList();
 }
 
-// ===== INIT APP: ADMIN =====
 function initAppAdmin(email, data) {
   window._currentRole = 'admin';
   window._adminEmail = email;
   window._db = { dbSet, dbGet };
   showApp();
-  setTopbar('⚙️', 'Admin', data.nama || 'Administrator', 'admin');
+  setTopbar('A', 'Admin', data.nama || 'Administrator', 'admin');
   document.getElementById('dash-school-name').textContent = 'Panel Administrator';
   document.getElementById('topbar-school').textContent = 'Admin';
   document.getElementById('dash-npsn').textContent = email;
   document.getElementById('dash-subtitle').textContent = 'Kelola pengguna dan konfigurasi sistem';
-
   buildSidebar('admin');
   loadAdminUsers();
 }
@@ -990,48 +1328,46 @@ function setTopbar(ico, id, name, role) {
   badge.className = 'role-badge ' + role;
 }
 
-// ===== SIDEBAR BUILDER =====
 function buildSidebar(role) {
   const sb = document.getElementById('sidebar');
   const navs = {
     operator: `
       <div class="nav-section-label">Navigasi</div>
-      <div class="nav-item active" onclick="navTo('dashboard',this)"><span class="ico">📊</span><span class="label">Dashboard</span></div>
+      <div class="nav-item active" onclick="navTo('dashboard',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="label">Dashboard</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Data Sekolah</div>
-      <div class="nav-item" onclick="navTo('profil',this)"><span class="ico">🏛️</span><span class="label">Profil Sekolah</span></div>
+      <div class="nav-item" onclick="navTo('profil',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/></svg></span><span class="label">Profil Sekolah</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Data Aset</div>
-      <div class="nav-item" onclick="navTo('aset-tanah',this)"><span class="ico">🌿</span><span class="label">Aset — Tanah</span></div>
-      <div class="nav-item" onclick="navTo('aset-barang',this)"><span class="ico">📦</span><span class="label">Aset — Barang (KIB B)</span></div>
-      <div class="nav-item" onclick="navTo('aset-gedung',this)"><span class="ico">🏗️</span><span class="label">Aset — Gedung (KIB C)</span></div>
-      <div class="nav-item" onclick="navTo('aset-lain',this)"><span class="ico">🗂️</span><span class="label">Aset Tetap Lainnya</span></div>
+      <div class="nav-item" onclick="navTo('aset-tanah',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 12 2 21 11"/><rect x="3" y="11" width="18" height="11"/><path d="M9 22v-7h6v7"/></svg></span><span class="label">Aset — Tanah</span></div>
+      <div class="nav-item" onclick="navTo('aset-barang',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.78 0l-8-4a2 2 0 0 1-1.11-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"/><polyline points="2.32 6.16 12 11 21.68 6.16"/><line x1="12" y1="22.76" x2="12" y2="11"/></svg></span><span class="label">Aset — Barang (KIB B)</span></div>
+      <div class="nav-item" onclick="navTo('aset-gedung',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span class="label">Aset — Gedung (KIB C)</span></div>
+      <div class="nav-item" onclick="navTo('aset-lain',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span><span class="label">Aset Tetap Lainnya</span></div>
       <div class="nav-divider"></div>
-      <div class="nav-section-label">SDM & Peserta Didik</div>
-      <div class="nav-item" onclick="navTo('pegawai',this)"><span class="ico">👥</span><span class="label">Data Pegawai</span></div>
-      <div class="nav-item" onclick="navTo('siswa',this)"><span class="ico">🎒</span><span class="label">Data Siswa</span></div>`,
+      <div class="nav-section-label">SDM &amp; Peserta Didik</div>
+      <div class="nav-item" onclick="navTo('pegawai',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="label">Data Pegawai</span></div>
+      <div class="nav-item" onclick="navTo('siswa',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><span class="label">Data Siswa</span></div>`,
     pengawas: `
       <div class="nav-section-label">Navigasi</div>
-      <div class="nav-item pengawas-nav active" onclick="navTo('dashboard',this)"><span class="ico">📊</span><span class="label">Dashboard</span></div>
+      <div class="nav-item pengawas-nav active" onclick="navTo('dashboard',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="label">Dashboard</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Laporan Sekolah</div>
-      <div class="nav-item pengawas-nav" onclick="navTo('daftar-sekolah',this)"><span class="ico">🏫</span><span class="label">Daftar Sekolah</span></div>`,
+      <div class="nav-item pengawas-nav" onclick="navTo('daftar-sekolah',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8l10-6 10 6v8"/><path d="M6 20v-8"/><path d="M18 20v-8"/><path d="M10 20v-5h4v5"/></svg></span><span class="label">Daftar Sekolah</span></div>`,
     admin: `
       <div class="nav-section-label">Navigasi</div>
-      <div class="nav-item admin-nav active" onclick="navTo('dashboard',this)"><span class="ico">📊</span><span class="label">Dashboard</span></div>
+      <div class="nav-item admin-nav active" onclick="navTo('dashboard',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="label">Dashboard</span></div>
       <div class="nav-divider"></div>
       <div class="nav-section-label">Manajemen</div>
-      <div class="nav-item admin-nav" onclick="navTo('admin-users',this)"><span class="ico">👤</span><span class="label">Kelola Pengguna</span></div>`
+      <div class="nav-item admin-nav" onclick="navTo('admin-users',this)"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="label">Kelola Pengguna</span></div>`
   };
   sb.innerHTML = navs[role] || navs.operator;
 }
 
-// ===== OPERATOR MODE (enable/disable edits) =====
 function enableOperatorMode() {
   ['profil','tanah','barang','gedung','lain','pegawai','siswa'].forEach(k => {
     const b = document.getElementById(k + '-btns');
     if (b) b.style.display = 'flex';
-    const r = document.getElementById('readonly-banner-' + (k === 'tanah' ? 'tanah' : k === 'barang' ? 'barang' : k === 'lain' ? 'lain' : k));
+    const r = document.getElementById('readonly-banner-' + k);
     if (r) r.innerHTML = '';
   });
   document.querySelectorAll('.section .field input, .section .field select, .section .field textarea, .section .radio-btn').forEach(el => {
@@ -1040,7 +1376,7 @@ function enableOperatorMode() {
 }
 
 function enableReadonlyMode() {
-  const banner = `<div class="readonly-banner">👁️ Mode Baca Saja — Pengawas tidak dapat mengubah data sekolah</div>`;
+  const banner = `<div class="readonly-banner"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Mode Baca Saja — Pengawas tidak dapat mengubah data sekolah</div>`;
   ['profil','tanah','barang','gedung','lain','pegawai','siswa'].forEach(k => {
     const b = document.getElementById(k + '-btns');
     if (b) b.style.display = 'none';
@@ -1052,7 +1388,6 @@ function enableReadonlyMode() {
   });
 }
 
-// ===== NAV =====
 window.navTo = function(section, el) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (el) el.classList.add('active');
@@ -1061,12 +1396,11 @@ window.navTo = function(section, el) {
   if (sec) sec.classList.add('active');
 }
 
-// ===== PENGAWAS: LOAD SEKOLAH LIST =====
 async function loadSekolahList() {
   const grid = document.getElementById('sekolah-grid');
   if (!grid) return;
   const allSekolah = await dbGet('sekolah');
-  if (!allSekolah) { grid.innerHTML = '<div style="color:var(--text-muted);grid-column:span 2;padding:20px">Belum ada data sekolah</div>'; return; }
+  if (!allSekolah) { grid.innerHTML = '<div style="color:var(--text-sub);grid-column:span 2;padding:20px">Belum ada data sekolah</div>'; return; }
   let html = '';
   for (const [npsn, data] of Object.entries(allSekolah)) {
     const nm = data?.profil?.nama || ('Sekolah ' + npsn);
@@ -1076,12 +1410,12 @@ async function loadSekolahList() {
       <div class="sk-name">${nm}</div>
       <div class="sk-npsn">NPSN: ${npsn}</div>
       <div class="sk-stats">
-        <span class="badge badge-blue">👨‍🎓 ${tl} Siswa</span>
-        <span class="badge badge-green">Status: Aktif</span>
+        <span class="badge badge-blue"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> ${tl} Siswa</span>
+        <span class="badge badge-green">Aktif</span>
       </div>
     </div>`;
   }
-  grid.innerHTML = html || '<div style="color:var(--text-muted);grid-column:span 2;padding:20px">Belum ada data sekolah</div>';
+  grid.innerHTML = html || '<div style="color:var(--text-sub);grid-column:span 2;padding:20px">Belum ada data sekolah</div>';
 }
 
 window.viewSekolah = async function(npsn) {
@@ -1091,21 +1425,17 @@ window.viewSekolah = async function(npsn) {
   document.getElementById('dash-school-name').textContent = nm;
   document.getElementById('topbar-school').textContent = nm;
   document.getElementById('dash-npsn').textContent = 'NPSN: ' + npsn;
-
   enableReadonlyMode();
   ['profil','aset-tanah','aset-barang','aset-gedung','aset-lain','pegawai','siswa'].forEach(s => loadSection(s));
   updateDashboard();
-
-  // Show profil section and update nav
   navTo('profil', null);
-  // Add nav item for back
   const sb = document.getElementById('sidebar');
   if (!document.getElementById('nav-back-btn')) {
     const backDiv = document.createElement('div');
     backDiv.id = 'nav-back-btn';
     backDiv.className = 'nav-item pengawas-nav';
     backDiv.style.cssText = 'margin-top:auto;border-top:1px solid var(--border);padding-top:14px;';
-    backDiv.innerHTML = '<span class="ico">← </span><span class="label">Kembali ke Daftar</span>';
+    backDiv.innerHTML = '<span class="ico">←</span><span class="label">Kembali ke Daftar</span>';
     backDiv.onclick = () => {
       window._currentNPSN = null;
       navTo('daftar-sekolah', document.querySelector('.nav-item.pengawas-nav'));
@@ -1116,13 +1446,11 @@ window.viewSekolah = async function(npsn) {
   }
 }
 
-// ===== ADMIN: LOAD USERS =====
 async function loadAdminUsers() {
-  // Load pengawas
   const pengawasData = await dbGet('users/pengawas');
   const tbodyP = document.getElementById('tbody-pengawas');
   if (!pengawasData || Object.keys(pengawasData).length === 0) {
-    tbodyP.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">Belum ada data pengawas</td></tr>';
+    tbodyP.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Belum ada data pengawas</td></tr>';
   } else {
     tbodyP.innerHTML = Object.entries(pengawasData).map(([nrk, d], i) =>
       `<tr>
@@ -1131,17 +1459,15 @@ async function loadAdminUsers() {
         <td><span class="badge badge-purple">${nrk}</span></td>
         <td><span class="badge ${d.status==='nonaktif' ? 'badge-red' : 'badge-green'}">${d.status || 'aktif'}</span></td>
         <td><div class="actions">
-          <button class="btn-danger btn-sm" onclick="toggleUser('pengawas','${nrk}','${d.status||'aktif'}')">${d.status==='nonaktif' ? '✅ Aktifkan' : '⏸ Nonaktifkan'}</button>
-          <button class="btn-danger btn-sm" onclick="deleteUser('pengawas','${nrk}')">🗑 Hapus</button>
+          <button class="btn-danger btn-sm" onclick="toggleUser('pengawas','${nrk}','${d.status||'aktif'}')">${d.status==='nonaktif' ? '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Aktifkan' : '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Nonaktifkan'}</button>
+          <button class="btn-danger btn-sm" onclick="deleteUser('pengawas','${nrk}')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg> Hapus</button>
         </div></td>
       </tr>`).join('');
   }
-
-  // Load operator
   const operatorData = await dbGet('sekolah');
   const tbodyO = document.getElementById('tbody-operator');
   if (!operatorData || Object.keys(operatorData).length === 0) {
-    tbodyO.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">Belum ada operator</td></tr>';
+    tbodyO.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-sub)">Belum ada operator</td></tr>';
   } else {
     tbodyO.innerHTML = Object.entries(operatorData).map(([npsn, d], i) =>
       `<tr>
@@ -1150,14 +1476,13 @@ async function loadAdminUsers() {
         <td><span class="badge badge-blue">${npsn}</span></td>
         <td><span class="badge ${d.status==='nonaktif' ? 'badge-red' : 'badge-green'}">${d.status || 'aktif'}</span></td>
         <td><div class="actions">
-          <button class="btn-danger btn-sm" onclick="toggleUser('operator','${npsn}','${d.status||'aktif'}')">${d.status==='nonaktif' ? '✅ Aktifkan' : '⏸ Nonaktifkan'}</button>
-          <button class="btn-danger btn-sm" onclick="deleteUser('operator','${npsn}')">🗑 Hapus</button>
+          <button class="btn-danger btn-sm" onclick="toggleUser('operator','${npsn}','${d.status||'aktif'}')">${d.status==='nonaktif' ? '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Aktifkan' : '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Nonaktifkan'}</button>
+          <button class="btn-danger btn-sm" onclick="deleteUser('operator','${npsn}')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg> Hapus</button>
         </div></td>
       </tr>`).join('');
   }
 }
 
-// ===== ADMIN: MODAL =====
 let _modalRole = '';
 window.openModal = function(role) {
   _modalRole = role;
@@ -1199,7 +1524,7 @@ window.saveUser = async function() {
     closeModal();
     loadAdminUsers();
   } catch(e) {
-    err.textContent = '❌ ' + e.message;
+    err.textContent = '✗ ' + e.message;
     err.style.display = 'block';
   }
 }
@@ -1220,7 +1545,6 @@ window.deleteUser = async function(type, id) {
   loadAdminUsers();
 }
 
-// ===== LOGOUT =====
 window.doLogout = async function() {
   if (!confirm('Yakin ingin keluar dari sistem?')) return;
   if (auth && window._currentRole === 'admin') { try { await signOut(auth); } catch(e) {} }
@@ -1231,7 +1555,6 @@ window.showReset = function() {
   alert('Untuk reset password, hubungi administrator SIDAS-JT1.\nEmail: admin@sidasjt1.disdik.jakarta.go.id');
 }
 
-// ===== SECTION FIELD MAPS =====
 const sectionFields = {
   profil: ['p-nama','p-alamat','p-gmaps','p-kepsek','p-nip-kepsek','p-kasubbag','p-nip-kasubbag','p-bendahara','p-nip-bendahara','p-pengurus','p-nip-pengurus'],
   'aset-tanah': ['kiba-ket','kiba-jumlah-sertif','sertif-ket','luas-tanah','luas-lapangan','ket-lapangan'],
@@ -1340,26 +1663,6 @@ window.toggleKibaJumlah = function(val) {
   const field = document.getElementById('kiba-jumlah-field');
   if (field) field.style.display = val === 'Belum a/n Pemda/Perorangan' ? 'flex' : 'none';
 }
-
-// ===== THEME =====
-function applyTheme(isLight) {
-  document.body.classList.toggle('light-mode', isLight);
-  const ico = isLight ? '🌙' : '☀️';
-  const lb = document.getElementById('theme-toggle-login');
-  const ab = document.getElementById('theme-toggle-app');
-  if (lb) lb.textContent = ico;
-  if (ab) ab.textContent = ico;
-}
-window.toggleTheme = function() {
-  const isLight = !document.body.classList.contains('light-mode');
-  applyTheme(isLight);
-  localStorage.setItem('sidas-theme', isLight ? 'light' : 'dark');
-}
-document.addEventListener('DOMContentLoaded', function() {
-  const saved = localStorage.getItem('sidas-theme');
-  // Default is light mode; only go dark if explicitly saved as 'dark'
-  applyTheme(saved !== 'dark');
-});
 
 setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 700);
 </script>
